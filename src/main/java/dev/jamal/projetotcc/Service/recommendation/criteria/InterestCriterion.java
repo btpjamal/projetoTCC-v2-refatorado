@@ -1,0 +1,3 @@
+package dev.jamal.projetotcc.Service.recommendation.criteria;
+import dev.jamal.projetotcc.Entities.*; import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult; import org.springframework.stereotype.Component; import java.util.List;
+@Component public class InterestCriterion implements RecommendationCriterion { public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> interesses, List<UserHobbyFeedback> f){ double pts=interesses.stream().filter(ui->ui.getInterest().getNome().equalsIgnoreCase(h.getCategory().getNome())).mapToDouble(ui->ui.getPeso()*5.0).sum(); return pts>0?CriterionResult.of(Math.min(25,pts),"Combina com seus interesses em "+h.getCategory().getNome()):CriterionResult.of(0,null); }}

@@ -1,0 +1,3 @@
+package dev.jamal.projetotcc.Service.recommendation.criteria;
+import dev.jamal.projetotcc.Entities.*; import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult; import org.springframework.stereotype.Component; import java.util.List;
+@Component public class BudgetCriterion implements RecommendationCriterion { public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> f){ if(h.getCustoEstimado()==null)return CriterionResult.of(0,null); if(h.getCustoEstimado()<=p.getOrcamentoInicial())return CriterionResult.of(15,"Está dentro do orçamento inicial informado"); return CriterionResult.warning(-5,"O custo inicial pode ultrapassar seu orçamento"); }}

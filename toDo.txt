@@ -1,0 +1,20 @@
+-> criar mappers -> OK
+-> revisar service -> OK
+-> revisar entities -> OK
+-> revisar repository -> OK
+garantir que tudo esteja funcionando antes de criar o service de recomendação -> OK
+
+-> CRIAR O SERVICE DE RECOMENDAÇÃO SEM IA -> OK
+
+-> analisar a possível implementação de inteligencia artificial no service de recomendação,
+ele iria ler o banco de dados e devolver uma resposta no Json para o front-end renderizar
+
+
+
+------> TESTAR RUNNER E CRIAR MAIS EXEMPLOS DE HOBBIES <--------
+
+
+-> criar controllers endpoint -> OK
+-> documentação swagger -> OK
+-> Implementar autenticação JWT -> 7. criar JwtAuthenticationFilter
+logo após tudo isso, analisar como começar a fazer o front-end

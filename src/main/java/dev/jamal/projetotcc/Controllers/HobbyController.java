@@ -1,0 +1,104 @@
+package dev.jamal.projetotcc.Controllers;
+
+import dev.jamal.projetotcc.DTO.Hobby.HobbyCreateRequestDTO;
+import dev.jamal.projetotcc.DTO.Hobby.HobbyResponseDTO;
+import dev.jamal.projetotcc.Service.HobbyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Tag(
+        name = "Hobbies",
+        description = "Gerenciamento dos hobbies disponíveis para recomendação"
+)
+@RestController
+@RequestMapping("/api/v1/hobbies")
+@RequiredArgsConstructor
+@CrossOrigin("*")
+public class HobbyController {
+
+    private final HobbyService hobbyService;
+
+    @Operation(
+            summary = "Listar hobbies",
+            description = "Retorna todos os hobbies cadastrados no sistema."
+    )
+    @ApiResponse(responseCode = "200", description = "Hobbies encontrados")
+    @GetMapping
+    public ResponseEntity<List<HobbyResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(
+                hobbyService.listarTodos()
+        );
+    }
+
+    @Operation(
+            summary = "Buscar hobby por ID",
+            description = "Retorna os dados de um hobby específico."
+    )
+    @ApiResponse(responseCode = "200", description = "Hobby encontrado")
+    @ApiResponse(responseCode = "404", description = "Hobby não encontrado")
+    @GetMapping("/{id}")
+    public ResponseEntity<HobbyResponseDTO> buscarPorId(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                hobbyService.buscarPorId(id)
+        );
+    }
+
+    @Operation(
+            summary = "Cadastrar hobby",
+            description = "Cadastra um novo hobby no sistema."
+    )
+    @ApiResponse(responseCode = "201", description = "Hobby criado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    @ApiResponse(responseCode = "404", description = "Categoria não encontrada")
+    @PostMapping
+    public ResponseEntity<HobbyResponseDTO> cadastrar(
+            @RequestBody HobbyCreateRequestDTO dto
+    ) {
+        HobbyResponseDTO response = hobbyService.salvar(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+    @Operation(
+            summary = "Atualizar hobby",
+            description = "Atualiza os dados de um hobby existente."
+    )
+    @ApiResponse(responseCode = "200", description = "Hobby atualizado com sucesso")
+    @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    @ApiResponse(responseCode = "404", description = "Hobby ou categoria não encontrado")
+    @PutMapping("/{id}")
+    public ResponseEntity<HobbyResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody HobbyCreateRequestDTO dto
+    ) {
+        return ResponseEntity.ok(
+                hobbyService.atualizar(id, dto)
+        );
+    }
+
+    @Operation(
+            summary = "Deletar hobby",
+            description = "Remove um hobby pelo ID."
+    )
+    @ApiResponse(responseCode = "204", description = "Hobby deletado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Hobby não encontrado")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(
+            @PathVariable Long id
+    ) {
+        hobbyService.deletar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+}
