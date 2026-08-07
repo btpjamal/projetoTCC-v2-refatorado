@@ -1,2 +1,31 @@
 import { useState } from "react"; import { useNavigate } from "react-router"; import { api } from "../api/api";
-export default function Register(){ const [form,setForm]=useState({nome:"",email:"",senha:"",dataNascimento:""}); const [erro,setErro]=useState(""); const nav=useNavigate(); async function submit(e){e.preventDefault();try{await api.post('/users',form);nav('/login')}catch(err){setErro(err.response?.data?.message||'Não foi possível criar a conta.')}} return <main style={{maxWidth:430,margin:'60px auto',fontFamily:'Arial'}}><h1>Criar conta</h1><p>Descubra hobbies compatíveis com sua rotina.</p><form onSubmit={submit}>{[['nome','text','Nome'],['email','email','E-mail'],['senha','password','Senha'],['dataNascimento','date','Data de nascimento']].map(([k,t,p])=><input key={k} type={t} placeholder={p} value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})} style={{width:'100%',padding:12,marginBottom:12,boxSizing:'border-box'}} required/>)}{erro&&<p style={{color:'red'}}>{erro}</p>}<button style={{width:'100%',padding:12}}>Cadastrar</button></form></main> }
+export default function Register()
+{ const
+    [form,setForm]=useState(
+        {nome:"",
+            email:"",
+            senha:"",
+            dataNascimento:""});
+    const [erro, setErro]=useState("");
+    const nav=useNavigate();
+    async function submit(e)
+    {e.preventDefault();
+        try{await api.post('/users',form);
+            nav('/login')
+        }catch(err){
+            console.log("Erro completo:", err);
+            console.log("Resposta backend:", err.response?.data);
+            setErro(err.response?.data?.message||JSON.stringify(err.response?.data) ||
+                'Não foi possível criar a conta.')}}
+    return <main style={{maxWidth:430,margin:'60px auto',fontFamily:'Arial'}}>
+        <h1>Criar conta</h1>
+        <p>Descubra hobbies compatíveis com sua rotina.</p>
+        <form onSubmit={submit}>
+            {[['nome','text','Nome'],
+                ['email','email','E-mail'],
+                ['senha','password','Senha'],
+                ['dataNascimento','date','Data de nascimento']]
+                .map(([k,t,p])=>
+                    <input key={k} type={t} placeholder={p} value={form[k]}
+                           onChange={e=>setForm({...form,[k]:e.target.value})} style={{width:'100%',padding:12,marginBottom:12,boxSizing:'border-box'}} required/>)}{erro&&<p style={{color:'red'}}>{erro}</p>}<button style={{width:'100%',padding:12}}>
+            Cadastrar</button></form></main> }

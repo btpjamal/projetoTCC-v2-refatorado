@@ -1,0 +1,120 @@
+.onboarding-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f4f6f8;
+}
+
+.onboarding-card {
+    width: 100%;
+    max-width: 620px;
+    padding: 36px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+}
+
+.onboarding-progress {
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #e5e7eb;
+    border-radius: 999px;
+}
+
+.onboarding-progress-value {
+    height: 100%;
+    background: #2563eb;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.onboarding-step {
+    display: block;
+    margin-bottom: 12px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.onboarding-card h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 30px;
+}
+
+.onboarding-description {
+    margin: 12px 0 28px;
+    color: #6b7280;
+}
+
+.onboarding-options {
+    display: grid;
+    gap: 12px;
+}
+
+.onboarding-option {
+    width: 100%;
+    padding: 16px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.onboarding-option:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-1px);
+}
+
+.onboarding-option.selected {
+    border-color: #2563eb;
+    background: #dbeafe;
+}
+
+.onboarding-option:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.onboarding-back {
+    margin-top: 24px;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+.onboarding-back:hover {
+    color: #2563eb;
+}
+
+.onboarding-message {
+    margin-top: 20px;
+    color: #2563eb;
+    text-align: center;
+}
+
+.onboarding-error {
+    margin-top: 20px;
+    color: #dc2626;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .onboarding-card {
+        padding: 24px;
+    }
+
+    .onboarding-card h1 {
+        font-size: 24px;
+    }
+}
