@@ -1,3 +1,24 @@
 package dev.jamal.projetotcc.Service.recommendation.criteria;
-import dev.jamal.projetotcc.Entities.*; import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult; import org.springframework.stereotype.Component; import java.util.List;
-@Component public class FeedbackCriterion implements RecommendationCriterion { public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> fs){ double pts=fs.stream().filter(f->f.getHobby().getCategory().getNome().equalsIgnoreCase(h.getCategory().getNome())).mapToDouble(f->switch(f.getRating()){case 5->15;case 4->8;case 3->2;case 2->-8;case 1->-15;default->0;}).sum(); if(pts>0)return CriterionResult.of(pts,"Seu histórico nessa categoria é positivo"); if(pts<0)return CriterionResult.warning(pts,"Você já avaliou hobbies semelhantes de forma negativa"); return CriterionResult.of(0,null); }}
+
+import dev.jamal.projetotcc.Entities.*;
+import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class FeedbackCriterion implements RecommendationCriterion {
+    public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> fs) {
+        double pts = fs.stream().filter(f -> f.getHobby().getCategory().getNome().equalsIgnoreCase(h.getCategory().getNome())).mapToDouble(f -> switch (f.getRating()) {
+            case 5 -> 15;
+            case 4 -> 8;
+            case 3 -> 2;
+            case 2 -> -8;
+            case 1 -> -15;
+            default -> 0;
+        }).sum();
+        if (pts > 0) return CriterionResult.of(pts, "Seu histórico nessa categoria é positivo");
+        if (pts < 0) return CriterionResult.warning(pts, "Você já avaliou hobbies semelhantes de forma negativa");
+        return CriterionResult.of(0, null);
+    }
+}

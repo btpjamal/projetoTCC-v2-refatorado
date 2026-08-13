@@ -1,4 +1,34 @@
 package dev.jamal.projetotcc.Service.recommendation.criteria;
+
 import dev.jamal.projetotcc.Enum.TipoSocializacao;
-import dev.jamal.projetotcc.Entities.*; import dev.jamal.projetotcc.Enum.*; import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult; import org.springframework.stereotype.Component; import java.util.*;
-@Component public class PreferenceCriterion implements RecommendationCriterion { public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> f){ double s=0; List<String> m=new ArrayList<>(); if(p.getTipoSocializacao()==TipoSocializacao.INDIFERENTE||p.getTipoSocializacao()==h.getTipoSocializacao()){s+=10;m.add("Combina com sua preferência de socialização");} if(p.getAmbientePreferido()==AmbientePreferido.INDIFERENTE||p.getAmbientePreferido()==h.getAmbiente()){s+=5;m.add("Pode ser praticado no ambiente que você prefere");} if(p.getFormatoPreferido()==FormatoPreferido.INDIFERENTE||p.getFormatoPreferido()==h.getFormato()||h.getFormato()==FormatoPreferido.HIBRIDO){s+=5;m.add("Possui formato compatível com sua preferência");} if(p.getNivelAtividadeFisicaDesejada()==NivelAtividadeFisica.INDIFERENTE||p.getNivelAtividadeFisicaDesejada()==h.getNivelAtividadeFisica()){s+=5;m.add("Tem o nível de atividade física que você procura");} return new CriterionResult(s,m,List.of()); }}
+import dev.jamal.projetotcc.Entities.*;
+import dev.jamal.projetotcc.Enum.*;
+import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+@Component
+public class PreferenceCriterion implements RecommendationCriterion {
+    public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> f) {
+        double s = 0;
+        List<String> m = new ArrayList<>();
+        if (p.getTipoSocializacao() == TipoSocializacao.INDIFERENTE || p.getTipoSocializacao() == h.getTipoSocializacao()) {
+            s += 10;
+            m.add("Combina com sua preferência de socialização");
+        }
+        if (p.getAmbientePreferido() == AmbientePreferido.INDIFERENTE || p.getAmbientePreferido() == h.getAmbiente()) {
+            s += 5;
+            m.add("Pode ser praticado no ambiente que você prefere");
+        }
+        if (p.getFormatoPreferido() == FormatoPreferido.INDIFERENTE || p.getFormatoPreferido() == h.getFormato() || h.getFormato() == FormatoPreferido.HIBRIDO) {
+            s += 5;
+            m.add("Possui formato compatível com sua preferência");
+        }
+        if (p.getNivelAtividadeFisicaDesejada() == NivelAtividadeFisica.INDIFERENTE || p.getNivelAtividadeFisicaDesejada() == h.getNivelAtividadeFisica()) {
+            s += 5;
+            m.add("Tem o nível de atividade física que você procura");
+        }
+        return new CriterionResult(s, m, List.of());
+    }
+}
