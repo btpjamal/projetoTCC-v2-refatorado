@@ -79,6 +79,20 @@ export default function Login() {
               <button style={{width: "100%", padding: 10}} type="submit">
                 Entrar
               </button>
+              <button
+                  type="button"
+                  onClick={() => navigate("/register")}
+                  style={{
+                    width: "100%",
+                    padding: 10,
+                    marginTop: 10,
+                    background: "transparent",
+                    border: "1px solid #ccc",
+                    cursor: "pointer"
+                  }}
+              >
+                Criar conta
+              </button>
             </form>
           </main>
       );
