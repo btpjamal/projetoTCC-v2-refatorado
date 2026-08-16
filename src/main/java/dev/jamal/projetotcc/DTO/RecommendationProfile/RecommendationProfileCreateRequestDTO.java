@@ -9,6 +9,8 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.util.List;
+
 public class RecommendationProfileCreateRequestDTO {
 
     @NotNull
@@ -33,6 +35,10 @@ public class RecommendationProfileCreateRequestDTO {
 
     @NotNull
     private FormatoPreferido formatoPreferido;
+
+    private List<Long> interestIds;
+
+    private List<Long> objectiveIds;
 
     public Double getTempoDisponivelSemanal() {
         return tempoDisponivelSemanal;
@@ -99,5 +105,21 @@ public class RecommendationProfileCreateRequestDTO {
             FormatoPreferido formatoPreferido
     ) {
         this.formatoPreferido = formatoPreferido;
+    }
+
+    public List<Long> getInterestIds() {
+        return interestIds;
+    }
+
+    public void setInterestIds(List<Long> interestIds) {
+        this.interestIds = interestIds;
+    }
+
+    public List<Long> getObjectiveIds() {
+        return objectiveIds;
+    }
+
+    public void setObjectiveIds(List<Long> objectiveIds) {
+        this.objectiveIds = objectiveIds;
     }
 }
