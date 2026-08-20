@@ -5,10 +5,7 @@ import dev.jamal.projetotcc.DTO.RecommendationProfile.RecommendationProfileRespo
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Exception.BusinessException;
 import dev.jamal.projetotcc.Mapper.RecommendationProfileMapper;
-import dev.jamal.projetotcc.Repository.InterestRepository;
-import dev.jamal.projetotcc.Repository.RecommendationProfileRepository;
-import dev.jamal.projetotcc.Repository.UserInterestRepository;
-import dev.jamal.projetotcc.Repository.UserRepository;
+import dev.jamal.projetotcc.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +27,10 @@ public class RecommendationProfileService {
     private final InterestRepository interestRepository;
 
     private final UserInterestRepository userInterestRepository;
+
+    private final ObjectiveRepository objectiveRepository;
+
+    private final UserObjectiveRepository userObjectiveRepository;
 
     @Transactional
     public RecommendationProfileResponseDTO salvarQuestionario(
@@ -64,8 +65,43 @@ public class RecommendationProfileService {
                 recommendationProfileRepository.save(profile);
 
         salvarInteresses(user, dto.getInterestIds());
+        salvarObjetivos(user, dto.getObjectiveIds());
 
         return recommendationProfileMapper.toResponseDTO(salvo);
+    }
+
+    private void salvarObjetivos(
+            User user,
+            List<Long> objectiveIds
+    ) {
+        if (objectiveIds == null) {
+            return;
+        }
+
+        userObjectiveRepository.deleteByUserId(user.getId());
+
+        for (Long objectiveId : objectiveIds){
+            Objective objective = objectiveRepository
+                    .findById(objectiveId)
+                    .orElseThrow(() ->
+                            new BusinessException(
+                                    "Objetivo não encontrado: "+ objectiveId
+                            )
+                    );
+
+            UserObjectiveId id = new UserObjectiveId();
+            id.setUserId(user.getId());
+            id.setObjectiveId(objective.getId());
+
+            UserObjective userObjective = new UserObjective();
+
+            userObjective.setId(id);
+            userObjective.setUser(user);
+            userObjective.setObjective(objective);
+            userObjective.setPeso(1);
+
+            userObjectiveRepository.save(userObjective);
+        }
     }
 
     @Transactional(readOnly = true)
