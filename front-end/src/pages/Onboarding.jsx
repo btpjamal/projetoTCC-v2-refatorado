@@ -73,6 +73,11 @@ const perguntas = [
         ],
     },
     {
+        campo: "interestIds",
+        titulo: "Quais assuntos despertam mais seu interesse?",
+        multiplaEscolha: true
+    },
+    {
         campo: "objectiveIds",
         titulo: "O que você busca em um hobby?",
         multiplaEscolha: true
@@ -86,30 +91,37 @@ export default function Onboarding() {
     const [objetivosSelecionados, setObjetivosSelecionados] = useState([]);
 
     useEffect(() => {
-        async function carregarObjetivos() {
+        async function carregarDados() {
             try {
                 const token = localStorage.getItem("token");
 
-                const response = await api.get(
-                    "/objectives",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const [objetivosResponse, interessesResponse] =
+                                await Promise.all([
+                                    api.get("/objectives", {
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    }),
 
-                setObjetivos(response.data);
+                                    api.get("/interests", {
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    }),
+                                ]);
+
+                            setObjetivos(objetivosResponse.data);
+                            setInteresses(interessesResponse.data);
 
             } catch (error) {
                 console.error(
-                    "Erro ao carregar objetivos:",
+                    "Erro ao carregar dados do onboarding:",
                     error
                 );
             }
         }
 
-        carregarObjetivos();
+        carregarDados();
     }, []);
 
     function alternarObjetivo(id) {
@@ -125,6 +137,20 @@ export default function Onboarding() {
         });
     }
 
+    function alternarInteresse(id) {
+        setInteressesSelecionados((atuais) => {
+            if (atuais.includes(id)) {
+                return atuais.filter(
+                    (interestId) => interestId !== id
+                );
+            }
+
+            return [...atuais, id];
+        });
+    }
+
+    const [interesses, setInteresses] = useState([]);
+    const [interessesSelecionados, setInteressesSelecionados] = useState([]);
 
     const [etapa, setEtapa] = useState(0);
     const [enviando, setEnviando] = useState(false);
@@ -138,6 +164,7 @@ export default function Onboarding() {
         nivelAtividadeFisicaDesejada: null,
         ambientePreferido: null,
         formatoPreferido: null,
+        interestIds: [],
         objectiveIds: []
     });
 
@@ -235,6 +262,65 @@ export default function Onboarding() {
                         : "Escolha a opção que mais combina com você."
                     }
                 </p>
+
+                {perguntaAtual.campo === "interestIds" && (
+                    <>
+                        <div className="onboarding-options">
+
+                            {interesses.map((interesse) => {
+
+                                const selecionado =
+                                    interessesSelecionados.includes(
+                                        interesse.id
+                                    );
+
+                                return (
+                                    <button
+                                        type="button"
+                                        key={interesse.id}
+                                        className={`onboarding-option ${
+                                            selecionado ? "selected" : ""
+                                        }`}
+                                        onClick={() =>
+                                            alternarInteresse(interesse.id)
+                                        }
+                                        disabled={enviando}
+                                    >
+                                        {interesse.nome}
+                                    </button>
+                                );
+                            })}
+
+                        </div>
+
+                        <button
+                            type="button"
+                            disabled={enviando}
+                            onClick={() => {
+
+                                if (interessesSelecionados.length === 0) {
+                                    setErro(
+                                        "Selecione pelo menos um interesse."
+                                    );
+                                    return;
+                                }
+
+                                const atualizado = {
+                                    ...profile,
+                                    interestIds:
+                                        interessesSelecionados
+                                };
+
+                                setProfile(atualizado);
+                                setErro("");
+
+                                setEtapa((atual) => atual + 1);
+                            }}
+                        >
+                            Continuar
+                        </button>
+                    </>
+                )}
 
                 {!perguntaAtual.multiplaEscolha && (
                     <div className="onboarding-options">
