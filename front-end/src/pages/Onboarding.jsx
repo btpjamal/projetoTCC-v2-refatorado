@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../api/api";
 import "./css/Onboarding.css";
@@ -72,10 +72,59 @@ const perguntas = [
             { label: "Tanto faz", valor: "INDIFERENTE" },
         ],
     },
+    {
+        campo: "objectiveIds",
+        titulo: "O que você busca em um hobby?",
+        multiplaEscolha: true
+    }
 ];
 
 export default function Onboarding() {
     const navigate = useNavigate();
+
+    const [objetivos, setObjetivos] = useState([]);
+    const [objetivosSelecionados, setObjetivosSelecionados] = useState([]);
+
+    useEffect(() => {
+        async function carregarObjetivos() {
+            try {
+                const token = localStorage.getItem("token");
+
+                const response = await api.get(
+                    "/objectives",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setObjetivos(response.data);
+
+            } catch (error) {
+                console.error(
+                    "Erro ao carregar objetivos:",
+                    error
+                );
+            }
+        }
+
+        carregarObjetivos();
+    }, []);
+
+    function alternarObjetivo(id) {
+        setObjetivosSelecionados((atuais) => {
+
+            if (atuais.includes(id)) {
+                return atuais.filter(
+                    (objectiveId) => objectiveId !== id
+                );
+            }
+
+            return [...atuais, id];
+        });
+    }
+
 
     const [etapa, setEtapa] = useState(0);
     const [enviando, setEnviando] = useState(false);
@@ -89,6 +138,7 @@ export default function Onboarding() {
         nivelAtividadeFisicaDesejada: null,
         ambientePreferido: null,
         formatoPreferido: null,
+        objectiveIds: []
     });
 
     const perguntaAtual = perguntas[etapa];
@@ -180,29 +230,89 @@ export default function Onboarding() {
                 <h1>{perguntaAtual.titulo}</h1>
 
                 <p className="onboarding-description">
-                    Escolha a opção que mais combina com você.
+                    {perguntaAtual.multiplaEscolha
+                        ? "Você pode selecionar mais de uma opção."
+                        : "Escolha a opção que mais combina com você."
+                    }
                 </p>
 
-                <div className="onboarding-options">
-                    {perguntaAtual.opcoes.map((opcao) => {
-                        const selecionada =
-                            profile[perguntaAtual.campo] === opcao.valor;
+                {!perguntaAtual.multiplaEscolha && (
+                    <div className="onboarding-options">
+                        {perguntaAtual.opcoes.map((opcao) => {
+                            const selecionada =
+                                profile[perguntaAtual.campo] === opcao.valor;
 
-                        return (
-                            <button
-                                type="button"
-                                key={opcao.label}
-                                className={`onboarding-option ${
-                                    selecionada ? "selected" : ""
-                                }`}
-                                onClick={() => selecionarOpcao(opcao.valor)}
-                                disabled={enviando}
-                            >
-                                {opcao.label}
-                            </button>
-                        );
-                    })}
-                </div>
+                            return (
+                                <button
+                                    type="button"
+                                    key={opcao.label}
+                                    className={`onboarding-option ${
+                                        selecionada ? "selected" : ""
+                                    }`}
+                                    onClick={() => selecionarOpcao(opcao.valor)}
+                                    disabled={enviando}
+                                >
+                                    {opcao.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {perguntaAtual.campo === "objectiveIds" && (
+                    <>
+                        <div className="onboarding-options">
+                            {objetivos.map((objetivo) => {
+                                const selecionado =
+                                    objetivosSelecionados.includes(objetivo.id);
+
+                                return (
+                                    <button
+                                        type="button"
+                                        key={objetivo.id}
+                                        className={`onboarding-option ${
+                                            selecionado ? "selected" : ""
+                                        }`}
+                                        onClick={() =>
+                                            alternarObjetivo(objetivo.id)
+                                        }
+                                    >
+                                        {objetivo.nome}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={() => {
+
+                                if (objetivosSelecionados.length === 0) {
+                                    setErro(
+                                        "Selecione pelo menos um objetivo."
+                                    );
+                                    return;
+                                }
+
+                                const atualizado = {
+                                    ...profile,
+                                    objectiveIds:
+                                        objetivosSelecionados
+                                };
+
+                                setProfile(atualizado);
+                                setErro("");
+
+
+                                finalizarOnboarding(atualizado);
+
+                            }}
+                        >
+                            Continuar
+                        </button>
+                    </>
+                )}
+
 
                 {enviando && (
                     <p className="onboarding-message">

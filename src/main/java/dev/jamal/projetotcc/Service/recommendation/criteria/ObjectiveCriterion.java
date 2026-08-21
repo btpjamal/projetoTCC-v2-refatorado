@@ -38,26 +38,32 @@ public class ObjectiveCriterion implements RecommendationCriterion{
         List<HobbyObjective> objetivosHobby =
                 hobbyObjectiveRepository.findByHobbyId(hobby.getId());
 
-        long compatibilidade = objetivosUsuario.stream()
-                .filter(uo ->
+        int compatibilidade = objetivosUsuario.stream()
+                .mapToInt(uo ->
                         objetivosHobby.stream()
-                                .anyMatch(ho ->
+                                .filter(ho ->
                                         ho.getObjective()
                                                 .getId()
                                                 .equals(
                                                         uo.getObjective().getId()
                                                 )
+                                ).mapToInt(ho ->
+                                        ho.getPeso() != null
+                                                ? ho.getPeso()
+                                                : 1
                                 )
+                                .max()
+                                .orElse(0)
                 )
-                .count();
+                    .sum();
 
         if (compatibilidade == 0) {
             return CriterionResult.of(0, null);
         }
 
         double pontos = Math.min(
-                25,
-                compatibilidade * 10
+                30,
+                compatibilidade * 5
         );
 
         return CriterionResult.of(
