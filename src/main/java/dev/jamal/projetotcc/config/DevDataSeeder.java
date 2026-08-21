@@ -5,10 +5,7 @@ import dev.jamal.projetotcc.Enum.FormatoPreferido;
 import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
 import dev.jamal.projetotcc.Enum.TipoSocializacao;
 
-import dev.jamal.projetotcc.Repository.HobbyCategoryRepository;
-import dev.jamal.projetotcc.Repository.HobbyObjectiveRepository;
-import dev.jamal.projetotcc.Repository.HobbyRepository;
-import dev.jamal.projetotcc.Repository.ObjectiveRepository;
+import dev.jamal.projetotcc.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -24,31 +21,50 @@ public class DevDataSeeder {
     private final HobbyRepository hobbyRepository;
     private final ObjectiveRepository objectiveRepository;
     private final HobbyObjectiveRepository hobbyObjectiveRepository;
+    private final InterestRepository interestRepository;
+    private final HobbyInterestRepository hobbyInterestRepository;
 
     @Bean
     CommandLineRunner seedDatabase(){
         return args -> {
+// =====================================================
+// INTERESSES
+// =====================================================
+            Interest esportesInterest = obterOuCriarInteresse("Esportes");
+            Interest musicaInterest = obterOuCriarInteresse("Música");
+            Interest artesVisuaisInterest = obterOuCriarInteresse("Artes visuais");
+            Interest tecnologiaInterest = obterOuCriarInteresse("Tecnologia");
+            Interest jogosInterest = obterOuCriarInteresse("Jogos");
+            Interest naturezaInterest = obterOuCriarInteresse("Natureza");
+            Interest literaturaInterest = obterOuCriarInteresse("Leitura e literatura");
+            Interest culinariaInterest = obterOuCriarInteresse("Culinária");
+            Interest aprendizadoInterest = obterOuCriarInteresse("Aprendizado");
+            Interest criacaoInterest = obterOuCriarInteresse("Criação");
+            Interest culturaInterest = obterOuCriarInteresse("Cultura e expressão");
+            Interest socializacaoInterest = obterOuCriarInteresse("Atividades sociais");
+            Interest relaxarInterest = obterOuCriarInteresse("Relaxar");
+
 
 // =====================================================
 // CATEGORIAS
 // =====================================================
 
-            HobbyCategory esporte =
+            HobbyCategory esporteCategory =
                     criarCategoriaSeNaoExistir("Esporte");
 
-            HobbyCategory criatividade =
+            HobbyCategory criatividadeCategory =
                     criarCategoriaSeNaoExistir("Criatividade");
 
-            HobbyCategory intelectual =
+            HobbyCategory intelectualCategory =
                     criarCategoriaSeNaoExistir("Intelectual");
 
-            HobbyCategory social =
+            HobbyCategory socialCategory =
                     criarCategoriaSeNaoExistir("Social");
 
-            HobbyCategory tecnologia =
+            HobbyCategory tecnologiaCategory =
                     criarCategoriaSeNaoExistir("Tecnologia");
 
-            HobbyCategory relaxamento =
+            HobbyCategory relaxamentoCategory =
                     criarCategoriaSeNaoExistir("Relaxamento");
 
 
@@ -56,22 +72,22 @@ public class DevDataSeeder {
 // OBJETIVOS
 // =====================================================
 
-            Objective relaxar = obterOuCriarObjetivo(
+            Objective relaxarObjective = obterOuCriarObjetivo(
                     "Relaxar",
                     "Atividades voltadas ao descanso, tranquilidade e bem-estar."
             );
 
-            Objective conhecerPessoas = obterOuCriarObjetivo(
+            Objective conhecerPessoasObjective = obterOuCriarObjetivo(
                     "Conhecer pessoas",
                     "Atividades que favorecem interação social e criação de vínculos."
             );
 
-            Objective aprender = obterOuCriarObjetivo(
+            Objective aprenderObjective = obterOuCriarObjetivo(
                     "Aprender algo novo",
                     "Atividades focadas em aprendizado e desenvolvimento de novas habilidades."
             );
 
-            Objective condicionamento = obterOuCriarObjetivo(
+            Objective condicionamentoObjective = obterOuCriarObjetivo(
                     "Condicionamento",
                     "Atividades que promovem esforço físico e condicionamento."
             );
@@ -81,27 +97,27 @@ public class DevDataSeeder {
                     "Atividades que estimulam imaginação, expressão e criação."
             );
 
-            Objective disciplina = obterOuCriarObjetivo(
+            Objective disciplinaObjective = obterOuCriarObjetivo(
                     "Criar disciplina",
                     "Atividades que favorecem consistência, rotina e desenvolvimento de hábitos."
             );
 
-            Objective reduzirEstresse = obterOuCriarObjetivo(
+            Objective reduzirEstresseObjective = obterOuCriarObjetivo(
                     "Reduzir estresse",
                     "Atividades associadas ao relaxamento e redução de tensão."
             );
 
-            Objective diversao = obterOuCriarObjetivo(
+            Objective diversaoObjective = obterOuCriarObjetivo(
                     "Se divertir",
                     "Atividades voltadas principalmente ao entretenimento e lazer."
             );
 
-            Objective produzir = obterOuCriarObjetivo(
+            Objective produzirObjective = obterOuCriarObjetivo(
                     "Produzir algo",
                     "Atividades que resultam na criação de algo concreto ou compartilhável."
             );
 
-            Objective competir = obterOuCriarObjetivo(
+            Objective competirObjective = obterOuCriarObjetivo(
                     "Competir",
                     "Atividades que possuem elemento competitivo ou desafios contra outras pessoas."
             );
@@ -118,16 +134,18 @@ public class DevDataSeeder {
                     2,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    esporte,
+                    esporteCategory,
                     NivelAtividadeFisica.ALTO,
                     AmbientePreferido.AO_AR_LIVRE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(corrida, condicionamento, 3);
-            adicionarObjetivoAoHobby(corrida, disciplina, 2);
-            adicionarObjetivoAoHobby(corrida, reduzirEstresse, 2);
-            adicionarObjetivoAoHobby(corrida, competir, 1);
+            adicionarObjetivoAoHobby(corrida, condicionamentoObjective, 3);
+            adicionarObjetivoAoHobby(corrida, disciplinaObjective, 2);
+            adicionarObjetivoAoHobby(corrida, reduzirEstresseObjective, 2);
+            adicionarObjetivoAoHobby(corrida, competirObjective, 1);
+            adicionarInteresseAoHobby(corrida, esportesInterest, 3);
+            adicionarInteresseAoHobby(corrida, naturezaInterest, 2);
 
 
             Hobby futebol = criarOuAtualizarHobby(
@@ -137,16 +155,19 @@ public class DevDataSeeder {
                     3,
                     2.0,
                     TipoSocializacao.SOCIAL,
-                    esporte,
+                    esporteCategory,
                     NivelAtividadeFisica.ALTO,
                     AmbientePreferido.AO_AR_LIVRE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(futebol, conhecerPessoas, 3);
-            adicionarObjetivoAoHobby(futebol, competir, 3);
-            adicionarObjetivoAoHobby(futebol, condicionamento, 2);
-            adicionarObjetivoAoHobby(futebol, diversao, 2);
+            adicionarObjetivoAoHobby(futebol, conhecerPessoasObjective, 3);
+            adicionarObjetivoAoHobby(futebol, competirObjective, 3);
+            adicionarObjetivoAoHobby(futebol, condicionamentoObjective, 2);
+            adicionarObjetivoAoHobby(futebol, diversaoObjective, 2);
+            adicionarInteresseAoHobby(futebol, esportesInterest, 3);
+            adicionarInteresseAoHobby(futebol, socializacaoInterest, 2);
+            adicionarInteresseAoHobby(futebol, jogosInterest, 1);
 
 
             Hobby ciclismo = criarOuAtualizarHobby(
@@ -156,16 +177,16 @@ public class DevDataSeeder {
                     3,
                     2.0,
                     TipoSocializacao.INDIVIDUAL,
-                    esporte,
+                    esporteCategory,
                     NivelAtividadeFisica.ALTO,
                     AmbientePreferido.AO_AR_LIVRE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(ciclismo, condicionamento, 3);
-            adicionarObjetivoAoHobby(ciclismo, reduzirEstresse, 2);
-            adicionarObjetivoAoHobby(ciclismo, diversao, 2);
-            adicionarObjetivoAoHobby(ciclismo, disciplina, 1);
+            adicionarObjetivoAoHobby(ciclismo, condicionamentoObjective, 3);
+            adicionarObjetivoAoHobby(ciclismo, reduzirEstresseObjective, 2);
+            adicionarObjetivoAoHobby(ciclismo, diversaoObjective, 2);
+            adicionarObjetivoAoHobby(ciclismo, disciplinaObjective, 1);
 
 
             Hobby natacao = criarOuAtualizarHobby(
@@ -175,15 +196,15 @@ public class DevDataSeeder {
                     3,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    esporte,
+                    esporteCategory,
                     NivelAtividadeFisica.ALTO,
                     AmbientePreferido.AMBIENTE_FECHADO,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(natacao, condicionamento, 3);
-            adicionarObjetivoAoHobby(natacao, disciplina, 2);
-            adicionarObjetivoAoHobby(natacao, reduzirEstresse, 2);
+            adicionarObjetivoAoHobby(natacao, condicionamentoObjective, 3);
+            adicionarObjetivoAoHobby(natacao, disciplinaObjective, 2);
+            adicionarObjetivoAoHobby(natacao, reduzirEstresseObjective, 2);
 
 
 // =====================================================
@@ -197,16 +218,19 @@ public class DevDataSeeder {
                     3,
                     1.5,
                     TipoSocializacao.INDIVIDUAL,
-                    criatividade,
+                    criatividadeCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.INDIFERENTE,
                     FormatoPreferido.HIBRIDO
             );
 
             adicionarObjetivoAoHobby(fotografia, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(fotografia, produzir, 3);
-            adicionarObjetivoAoHobby(fotografia, aprender, 2);
-            adicionarObjetivoAoHobby(fotografia, relaxar, 1);
+            adicionarObjetivoAoHobby(fotografia, produzirObjective, 3);
+            adicionarObjetivoAoHobby(fotografia, aprenderObjective, 2);
+            adicionarObjetivoAoHobby(fotografia, relaxarObjective, 1);
+            adicionarInteresseAoHobby(fotografia, artesVisuaisInterest, 3);
+            adicionarInteresseAoHobby(fotografia, naturezaInterest, 2);
+            adicionarInteresseAoHobby(fotografia, criacaoInterest, 3);
 
 
             Hobby desenho = criarOuAtualizarHobby(
@@ -216,16 +240,16 @@ public class DevDataSeeder {
                     2,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    criatividade,
+                    criatividadeCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
             adicionarObjetivoAoHobby(desenho, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(desenho, produzir, 3);
-            adicionarObjetivoAoHobby(desenho, relaxar, 2);
-            adicionarObjetivoAoHobby(desenho, aprender, 1);
+            adicionarObjetivoAoHobby(desenho, produzirObjective, 3);
+            adicionarObjetivoAoHobby(desenho, relaxarObjective, 2);
+            adicionarObjetivoAoHobby(desenho, aprenderObjective, 1);
 
 
             Hobby pintura = criarOuAtualizarHobby(
@@ -235,16 +259,16 @@ public class DevDataSeeder {
                     3,
                     1.5,
                     TipoSocializacao.INDIVIDUAL,
-                    criatividade,
+                    criatividadeCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
             adicionarObjetivoAoHobby(pintura, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(pintura, produzir, 3);
-            adicionarObjetivoAoHobby(pintura, relaxar, 2);
-            adicionarObjetivoAoHobby(pintura, reduzirEstresse, 2);
+            adicionarObjetivoAoHobby(pintura, produzirObjective, 3);
+            adicionarObjetivoAoHobby(pintura, relaxarObjective, 2);
+            adicionarObjetivoAoHobby(pintura, reduzirEstresseObjective, 2);
 
 
             Hobby violao = criarOuAtualizarHobby(
@@ -254,16 +278,19 @@ public class DevDataSeeder {
                     4,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    criatividade,
+                    criatividadeCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(violao, aprender, 3);
+            adicionarObjetivoAoHobby(violao, aprenderObjective, 3);
             adicionarObjetivoAoHobby(violao, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(violao, produzir, 2);
-            adicionarObjetivoAoHobby(violao, relaxar, 1);
+            adicionarObjetivoAoHobby(violao, produzirObjective, 2);
+            adicionarObjetivoAoHobby(violao, relaxarObjective, 1);
+            adicionarInteresseAoHobby(violao, musicaInterest, 3);
+            adicionarInteresseAoHobby(violao, criacaoInterest, 2);
+            adicionarInteresseAoHobby(violao, culturaInterest, 2);
 
 
 // =====================================================
@@ -277,16 +304,18 @@ public class DevDataSeeder {
                     4,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    intelectual,
+                    intelectualCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(xadrez, aprender, 3);
-            adicionarObjetivoAoHobby(xadrez, competir, 2);
-            adicionarObjetivoAoHobby(xadrez, disciplina, 2);
-            adicionarObjetivoAoHobby(xadrez, diversao, 1);
+            adicionarObjetivoAoHobby(xadrez, aprenderObjective, 3);
+            adicionarObjetivoAoHobby(xadrez, competirObjective, 2);
+            adicionarObjetivoAoHobby(xadrez, disciplinaObjective, 2);
+            adicionarObjetivoAoHobby(xadrez, diversaoObjective, 1);
+            adicionarInteresseAoHobby(xadrez, jogosInterest, 3);
+            adicionarInteresseAoHobby(xadrez, aprendizadoInterest, 2);
 
 
             Hobby leitura = criarOuAtualizarHobby(
@@ -296,16 +325,16 @@ public class DevDataSeeder {
                     2,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    intelectual,
+                    intelectualCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(leitura, aprender, 3);
-            adicionarObjetivoAoHobby(leitura, relaxar, 2);
-            adicionarObjetivoAoHobby(leitura, reduzirEstresse, 1);
-            adicionarObjetivoAoHobby(leitura, disciplina, 1);
+            adicionarObjetivoAoHobby(leitura, aprenderObjective, 3);
+            adicionarObjetivoAoHobby(leitura, relaxarObjective, 2);
+            adicionarObjetivoAoHobby(leitura, reduzirEstresseObjective, 1);
+            adicionarObjetivoAoHobby(leitura, disciplinaObjective, 1);
 
 
             Hobby escrita = criarOuAtualizarHobby(
@@ -315,16 +344,16 @@ public class DevDataSeeder {
                     3,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    intelectual,
+                    intelectualCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
             adicionarObjetivoAoHobby(escrita, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(escrita, produzir, 3);
-            adicionarObjetivoAoHobby(escrita, aprender, 2);
-            adicionarObjetivoAoHobby(escrita, relaxar, 1);
+            adicionarObjetivoAoHobby(escrita, produzirObjective, 3);
+            adicionarObjetivoAoHobby(escrita, aprenderObjective, 2);
+            adicionarObjetivoAoHobby(escrita, relaxarObjective, 1);
 
 
             Hobby idiomas = criarOuAtualizarHobby(
@@ -334,16 +363,16 @@ public class DevDataSeeder {
                     4,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    intelectual,
+                    intelectualCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(idiomas, aprender, 3);
-            adicionarObjetivoAoHobby(idiomas, disciplina, 2);
-            adicionarObjetivoAoHobby(idiomas, conhecerPessoas, 1);
-            adicionarObjetivoAoHobby(idiomas, produzir, 1);
+            adicionarObjetivoAoHobby(idiomas, aprenderObjective, 3);
+            adicionarObjetivoAoHobby(idiomas, disciplinaObjective, 2);
+            adicionarObjetivoAoHobby(idiomas, conhecerPessoasObjective, 1);
+            adicionarObjetivoAoHobby(idiomas, produzirObjective, 1);
 
 
 // =====================================================
@@ -357,16 +386,16 @@ public class DevDataSeeder {
                     4,
                     2.0,
                     TipoSocializacao.SOCIAL,
-                    social,
+                    socialCategory,
                     NivelAtividadeFisica.MODERADO,
                     AmbientePreferido.AMBIENTE_FECHADO,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(teatro, conhecerPessoas, 3);
+            adicionarObjetivoAoHobby(teatro, conhecerPessoasObjective, 3);
             adicionarObjetivoAoHobby(teatro, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(teatro, produzir, 2);
-            adicionarObjetivoAoHobby(teatro, aprender, 2);
+            adicionarObjetivoAoHobby(teatro, produzirObjective, 2);
+            adicionarObjetivoAoHobby(teatro, aprenderObjective, 2);
 
 
             Hobby danca = criarOuAtualizarHobby(
@@ -376,15 +405,15 @@ public class DevDataSeeder {
                     3,
                     1.5,
                     TipoSocializacao.SOCIAL,
-                    social,
+                    socialCategory,
                     NivelAtividadeFisica.ALTO,
                     AmbientePreferido.AMBIENTE_FECHADO,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(danca, diversao, 3);
-            adicionarObjetivoAoHobby(danca, conhecerPessoas, 3);
-            adicionarObjetivoAoHobby(danca, condicionamento, 2);
+            adicionarObjetivoAoHobby(danca, diversaoObjective, 3);
+            adicionarObjetivoAoHobby(danca, conhecerPessoasObjective, 3);
+            adicionarObjetivoAoHobby(danca, condicionamentoObjective, 2);
             adicionarObjetivoAoHobby(danca, criatividadeObjective, 2);
 
 
@@ -395,15 +424,15 @@ public class DevDataSeeder {
                     2,
                     2.0,
                     TipoSocializacao.SOCIAL,
-                    social,
+                    socialCategory,
                     NivelAtividadeFisica.MODERADO,
                     AmbientePreferido.INDIFERENTE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(voluntariado, conhecerPessoas, 3);
-            adicionarObjetivoAoHobby(voluntariado, aprender, 2);
-            adicionarObjetivoAoHobby(voluntariado, disciplina, 1);
+            adicionarObjetivoAoHobby(voluntariado, conhecerPessoasObjective, 3);
+            adicionarObjetivoAoHobby(voluntariado, aprenderObjective, 2);
+            adicionarObjetivoAoHobby(voluntariado, disciplinaObjective, 1);
 
 
             Hobby clubeJogos = criarOuAtualizarHobby(
@@ -413,15 +442,15 @@ public class DevDataSeeder {
                     2,
                     2.0,
                     TipoSocializacao.SOCIAL,
-                    social,
+                    socialCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.AMBIENTE_FECHADO,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(clubeJogos, conhecerPessoas, 3);
-            adicionarObjetivoAoHobby(clubeJogos, diversao, 3);
-            adicionarObjetivoAoHobby(clubeJogos, competir, 2);
+            adicionarObjetivoAoHobby(clubeJogos, conhecerPessoasObjective, 3);
+            adicionarObjetivoAoHobby(clubeJogos, diversaoObjective, 3);
+            adicionarObjetivoAoHobby(clubeJogos, competirObjective, 2);
 
 
 // =====================================================
@@ -435,16 +464,19 @@ public class DevDataSeeder {
                     4,
                     1.5,
                     TipoSocializacao.INDIVIDUAL,
-                    tecnologia,
+                    tecnologiaCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.REMOTO
             );
 
-            adicionarObjetivoAoHobby(programacaoCriativa, aprender, 3);
+            adicionarObjetivoAoHobby(programacaoCriativa, aprenderObjective, 3);
             adicionarObjetivoAoHobby(programacaoCriativa, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(programacaoCriativa, produzir, 3);
-            adicionarObjetivoAoHobby(programacaoCriativa, disciplina, 1);
+            adicionarObjetivoAoHobby(programacaoCriativa, produzirObjective, 3);
+            adicionarObjetivoAoHobby(programacaoCriativa, disciplinaObjective, 1);
+            adicionarInteresseAoHobby(programacaoCriativa, tecnologiaInterest, 3);
+            adicionarInteresseAoHobby(programacaoCriativa, criacaoInterest, 3);
+            adicionarInteresseAoHobby(programacaoCriativa, aprendizadoInterest, 2);
 
 
             Hobby edicaoVideo = criarOuAtualizarHobby(
@@ -454,15 +486,15 @@ public class DevDataSeeder {
                     3,
                     1.5,
                     TipoSocializacao.INDIVIDUAL,
-                    tecnologia,
+                    tecnologiaCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.REMOTO
             );
 
             adicionarObjetivoAoHobby(edicaoVideo, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(edicaoVideo, produzir, 3);
-            adicionarObjetivoAoHobby(edicaoVideo, aprender, 2);
+            adicionarObjetivoAoHobby(edicaoVideo, produzirObjective, 3);
+            adicionarObjetivoAoHobby(edicaoVideo, aprenderObjective, 2);
 
 
             Hobby robotica = criarOuAtualizarHobby(
@@ -472,16 +504,16 @@ public class DevDataSeeder {
                     5,
                     2.0,
                     TipoSocializacao.INDIVIDUAL,
-                    tecnologia,
+                    tecnologiaCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(robotica, aprender, 3);
-            adicionarObjetivoAoHobby(robotica, produzir, 3);
+            adicionarObjetivoAoHobby(robotica, aprenderObjective, 3);
+            adicionarObjetivoAoHobby(robotica, produzirObjective, 3);
             adicionarObjetivoAoHobby(robotica, criatividadeObjective, 2);
-            adicionarObjetivoAoHobby(robotica, disciplina, 2);
+            adicionarObjetivoAoHobby(robotica, disciplinaObjective, 2);
 
 
             Hobby criacaoJogos = criarOuAtualizarHobby(
@@ -491,16 +523,16 @@ public class DevDataSeeder {
                     4,
                     2.0,
                     TipoSocializacao.INDIVIDUAL,
-                    tecnologia,
+                    tecnologiaCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.REMOTO
             );
 
             adicionarObjetivoAoHobby(criacaoJogos, criatividadeObjective, 3);
-            adicionarObjetivoAoHobby(criacaoJogos, produzir, 3);
-            adicionarObjetivoAoHobby(criacaoJogos, aprender, 3);
-            adicionarObjetivoAoHobby(criacaoJogos, diversao, 2);
+            adicionarObjetivoAoHobby(criacaoJogos, produzirObjective, 3);
+            adicionarObjetivoAoHobby(criacaoJogos, aprenderObjective, 3);
+            adicionarObjetivoAoHobby(criacaoJogos, diversaoObjective, 2);
 
 
 // =====================================================
@@ -514,15 +546,15 @@ public class DevDataSeeder {
                     1,
                     0.5,
                     TipoSocializacao.INDIVIDUAL,
-                    relaxamento,
+                    relaxamentoCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(meditacao, relaxar, 3);
-            adicionarObjetivoAoHobby(meditacao, reduzirEstresse, 3);
-            adicionarObjetivoAoHobby(meditacao, disciplina, 1);
+            adicionarObjetivoAoHobby(meditacao, relaxarObjective, 3);
+            adicionarObjetivoAoHobby(meditacao, reduzirEstresseObjective, 3);
+            adicionarObjetivoAoHobby(meditacao, disciplinaObjective, 1);
 
 
             Hobby jardinagem = criarOuAtualizarHobby(
@@ -532,16 +564,16 @@ public class DevDataSeeder {
                     2,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    relaxamento,
+                    relaxamentoCategory,
                     NivelAtividadeFisica.MODERADO,
                     AmbientePreferido.AO_AR_LIVRE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(jardinagem, relaxar, 3);
-            adicionarObjetivoAoHobby(jardinagem, produzir, 2);
-            adicionarObjetivoAoHobby(jardinagem, reduzirEstresse, 2);
-            adicionarObjetivoAoHobby(jardinagem, aprender, 1);
+            adicionarObjetivoAoHobby(jardinagem, relaxarObjective, 3);
+            adicionarObjetivoAoHobby(jardinagem, produzirObjective, 2);
+            adicionarObjetivoAoHobby(jardinagem, reduzirEstresseObjective, 2);
+            adicionarObjetivoAoHobby(jardinagem, aprenderObjective, 1);
 
 
             Hobby culinaria = criarOuAtualizarHobby(
@@ -551,17 +583,17 @@ public class DevDataSeeder {
                     3,
                     1.5,
                     TipoSocializacao.INDIVIDUAL,
-                    relaxamento,
+                    relaxamentoCategory,
                     NivelAtividadeFisica.BAIXO,
                     AmbientePreferido.CASA,
                     FormatoPreferido.HIBRIDO
             );
 
-            adicionarObjetivoAoHobby(culinaria, produzir, 3);
+            adicionarObjetivoAoHobby(culinaria, produzirObjective, 3);
             adicionarObjetivoAoHobby(culinaria, criatividadeObjective, 2);
-            adicionarObjetivoAoHobby(culinaria, aprender, 2);
-            adicionarObjetivoAoHobby(culinaria, diversao, 2);
-            adicionarObjetivoAoHobby(culinaria, relaxar, 1);
+            adicionarObjetivoAoHobby(culinaria, aprenderObjective, 2);
+            adicionarObjetivoAoHobby(culinaria, diversaoObjective, 2);
+            adicionarObjetivoAoHobby(culinaria, relaxarObjective, 1);
 
 
             Hobby caminhada = criarOuAtualizarHobby(
@@ -571,21 +603,55 @@ public class DevDataSeeder {
                     1,
                     1.0,
                     TipoSocializacao.INDIVIDUAL,
-                    relaxamento,
+                    relaxamentoCategory,
                     NivelAtividadeFisica.MODERADO,
                     AmbientePreferido.AO_AR_LIVRE,
                     FormatoPreferido.PRESENCIAL
             );
 
-            adicionarObjetivoAoHobby(caminhada, relaxar, 3);
-            adicionarObjetivoAoHobby(caminhada, reduzirEstresse, 3);
-            adicionarObjetivoAoHobby(caminhada, condicionamento, 2);
+            adicionarObjetivoAoHobby(caminhada, relaxarObjective, 3);
+            adicionarObjetivoAoHobby(caminhada, reduzirEstresseObjective, 3);
+            adicionarObjetivoAoHobby(caminhada, condicionamentoObjective, 2);
+            adicionarInteresseAoHobby(caminhada, relaxarInterest, 3);
 
 
             System.out.println("Seed finalizado");
         };
     }
 
+    private Interest obterOuCriarInteresse(String nome) {
+        return interestRepository
+                .findByNomeIgnoreCase(nome)
+                .orElseGet(() -> {
+                    Interest interest = new Interest();
+                    interest.setNome(nome);
+
+                    return interestRepository.save(interest);
+                });
+    }
+
+    private void adicionarInteresseAoHobby(
+         Hobby hobby,
+         Interest interest,
+         Integer peso
+    ) {
+        HobbyInterestId id = new HobbyInterestId();
+
+        id.setHobbyId(hobby.getId());
+        id.setInterestId(interest.getId());
+
+        HobbyInterest hobbyInterest =
+                hobbyInterestRepository
+                        .findById(id)
+                        .orElseGet(HobbyInterest::new);
+
+        hobbyInterest.setId(id);
+        hobbyInterest.setHobby(hobby);
+        hobbyInterest.setInterest(interest);
+        hobbyInterest.setPeso(peso);
+
+        hobbyInterestRepository.save(hobbyInterest);
+    }
 
     private HobbyCategory criarCategoriaSeNaoExistir(String nome) {
         return categoryRepository.findByNomeIgnoreCase(nome)
