@@ -10,25 +10,75 @@ import java.util.*;
 
 @Component
 public class PreferenceCriterion implements RecommendationCriterion {
-    public CriterionResult avaliar(Hobby h, RecommendationProfile p, List<UserInterest> i, List<UserHobbyFeedback> f) {
-        double s = 0;
-        List<String> m = new ArrayList<>();
-        if (p.getTipoSocializacao() == TipoSocializacao.INDIFERENTE || p.getTipoSocializacao() == h.getTipoSocializacao()) {
-            s += 10;
-            m.add("Combina com sua preferência de socialização");
+
+    @Override
+    public CriterionResult avaliar(
+            Hobby h,
+            RecommendationProfile p,
+            List<UserInterest> i,
+            List<UserHobbyFeedback> f
+    ) {
+
+        double score = 0;
+        List<String> motivos = new ArrayList<>();
+        List<String> alertas = new ArrayList<>();
+
+        if (p.getTipoSocializacao() != null
+            && h.getTipoSocializacao() != null) {
+
+            if (p.getTipoSocializacao() == TipoSocializacao.INDIFERENTE
+            || p.getTipoSocializacao() == h.getTipoSocializacao()) {
+                score += 7;
+                motivos.add(
+                        "Combina com sua preferência de socialização"
+                );
+            }
         }
-        if (p.getAmbientePreferido() == AmbientePreferido.INDIFERENTE || p.getAmbientePreferido() == h.getAmbiente()) {
-            s += 5;
-            m.add("Pode ser praticado no ambiente que você prefere");
+
+        if (p.getAmbientePreferido() != null
+            && h.getAmbiente() != null) {
+
+            if (p.getAmbientePreferido() == AmbientePreferido.INDIFERENTE
+                    || p.getAmbientePreferido() == h.getAmbiente()) {
+
+                score += 5;
+                motivos.add(
+                        "Pode ser praticado no ambiente que você prefere"
+                );
+            } else {
+                alertas.add(
+                        "O ambiente mais comun deste hobby difere da sua preferência"
+                );
+            }
         }
-        if (p.getFormatoPreferido() == FormatoPreferido.INDIFERENTE || p.getFormatoPreferido() == h.getFormato() || h.getFormato() == FormatoPreferido.HIBRIDO) {
-            s += 5;
-            m.add("Possui formato compatível com sua preferência");
+
+        if (p.getFormatoPreferido() != null && h.getFormato() != null) {
+            if (p.getFormatoPreferido() == FormatoPreferido.INDIFERENTE
+                    || p.getFormatoPreferido() == h.getFormato()
+                    || h.getFormato() == FormatoPreferido.HIBRIDO) {
+
+                score += 4;
+                motivos.add(
+                        "Possui formato compatível com sua preferência"
+                );
+            }
         }
-        if (p.getNivelAtividadeFisicaDesejada() == NivelAtividadeFisica.INDIFERENTE || p.getNivelAtividadeFisicaDesejada() == h.getNivelAtividadeFisica()) {
-            s += 5;
-            m.add("Tem o nível de atividade física que você procura");
+
+        if (p.getNivelAtividadeFisicaDesejada() != null && h.getNivelAtividadeFisica() != null) {
+            if (p.getNivelAtividadeFisicaDesejada() == NivelAtividadeFisica.INDIFERENTE
+                || p.getNivelAtividadeFisicaDesejada() == h.getNivelAtividadeFisica()) {
+                score += 4;
+                motivos.add(
+                        "Tem o nível de atividade física que você procura"
+                );
+            }
         }
-        return new CriterionResult(s, m, List.of());
+
+        return new CriterionResult(
+                score,
+                motivos,
+                alertas
+        );
+
     }
 }

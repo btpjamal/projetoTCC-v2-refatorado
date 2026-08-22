@@ -70,13 +70,13 @@ public class InterestCriterion implements RecommendationCriterion {
         }
 
         double pontos = Math.min(
-                30,
+                25,
                 compatibilidade * 5
         );
 
         return CriterionResult.of(
                 pontos,
-                "Este hobby combina com áreas que despertam seu interesse"
+                "Está relacionadoa áreas que despertam seu interesse"
         );
     }
 }

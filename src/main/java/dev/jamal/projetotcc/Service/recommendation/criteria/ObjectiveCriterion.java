@@ -38,6 +38,10 @@ public class ObjectiveCriterion implements RecommendationCriterion{
         List<HobbyObjective> objetivosHobby =
                 hobbyObjectiveRepository.findByHobbyId(hobby.getId());
 
+        if (objetivosUsuario.isEmpty() || objetivosHobby.isEmpty()) {
+            return CriterionResult.of(0, null);
+        }
+
         int compatibilidade = objetivosUsuario.stream()
                 .mapToInt(uo ->
                         objetivosHobby.stream()
@@ -45,30 +49,41 @@ public class ObjectiveCriterion implements RecommendationCriterion{
                                         ho.getObjective()
                                                 .getId()
                                                 .equals(
-                                                        uo.getObjective().getId()
+                                                        uo.getObjective()
+                                                                .getId()
                                                 )
-                                ).mapToInt(ho ->
-                                        ho.getPeso() != null
-                                                ? ho.getPeso()
-                                                : 1
                                 )
+                                .mapToInt(ho -> {
+
+                                    int pesoHobby =
+                                            ho.getPeso() != null
+                                                    ? ho.getPeso()
+                                                    : 1;
+
+                                    int pesoUsuario =
+                                            uo.getPeso() != null
+                                                    ? uo.getPeso()
+                                                    : 1;
+
+                                    return pesoHobby * pesoUsuario;
+                                })
                                 .max()
                                 .orElse(0)
                 )
-                    .sum();
+                .sum();
 
         if (compatibilidade == 0) {
             return CriterionResult.of(0, null);
         }
 
         double pontos = Math.min(
-                30,
+                25,
                 compatibilidade * 5
         );
 
         return CriterionResult.of(
                 pontos,
-                "Este hobby combina com seus objetivos pessoais"
+                "Está alinhado com os objetivos que você busca em um hobby"
         );
     }
 }
