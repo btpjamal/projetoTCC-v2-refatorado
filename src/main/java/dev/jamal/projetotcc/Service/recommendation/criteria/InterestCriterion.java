@@ -74,9 +74,26 @@ public class InterestCriterion implements RecommendationCriterion {
                 compatibilidade * 5
         );
 
+        List<String> interessesCorrespondentes = interesses.stream()
+                .filter(ui ->
+                        interessesHobby.stream()
+                                .anyMatch(hi ->
+                                        hi.getInterest().getId()
+                                                .equals(ui.getInterest().getId())
+                                )
+                )
+                .map(ui -> ui.getInterest().getNome())
+                .distinct()
+                .toList();
+
+        String motivo = interessesCorrespondentes.isEmpty()
+                ? null
+                : "Combina com seus interesses: "
+                + String.join(", ", interessesCorrespondentes);
+
         return CriterionResult.of(
                 pontos,
-                "Está relacionadoa áreas que despertam seu interesse"
+                motivo
         );
     }
 }

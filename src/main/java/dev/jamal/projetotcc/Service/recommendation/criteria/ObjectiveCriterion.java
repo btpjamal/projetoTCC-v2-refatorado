@@ -81,9 +81,26 @@ public class ObjectiveCriterion implements RecommendationCriterion{
                 compatibilidade * 5
         );
 
+        List<String> objetivosCorrespondentes = objetivosUsuario.stream()
+                .filter(uo ->
+                        objetivosHobby.stream()
+                                .anyMatch(ho ->
+                                        ho.getObjective().getId()
+                                                .equals(uo.getObjective().getId())
+                                )
+                )
+                .map(uo -> uo.getObjective().getNome())
+                .distinct()
+                .toList();
+
+        String motivo = objetivosCorrespondentes.isEmpty()
+                ? null
+                : "Ajuda nos seus objetivos: "
+                + String.join(", ", objetivosCorrespondentes);
+
         return CriterionResult.of(
                 pontos,
-                "Está alinhado com os objetivos que você busca em um hobby"
+                motivo
         );
     }
 }
