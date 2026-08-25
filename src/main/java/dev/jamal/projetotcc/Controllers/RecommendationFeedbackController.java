@@ -1,10 +1,14 @@
 package dev.jamal.projetotcc.Controllers;
 
 import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackRequestDTO;
+import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO;
+import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
 import dev.jamal.projetotcc.Service.RecommendationFeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/recommendation-feedbacks")
@@ -26,5 +30,16 @@ public class RecommendationFeedbackController {
         );
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<RecommendationFeedbackResponseDTO>> listar(
+            @PathVariable Long userId,
+            @RequestParam RecommendationFeedbackType tipo
+    ) {
+
+        return ResponseEntity.ok(
+                service.listarPorTipo(userId, tipo)
+        );
     }
 }
