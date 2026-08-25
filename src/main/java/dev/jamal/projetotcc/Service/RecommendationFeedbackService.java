@@ -1,5 +1,6 @@
 package dev.jamal.projetotcc.Service;
 
+import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO;
 import dev.jamal.projetotcc.Entities.Hobby;
 import dev.jamal.projetotcc.Entities.User;
 import dev.jamal.projetotcc.Entities.UserRecommendationFeedback;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +51,29 @@ public class RecommendationFeedbackService {
         feedback.setCreatedAt(LocalDateTime.now());
 
         feedbackRepository.save(feedback);
+    }
+
+    @Transactional
+    public List<RecommendationFeedbackResponseDTO> listarPorTipo(
+            Long userId,
+            RecommendationFeedbackType tipo
+    ) {
+
+        return feedbackRepository
+                .findByUser_IdAndTipo(userId, tipo)
+                .stream()
+                .map(feedback -> {
+
+                    Hobby hobby = feedback.getHobby();
+
+                    return new RecommendationFeedbackResponseDTO(
+                            hobby.getId(),
+                            hobby.getNome(),
+                            hobby.getDescricao(),
+                            hobby.getCategory().getNome(),
+                            feedback.getTipo()
+                    );
+                })
+                .toList();
     }
 }
