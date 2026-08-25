@@ -56,6 +56,30 @@ export default function Recommendations() {
       }
     }
 
+    async function registrarFeedback(hobbyId, tipo) {
+        try {
+            const userId = localStorage.getItem("userId");
+            const token = localStorage.getItem("token");
+
+            await api.post(
+                `/recommendation-feedbacks/${userId}/${hobbyId}`,
+                { tipo },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setRecommendations((atuais) =>
+                atuais.filter((r) => r.hobbyId !== hobbyId)
+            );
+
+        } catch (error) {
+            console.error("Erro ao registrar feedback:", error);
+        }
+    }
+
     carregarRecomendacoes();
   }, [navigate]);
 
@@ -132,6 +156,37 @@ export default function Recommendations() {
                                     {(item.motivos || []).slice(0, 3).map((motivo) => <p key={motivo}>• {motivo}</p>)}
                                     {(item.alertas || []).slice(0, 1).map((alerta) => <p key={alerta}>⚠ {alerta}</p>)}
                                 </div>
+
+
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+
+                                        registrarFeedback(
+                                            recommendation.hobbyId,
+                                            "NAO_INTERESSADO"
+                                        );
+                                    }}
+                                >
+                                    Não me interessa
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+
+                                        registrarFeedback(
+                                            recommendation.hobbyId,
+                                            "INTERESSADO"
+                                        );
+                                    }}
+                                >
+                                    Tenho interesse
+                                </button>
+
+
                             </article>
                         ))}
                     </section>
