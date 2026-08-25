@@ -25,15 +25,36 @@ public class RecommendationService {
     private final UserHobbyFeedbackRepository feedbackRepository;
     private final RecommendationMapper mapper;
     private final List<RecommendationCriterion> criterios;
+    private final UserRecommendationFeedbackRepository userRecommendationFeedbackRepository;
 
     public List<HobbyRecommendationDTO> recomendar(Long userId) {
         RecommendationProfile p = recommendationProfileRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Complete o questionário inicial antes de receber recomendações."));
         List<UserInterest> interesses = userInterestRepository.findByUserIdWithInterest(userId);
         List<UserHobbyFeedback> feedbacks = feedbackRepository.buscarComHobbyEUsuario(userId);
-        Set<Long> avaliados = feedbacks.stream().map(f -> f.getHobby().getId()).collect(Collectors.toSet());
 
+        Set<Long> avaliados = feedbacks
+                .stream()
+                .map(f -> f.getHobby().getId())
+                .collect(Collectors.toSet());
 
-        return hobbyRepository.findAllWithCategory().stream().filter(h -> !avaliados.contains(h.getId())).map(h -> {
+        List<UserRecommendationFeedback> feedbacksRecomendacao =
+                userRecommendationFeedbackRepository
+                        .findByUser_Id(userId);
+
+        Set<Long> hobbiesDecididos = feedbacksRecomendacao.stream()
+                .map(feedback -> feedback.getHobby().getId())
+                .collect(Collectors.toSet());
+
+//        //
+//        System.out.println("USER ID: " + userId);
+//        System.out.println("FEEDBACKS DE RECOMENDACAO: " + feedbacksRecomendacao.size());
+//        System.out.println("HOBBIES DECIDIDOS: " + hobbiesDecididos);
+//        //
+        return hobbyRepository.findAllWithCategory()
+                .stream()
+                .filter(h -> !avaliados.contains(h.getId()))
+                .filter(h -> !hobbiesDecididos.contains(h.getId()))
+                .map(h -> {
 
             List<CriterionResult> rs = criterios.stream()
                     .map(c ->
@@ -43,15 +64,39 @@ public class RecommendationService {
                                     interesses,
                                     feedbacks
                             )
-                    ).toList();
+                    )
+                    .toList();
+
+
 
             double score = rs.stream()
                     .mapToDouble(CriterionResult::pontos)
                     .sum();
 
-            List<String> motivos = rs.stream().flatMap(r -> r.motivos().stream()).distinct().toList();
-            List<String> alertas = rs.stream().flatMap(r -> r.alertas().stream()).distinct().toList();
-            return mapper.toDTO(h, score, motivos, alertas);
-        }).sorted(Comparator.comparing(HobbyRecommendationDTO::getScore).reversed()).limit(20).toList();
+            List<String> motivos = rs.stream()
+                    .flatMap(r -> r.motivos().stream())
+                    .distinct()
+                    .toList();
+
+            List<String> alertas = rs.stream()
+                    .flatMap(r -> r.alertas().stream())
+                    .distinct()
+                    .toList();
+
+
+            return mapper.toDTO(
+                    h,
+                    score,
+                    motivos,
+                    alertas
+            );
+                })
+                .sorted(
+                        Comparator
+                                .comparing(HobbyRecommendationDTO::getScore)
+                                .reversed()
+                )
+                .limit(20)
+                .toList();
     }
 }
