@@ -2,8 +2,34 @@ import { useEffect, useState } from "react";
 import { api } from "../api/api";
 import { useNavigate } from "react-router";
 import "./css/Recommendations.css";
-
+import RecommendationTabs from "../components/recommendations/RecommendationTabs";
+import DiscoverTab from "../components/recommendations/DiscoverTab";
+import InterestedTab from "../components/recommendations/InterestedTab";
+import NotInterestedTab from "../components/recommendations/NotInterestedTab";
 export default function Recommendations() {
+    const [abaAtiva, setAbaAtiva] = useState("descobrir");
+    return (
+        <main>
+                    <h1>Recomendações</h1>
+
+                    <RecommendationTabs
+                        abaAtiva={abaAtiva}
+                        setAbaAtiva={setAbaAtiva}
+                    />
+
+                    {abaAtiva === "descobrir" && (
+                        <DiscoverTab />
+                    )}
+
+                    {abaAtiva === "interessados" && (
+                        <InterestedTab />
+                    )}
+
+                    {abaAtiva === "nao-interessados" && (
+                        <NotInterestedTab />
+                    )}
+                </main>
+        );
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
