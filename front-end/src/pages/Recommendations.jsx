@@ -6,6 +6,8 @@ import RecommendationTabs from "../components/recommendations/RecommendationTabs
 import DiscoverTab from "../components/recommendations/DiscoverTab";
 import InterestedTab from "../components/recommendations/InterestedTab";
 import NotInterestedTab from "../components/recommendations/NotInterestedTab";
+
+
 export default function Recommendations() {
     const [abaAtiva, setAbaAtiva] = useState("descobrir");
     return (
@@ -30,16 +32,18 @@ export default function Recommendations() {
                     )}
                 </main>
         );
+
+    const navigate = useNavigate();
+    const nome = localStorage.getItem("nome");
+
+    function handleLogout() {
+          localStorage.clear();
+          navigate("/login");
+      }
+
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
-  const navigate = useNavigate();
-  const nome = localStorage.getItem("nome");
-
-  function handleLogout() {
-      localStorage.clear();
-      navigate("/login");
-  }
 
   useEffect(() => {
     async function carregarRecomendacoes() {
