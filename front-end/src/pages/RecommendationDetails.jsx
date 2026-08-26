@@ -43,7 +43,7 @@ export default function RecommendationDetails() {
               <p>Hobby Selecionado: {hobbyId}</p>
 
               <button onClick={gerarPlano}>
-                  Gerar PLano Inicial
+                  Gerar Plano Inicial
               </button>
               {
                   loading && (
