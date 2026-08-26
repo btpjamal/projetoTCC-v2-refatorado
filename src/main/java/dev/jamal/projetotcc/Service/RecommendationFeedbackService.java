@@ -76,4 +76,21 @@ public class RecommendationFeedbackService {
                 })
                 .toList();
     }
+
+    @Transactional
+    public void removerDecisao(
+            Long userId,
+            Long hobbyId
+    ) {
+        UserRecommendationFeedback feedback =
+                feedbackRepository
+                        .findByUser_IdAndHobby_Id(userId, hobbyId)
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Decisão de recomendação não encontrada."
+                                )
+                        );
+
+        feedbackRepository.delete(feedback);
+    }
 }
