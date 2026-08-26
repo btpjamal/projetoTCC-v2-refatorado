@@ -42,4 +42,14 @@ public class RecommendationFeedbackController {
                 service.listarPorTipo(userId, tipo)
         );
     }
+
+    @DeleteMapping("/{userId}/{hobbyId}")
+    public ResponseEntity<Void> removerDecisao(
+            @PathVariable Long userId,
+            @PathVariable Long hobbyId
+    ) {
+        service.removerDecisao(userId, hobbyId);
+
+        return ResponseEntity.noContent().build();
+    }
 }
