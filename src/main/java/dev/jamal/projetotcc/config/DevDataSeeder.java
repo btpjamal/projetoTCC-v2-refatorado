@@ -228,6 +228,7 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(fotografia, produzirObjective, 3);
             adicionarObjetivoAoHobby(fotografia, aprenderObjective, 2);
             adicionarObjetivoAoHobby(fotografia, relaxarObjective, 1);
+
             adicionarInteresseAoHobby(fotografia, artesVisuaisInterest, 3);
             adicionarInteresseAoHobby(fotografia, naturezaInterest, 2);
             adicionarInteresseAoHobby(fotografia, criacaoInterest, 3);
@@ -251,6 +252,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(desenho, relaxarObjective, 2);
             adicionarObjetivoAoHobby(desenho, aprenderObjective, 1);
 
+            adicionarInteresseAoHobby(desenho, artesVisuaisInterest, 3);
+            adicionarInteresseAoHobby(desenho, criacaoInterest, 3);
+
 
             Hobby pintura = criarOuAtualizarHobby(
                     "Pintura",
@@ -270,6 +274,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(pintura, relaxarObjective, 2);
             adicionarObjetivoAoHobby(pintura, reduzirEstresseObjective, 2);
 
+            adicionarInteresseAoHobby(pintura, artesVisuaisInterest, 3);
+            adicionarInteresseAoHobby(pintura, criacaoInterest, 3);
+
 
             Hobby violao = criarOuAtualizarHobby(
                     "Violão",
@@ -288,6 +295,7 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(violao, criatividadeObjective, 3);
             adicionarObjetivoAoHobby(violao, produzirObjective, 2);
             adicionarObjetivoAoHobby(violao, relaxarObjective, 1);
+
             adicionarInteresseAoHobby(violao, musicaInterest, 3);
             adicionarInteresseAoHobby(violao, criacaoInterest, 2);
             adicionarInteresseAoHobby(violao, culturaInterest, 2);
