@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate } from "react-router";
+import "../../pages/css/Recommendations.css";
 
 
 export default function DiscoverTab() {
@@ -9,183 +10,179 @@ export default function DiscoverTab() {
 
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [erro, setErro] = useState("");
-    const nome = localStorage.getItem("nome");
+    const [erro, setErro] = useState(null);
 
-     useEffect(() => {
-       async function carregarRecomendacoes() {
-         try {
-           setLoading(true);
+    async function registrarFeedback(hobbyId, tipo) {
+                try {
+                    const userId = localStorage.getItem("userId");
+                    const token = localStorage.getItem("token");
 
-           const token = localStorage.getItem("token");
-           const userId = localStorage.getItem("userId");
+                    await api.post(
+                        `/recommendation-feedbacks/${userId}/${hobbyId}`,
+                        { tipo },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
 
-           if (!token || !userId) {
-               localStorage.clear();
-               navigate("/login");
-               return;
-           }
+                    setRecommendations((atuais) =>
+                        atuais.filter((recommendation) => recommendation.hobbyId !== hobbyId)
+                    );
 
-           const response = await api.get(`/recommendations/${userId}`, {
-               headers: {
-                 Authorization: `Bearer ${token}`,
-               },
-             },
-           );
+                } catch (error) {
+                    console.error("Erro ao registrar feedback:", error);
+                }
+            }
 
-           console.log("Recomendações recebidas:", response.data);
-           setRecommendations(response.data);
-         } catch (error) {
-           console.error(error);
-           console.error("status:", error.response?.status);
-           console.error("Resposta:", error.response?.data);
+    useEffect(() => {
+        async function carregarRecomendacoes() {
+          try {
+            setLoading(true);
 
-             if (error.response?.status === 401 || error.response?.status === 403) {
-                 localStorage.clear();
-                 navigate("/login");
-                 return;
-             }
+            const token = localStorage.getItem("token");
+            const userId = localStorage.getItem("userId");
 
-           if (error.response?.status === 404) { navigate("/profile"); return; }
-           setErro("Não foi possível carregar as recomendações");
-         } finally {
-           setLoading(false);
-         }
-       }
+            if (!token || !userId) {
+                localStorage.clear();
+                navigate("/login");
+                return;
+            }
 
-       async function registrarFeedback(hobbyId, tipo) {
-           try {
-               const userId = localStorage.getItem("userId");
-               const token = localStorage.getItem("token");
+            const response = await api.get(`/recommendations/${userId}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+            );
 
-               await api.post(
-                   `/recommendation-feedbacks/${userId}/${hobbyId}`,
-                   { tipo },
-                   {
-                       headers: {
-                           Authorization: `Bearer ${token}`,
-                       },
-                   }
-               );
+            console.log("Recomendações recebidas:", response.data);
+            setRecommendations(response.data);
+          } catch (error) {
+            console.error(error);
+            console.error("status:", error.response?.status);
+            console.error("Resposta:", error.response?.data);
 
-               setRecommendations((atuais) =>
-                   atuais.filter((r) => r.hobbyId !== hobbyId)
-               );
+              if (error.response?.status === 401 || error.response?.status === 403) {
+                  localStorage.clear();
+                  navigate("/login");
+                  return;
+              }
 
-           } catch (error) {
-               console.error("Erro ao registrar feedback:", error);
-           }
-       }
+            if (error.response?.status === 404) { navigate("/profile"); return; }
+            setErro("Não foi possível carregar as recomendações");
+          } finally {
+            setLoading(false);
+          }
+        }
 
-       carregarRecomendacoes();
-     }, [navigate]);
+        carregarRecomendacoes();
+      }, [navigate]);
+
+      if (loading) {
+          return (
+              <main className="recommendations-page">
+                  <div className="recommendation-loading">
+                      <p>Carregando recomendações...</p>
+                  </div>
+              </main>
+          );
+      }
+
+      if (erro) {
+          return (
+              <main className="recommendations-page">
+                  <div className="recommendation-error">
+                      <p>{erro}</p>
+                  </div>
+              </main>
+          );
+      }
+
+        return (
+            <main className="recommendations-page">
+                <div className="recommendations-container">
+                    <header className="recommendations-header">
+                        <div>
+                            <p className="recommendations-subtitle">
+                                Hobbies sugeridos com base no seu perfil, interesses e preferências.
+                            </p>
+                        </div>
 
 
-     return (
-             <section>
-                 <h2>Descobrir hobbies</h2>
+                    </header>
 
-                 <div className="recommendations-grid">
+                    {recommendations.length === 0 ? (
+                        <div className="recommendation-empty">
+                            <h2>Nenhuma recomendação encontrada</h2>
+                            <p>
+                                Ainda não encontramos sugestões para o seu perfil.
+                            </p>
+                        </div>
+                    ) : (
+                        <section className="recommendations-grid">
+                            {recommendations.map((item) => (
+                                <article className="recommendation-card"
+                                         key={item.hobbyId}
+                                         onClick={() => navigate(`/recommendations/${item.hobbyId}`)}
+                                >
+                                    <div className="recommendation-card-header">
+                    <span className="recommendation-category">
+                      {item.categoria}
+                    </span>
 
-                     {recommendations.map((recommendation) => (
+                                        <span className="recommendation-score">
+                      {item.score} pts
+                    </span>
+                                    </div>
 
-                         <div
-                             key={recommendation.hobbyId}
-                             className="recommendation-card"
-                             onClick={() =>
-                                 navigate(
-                                     `/recommendations/${recommendation.hobbyId}`
-                                 )
-                             }
-                         >
-                             <h3>
-                                 {recommendation.nome}
-                             </h3>
+                                    <h2 className="recommendation-name">{item.nome}</h2>
 
-                             <p>
-                                 {recommendation.descricao}
-                             </p>
+                                    <p className="recommendation-description">
+                                        {item.descricao}
+                                    </p>
 
-                             <p>
-                                 <strong>Categoria:</strong>{" "}
-                                 {recommendation.categoria}
-                             </p>
+                                    <div className="recommendation-reason">
+                                        {(item.motivos || []).slice(0, 3).map((motivo) => <p key={motivo}>• {motivo}</p>)}
+                                        {(item.alertas || []).slice(0, 1).map((alerta) => <p key={alerta}>⚠ {alerta}</p>)}
+                                    </div>
 
-                             <p>
-                                 <strong>Score:</strong>{" "}
-                                 {recommendation.score}
-                             </p>
 
-                             {recommendation.motivos?.length > 0 && (
-                                 <div>
-                                     <strong>
-                                         Por que recomendamos:
-                                     </strong>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
 
-                                     <ul>
-                                         {recommendation.motivos.map(
-                                             (motivo, index) => (
-                                                 <li key={index}>
-                                                     {motivo}
-                                                 </li>
-                                             )
-                                         )}
-                                     </ul>
-                                 </div>
-                             )}
+                                            registrarFeedback(
+                                                item.hobbyId,
+                                                "NAO_INTERESSADO"
+                                            );
+                                        }}
+                                    >
+                                        Não me interessa
+                                    </button>
 
-                             {recommendation.alertas?.length > 0 && (
-                                 <div>
-                                     <strong>
-                                         Pontos a considerar:
-                                     </strong>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
 
-                                     <ul>
-                                         {recommendation.alertas.map(
-                                             (alerta, index) => (
-                                                 <li key={index}>
-                                                     {alerta}
-                                                 </li>
-                                             )
-                                         )}
-                                     </ul>
-                                 </div>
-                             )}
+                                            registrarFeedback(
+                                                item.hobbyId,
+                                                "INTERESSADO"
+                                            );
+                                        }}
+                                    >
+                                        Tenho interesse
+                                    </button>
 
-                             <div>
-                                 <button
-                                     type="button"
-                                     onClick={(e) => {
-                                         e.stopPropagation();
 
-                                         registrarFeedback(
-                                             recommendation.hobbyId,
-                                             "NAO_INTERESSADO"
-                                         );
-                                     }}
-                                 >
-                                     Não me interessa
-                                 </button>
-
-                                 <button
-                                     type="button"
-                                     onClick={(e) => {
-                                         e.stopPropagation();
-
-                                         registrarFeedback(
-                                             recommendation.hobbyId,
-                                             "INTERESSADO"
-                                         );
-                                     }}
-                                 >
-                                     Tenho interesse
-                                 </button>
-                             </div>
-
-                         </div>
-                     ))}
-
-                 </div>
-             </section>
-         );
-}
+                                </article>
+                            ))}
+                        </section>
+                    )}
+                </div>
+            </main>
+        );
+    }
