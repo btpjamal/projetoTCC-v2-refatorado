@@ -2,6 +2,7 @@ package dev.jamal.projetotcc.Service;
 
 import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO;
 import dev.jamal.projetotcc.Entities.*;
+import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
 import dev.jamal.projetotcc.Exception.BusinessException;
 import dev.jamal.projetotcc.Repository.*;
@@ -104,12 +105,22 @@ public class RecommendationFeedbackService {
 
                     Hobby hobby = feedback.getHobby();
 
+                    NivelExperiencia nivelAtual =
+                            userHobbyRepository
+                                    .findByUser_IdAndHobby_Id(
+                                            userId,
+                                            hobby.getId()
+                                    )
+                                    .map(UserHobby::getNivelAtual)
+                                    .orElse(null);
+
                     return new RecommendationFeedbackResponseDTO(
                             hobby.getId(),
                             hobby.getNome(),
                             hobby.getDescricao(),
                             hobby.getCategory().getNome(),
-                            feedback.getTipo()
+                            feedback.getTipo(),
+                            nivelAtual
                     );
                 })
                 .toList();
