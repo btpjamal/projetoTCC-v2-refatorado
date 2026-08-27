@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../../api/api";
+import "../../pages/css/Recommendations.css";
 
 export default function InterestedTab() {
 
@@ -122,18 +123,7 @@ export default function InterestedTab() {
                             {hobby.categoria}
                         </p>
 
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
 
-                                navigate(
-                                    `/recommendations/${hobby.hobbyId}`
-                                );
-                            }}
-                        >
-                            Ver detalhes
-                        </button>
                         <button
                             type="button"
                             onClick={(e) => {
