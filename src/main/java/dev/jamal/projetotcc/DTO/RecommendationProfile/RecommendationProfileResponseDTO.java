@@ -6,6 +6,8 @@ import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.NivelSocial;
 
+import java.util.List;
+
 public class RecommendationProfileResponseDTO {
 
     private Long id;
@@ -18,6 +20,8 @@ public class RecommendationProfileResponseDTO {
     private AmbientePreferido ambientePreferido;
     private FormatoPreferido formatoPreferido;
     private Boolean questionarioConcluido;
+    private List<Long> interestIds;
+    private List<Long> objectiveIds;
 
     public RecommendationProfileResponseDTO(
             Long id,
@@ -29,7 +33,9 @@ public class RecommendationProfileResponseDTO {
             NivelAtividadeFisica nivelAtividadeFisicaDesejada,
             AmbientePreferido ambientePreferido,
             FormatoPreferido formatoPreferido,
-            Boolean questionarioConcluido
+            Boolean questionarioConcluido,
+            List interestIds,
+            List objectiveIds
     ) {
         this.id = id;
         this.userId = userId;
@@ -41,6 +47,8 @@ public class RecommendationProfileResponseDTO {
         this.ambientePreferido = ambientePreferido;
         this.formatoPreferido = formatoPreferido;
         this.questionarioConcluido = questionarioConcluido;
+        this.interestIds = interestIds;
+        this.objectiveIds = objectiveIds;
     }
 
     public Long getId() {
@@ -81,5 +89,21 @@ public class RecommendationProfileResponseDTO {
 
     public Boolean getQuestionarioConcluido() {
         return questionarioConcluido;
+    }
+
+    public List<Long> getInterestIds() {
+        return interestIds;
+    }
+
+    public void setInterestIds(List<Long> interestIds) {
+        this.interestIds = interestIds;
+    }
+
+    public List<Long> getObjectiveIds() {
+        return objectiveIds;
+    }
+
+    public void setObjectiveIds(List<Long> objectiveIds) {
+        this.objectiveIds = objectiveIds;
     }
 }
