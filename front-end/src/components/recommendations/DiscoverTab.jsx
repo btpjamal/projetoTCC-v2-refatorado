@@ -125,7 +125,10 @@ export default function DiscoverTab() {
                             {recommendations.map((item) => (
                                 <article className="recommendation-card"
                                          key={item.hobbyId}
-                                         onClick={() => navigate(`/recommendations/${item.hobbyId}`)}
+                                         /* dá pra colocar algum redirecionamento aqui */
+                                         /* pra ter alguma interação na tela de descobrimentos */
+                                         /* alguma imagem gerada por i.a, talvez */
+                                         onClick={() => navigate()}
                                 >
                                     <div className="recommendation-card-header">
                     <span className="recommendation-category">
