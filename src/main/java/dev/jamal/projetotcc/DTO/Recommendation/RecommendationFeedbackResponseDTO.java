@@ -1,5 +1,6 @@
 package dev.jamal.projetotcc.DTO.Recommendation;
 
+import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
 
 public record RecommendationFeedbackResponseDTO (
@@ -8,5 +9,6 @@ public record RecommendationFeedbackResponseDTO (
     String nome,
     String descricao,
     String categoria,
-    RecommendationFeedbackType tipo
+    RecommendationFeedbackType tipo,
+    NivelExperiencia nivelAtual
 ) {}
