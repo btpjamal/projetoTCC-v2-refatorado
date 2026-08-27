@@ -1,14 +1,10 @@
 package dev.jamal.projetotcc.Service;
 
 import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO;
-import dev.jamal.projetotcc.Entities.Hobby;
-import dev.jamal.projetotcc.Entities.User;
-import dev.jamal.projetotcc.Entities.UserRecommendationFeedback;
+import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
 import dev.jamal.projetotcc.Exception.BusinessException;
-import dev.jamal.projetotcc.Repository.HobbyRepository;
-import dev.jamal.projetotcc.Repository.UserRecommendationFeedbackRepository;
-import dev.jamal.projetotcc.Repository.UserRepository;
+import dev.jamal.projetotcc.Repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +19,8 @@ public class RecommendationFeedbackService {
     private final UserRepository userRepository;
     private final HobbyRepository hobbyRepository;
     private final UserRecommendationFeedbackRepository feedbackRepository;
+    private final UserHobbyRepository userHobbyRepository;
+    private final RecommendationProfileRepository recommendationProfileRepository;
 
     @Transactional
     public void registrar(
@@ -51,6 +49,46 @@ public class RecommendationFeedbackService {
         feedback.setCreatedAt(LocalDateTime.now());
 
         feedbackRepository.save(feedback);
+
+        if (tipo == RecommendationFeedbackType.INTERESSADO){
+            garantirUserHobby(user, hobby);
+        }
+    }
+
+    private void garantirUserHobby(
+            User user,
+            Hobby hobby
+    ) {
+       boolean jaExiste =
+               userHobbyRepository
+                       .findByUser_IdAndHobby_Id(
+                               user.getId(),
+                               hobby.getId()
+                       )
+                       .isPresent();
+
+       if (jaExiste) {
+           return;
+       }
+
+        RecommendationProfile profile =
+                recommendationProfileRepository
+                        .findByUserId(user.getId())
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Perfil de recomendação não encontrado"
+                                )
+                        );
+
+        UserHobby userHobby = new UserHobby();
+
+        userHobby.setUser(user);
+        userHobby.setHobby(hobby);
+        userHobby.setNivelAtual(
+                profile.getNivelExperiencia()
+        );
+
+        userHobbyRepository.save(userHobby);
     }
 
     @Transactional
