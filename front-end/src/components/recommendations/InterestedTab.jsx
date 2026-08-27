@@ -79,6 +79,47 @@ export default function InterestedTab() {
                 }
             }
 
+    async function atualizarNivel(hobbyId, nivelAtual) {
+        try {
+            const userId = localStorage.getItem("userId");
+            const token = localStorage.getItem("token");
+
+            await api.patch(
+                `/user-hobbies/${userId}/${hobbyId}/nivel`,
+                {
+                    nivelAtual
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setHobbies((atuais) =>
+                atuais.map((hobby) =>
+                    hobby.hobbyId === hobbyId
+                        ? {
+                            ...hobby,
+                            nivelAtual: nivelAtual
+                        }
+                        : hobby
+                )
+            );
+
+        } catch (error) {
+            console.error(
+                "Erro ao atualizar nível do hobby:",
+                error
+            );
+
+            setErro(
+                "Não foi possível atualizar seu nível."
+            );
+        }
+    }
+
+
     if (loading) {
         return <p>Carregando hobbies...</p>;
     }
@@ -122,6 +163,38 @@ export default function InterestedTab() {
                             <strong>Categoria:</strong>{" "}
                             {hobby.categoria}
                         </p>
+
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <label>
+                                <strong>Meu nível:</strong>{" "}
+
+                                <select
+                                    value={hobby.nivelAtual ?? "INICIANTE"}
+                                    onChange={(e) => {
+                                        e.stopPropagation();
+
+                                        atualizarNivel(
+                                            hobby.hobbyId,
+                                            e.target.value
+                                        );
+                                    }}
+                                >
+                                    <option value="INICIANTE">
+                                        Iniciante
+                                    </option>
+
+                                    <option value="INTERMEDIARIO">
+                                        Intermediário
+                                    </option>
+
+                                    <option value="AVANCADO">
+                                        Avançado
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
 
 
                         <button
