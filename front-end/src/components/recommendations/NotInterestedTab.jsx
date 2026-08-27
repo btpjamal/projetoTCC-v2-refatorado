@@ -107,11 +107,6 @@ export default function NotInterestedTab() {
                         <div
                             key={hobby.hobbyId}
                             className="recommendation-card"
-                            onClick={() =>
-                                navigate(
-                                    `/recommendations/${hobby.hobbyId}`
-                                )
-                            }
                         >
                             <h3>{hobby.nome}</h3>
 
