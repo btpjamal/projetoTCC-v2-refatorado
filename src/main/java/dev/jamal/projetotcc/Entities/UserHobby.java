@@ -1,9 +1,9 @@
 package dev.jamal.projetotcc.Entities;
 
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
+import dev.jamal.projetotcc.Enum.UserHobbyStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.time.LocalDateTime;
 
@@ -39,6 +39,10 @@ public class UserHobby {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NivelExperiencia nivelAtual;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserHobbyStatus statusAtual;
 
     @Column(nullable = false)
     private LocalDateTime criadoEm;
@@ -93,5 +97,13 @@ public class UserHobby {
 
     public LocalDateTime getAtualizadoEm() {
         return atualizadoEm;
+    }
+
+    public UserHobbyStatus getStatusAtual() {
+        return statusAtual;
+    }
+
+    public void setStatusAtual(UserHobbyStatus statusAtual) {
+        this.statusAtual = statusAtual;
     }
 }

@@ -3,6 +3,7 @@ package dev.jamal.projetotcc.Service;
 import dev.jamal.projetotcc.DTO.UserHobby.UserHobbyResponseDTO;
 import dev.jamal.projetotcc.Entities.UserHobby;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
+import dev.jamal.projetotcc.Enum.UserHobbyStatus;
 import dev.jamal.projetotcc.Exception.BusinessException;
 import dev.jamal.projetotcc.Repository.UserHobbyRepository;
 import jakarta.transaction.Transactional;
@@ -39,7 +40,40 @@ public class UserHobbyService {
         return new UserHobbyResponseDTO(
                 salvo.getHobby().getId(),
                 salvo.getHobby().getNome(),
-                salvo.getNivelAtual()
+                salvo.getNivelAtual(),
+                salvo.getStatusAtual()
+        );
+    }
+
+    @Transactional
+    public UserHobbyResponseDTO atualizarStatus(
+            Long userId,
+            Long hobbyId,
+            UserHobbyStatus statusAtual
+    ) {
+
+        UserHobby userHobby =
+                userHobbyRepository
+                        .findByUser_IdAndHobby_Id(
+                                userId,
+                                hobbyId
+                        )
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Hobby não encontrado para este usuário."
+                                )
+                        );
+
+        userHobby.setStatusAtual(statusAtual);
+
+        UserHobby salvo =
+                userHobbyRepository.save(userHobby);
+
+        return new UserHobbyResponseDTO(
+                salvo.getHobby().getId(),
+                salvo.getHobby().getNome(),
+                salvo.getNivelAtual(),
+                salvo.getStatusAtual()
         );
     }
 }

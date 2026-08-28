@@ -96,6 +96,8 @@ export default function InterestedTab() {
                 }
             );
 
+            await carregarInteressados();
+
             setHobbies((atuais) =>
                 atuais.map((hobby) =>
                     hobby.hobbyId === hobbyId
@@ -115,6 +117,46 @@ export default function InterestedTab() {
 
             setErro(
                 "Não foi possível atualizar seu nível."
+            );
+        }
+    }
+
+    async function atualizarStatus(hobbyId, statusAtual) {
+        try {
+            const userId = localStorage.getItem("userId");
+            const token = localStorage.getItem("token");
+
+            await api.patch(
+                `/user-hobbies/${userId}/${hobbyId}/status`,
+                {
+                    statusAtual
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setHobbies((atuais) =>
+                atuais.map((hobby) =>
+                    hobby.hobbyId === hobbyId
+                        ? {
+                            ...hobby,
+                            statusAtual
+                        }
+                        : hobby
+                )
+            );
+
+        } catch (error) {
+            console.error(
+                "Erro ao atualizar status do hobby:",
+                error
+            );
+
+            setErro(
+                "Não foi possível atualizar a situação do hobby."
             );
         }
     }
@@ -193,6 +235,40 @@ export default function InterestedTab() {
 
                                     <option value="AVANCADO">
                                         Avançado
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <label>
+                                <strong>Situação atual:</strong>{" "}
+
+                                <select
+                                    value={
+                                        hobby.statusAtual ?? "INTERESSADO"
+                                    }
+                                    onChange={(e) => {
+                                        e.stopPropagation();
+
+                                        atualizarStatus(
+                                            hobby.hobbyId,
+                                            e.target.value
+                                        );
+                                    }}
+                                >
+                                    <option value="INTERESSADO">
+                                        Tenho interesse
+                                    </option>
+
+                                    <option value="PRATICANDO">
+                                        Estou praticando
+                                    </option>
+
+                                    <option value="PAUSADO">
+                                        Está pausado
                                     </option>
                                 </select>
                             </label>

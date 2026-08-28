@@ -2,6 +2,7 @@ package dev.jamal.projetotcc.Service.recommendation.criteria;
 
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
+import dev.jamal.projetotcc.Enum.UserHobbyStatus;
 import dev.jamal.projetotcc.Repository.HobbyInterestRepository;
 import dev.jamal.projetotcc.Repository.UserHobbyRepository;
 import dev.jamal.projetotcc.Service.recommendation.model.CriterionResult;
@@ -81,7 +82,12 @@ public class ExperienceAffinityCriterion implements RecommendationCriterion{
                             userHobby.getNivelAtual()
                     );
 
-            pontos += quantidadeEmComum * pesoExperiencia;
+            double pesoStatus =
+                    obterPesoStatus(
+                            userHobby.getStatusAtual()
+                    );
+
+            pontos += quantidadeEmComum * pesoExperiencia * pesoStatus;
         }
 
         pontos = Math.min(pontos, 8);
@@ -92,7 +98,7 @@ public class ExperienceAffinityCriterion implements RecommendationCriterion{
 
         return CriterionResult.of(
                 pontos,
-                "Combina com hobbies nos quais você já possui experiência"
+                "Combina com hobbies nos quais você já possui experiência e prática atual"
         );
     }
 
@@ -107,6 +113,20 @@ public class ExperienceAffinityCriterion implements RecommendationCriterion{
             case INICIANTE -> 1.0;
             case INTERMEDIARIO -> 1.5;
             case AVANCADO -> 2.0;
+        };
+    }
+
+    private double obterPesoStatus(
+            UserHobbyStatus status
+    ) {
+        if (status == null) {
+            return 0;
+        }
+
+        return switch (status) {
+            case INTERESSADO -> 0.5;
+            case PAUSADO -> 0.75;
+            case PRATICANDO -> 1.0;
         };
     }
 }

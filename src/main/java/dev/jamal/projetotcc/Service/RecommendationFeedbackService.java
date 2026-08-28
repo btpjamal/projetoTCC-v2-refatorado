@@ -5,6 +5,7 @@ import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
+import dev.jamal.projetotcc.Enum.UserHobbyStatus;
 import dev.jamal.projetotcc.Exception.BusinessException;
 import dev.jamal.projetotcc.Repository.*;
 import jakarta.transaction.Transactional;
@@ -90,6 +91,9 @@ public class RecommendationFeedbackService {
         userHobby.setNivelAtual(
                 profile.getNivelExperiencia()
         );
+        userHobby.setStatusAtual(
+                UserHobbyStatus.INTERESSADO
+        );
 
         userHobbyRepository.save(userHobby);
     }
@@ -107,14 +111,23 @@ public class RecommendationFeedbackService {
 
                     Hobby hobby = feedback.getHobby();
 
-                    NivelExperiencia nivelAtual =
+                    UserHobby userHobby =
                             userHobbyRepository
                                     .findByUser_IdAndHobby_Id(
                                             userId,
                                             hobby.getId()
                                     )
-                                    .map(UserHobby::getNivelAtual)
                                     .orElse(null);
+
+                    NivelExperiencia nivelAtual =
+                            userHobby != null
+                                    ? userHobby.getNivelAtual()
+                                    : null;
+
+                    UserHobbyStatus statusAtual =
+                            userHobby != null
+                                    ? userHobby.getStatusAtual()
+                                    : null;
 
                     HobbyRecommendationDTO recomendacao =
                             recommendationService.calcularRecomendacao(
@@ -129,6 +142,7 @@ public class RecommendationFeedbackService {
                             hobby.getCategory().getNome(),
                             feedback.getTipo(),
                             nivelAtual,
+                            statusAtual,
                             recomendacao.getScore()
                     );
                 })
