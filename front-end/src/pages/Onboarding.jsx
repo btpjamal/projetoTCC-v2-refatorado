@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { api } from "../api/api";
 import "./css/Onboarding.css";
 
@@ -86,7 +86,8 @@ const perguntas = [
 
 export default function Onboarding() {
     const navigate = useNavigate();
-
+    const [searchParams] = useSearchParams();
+    const modoEdicao = searchParams.get("editar") === "true";
     const [objetivos, setObjetivos] = useState([]);
     const [objetivosSelecionados, setObjetivosSelecionados] = useState([]);
 
@@ -94,6 +95,12 @@ export default function Onboarding() {
         async function carregarDados() {
             try {
                 const token = localStorage.getItem("token");
+                const userId = localStorage.getItem("userId");
+
+                if(!token || !userId) {
+                    navigate("/login");
+                    return;
+                }
 
                 const [objetivosResponse, interessesResponse] =
                                 await Promise.all([
@@ -113,16 +120,70 @@ export default function Onboarding() {
                             setObjetivos(objetivosResponse.data);
                             setInteresses(interessesResponse.data);
 
+                if (modoEdicao) {
+                                const profileResponse = await api.get(
+                                    `/recommendation-profiles/${userId}`,
+                                    {
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    }
+                                );
+
+                                const dados = profileResponse.data;
+
+                                setProfile({
+                                    tempoDisponivelSemanal:
+                                        dados.tempoDisponivelSemanal,
+
+                                    orcamentoInicial:
+                                        dados.orcamentoInicial,
+
+                                    nivelSocial:
+                                        dados.nivelSocial,
+
+                                    nivelExperiencia:
+                                        dados.nivelExperiencia,
+
+                                    nivelAtividadeFisicaDesejada:
+                                        dados.nivelAtividadeFisicaDesejada,
+
+                                    ambientePreferido:
+                                        dados.ambientePreferido,
+
+                                    formatoPreferido:
+                                        dados.formatoPreferido,
+
+                                    interestIds:
+                                        dados.interestIds ?? [],
+
+                                    objectiveIds:
+                                        dados.objectiveIds ?? []
+                                });
+
+                                setInteressesSelecionados(
+                                    dados.interestIds ?? []
+                                );
+
+                                setObjetivosSelecionados(
+                                    dados.objectiveIds ?? []
+                                );
+                            }
+
             } catch (error) {
                 console.error(
                     "Erro ao carregar dados do onboarding:",
                     error
                 );
+
+                setErro(
+                    "Não foi possível carregar as suas preferências"
+                );
             }
         }
 
         carregarDados();
-    }, []);
+    }, [modoEdicao, navigate]);
 
     function alternarObjetivo(id) {
         setObjetivosSelecionados((atuais) => {
@@ -233,7 +294,13 @@ export default function Onboarding() {
 
     function voltar() {
         if (etapa === 0) {
-            navigate("/login");
+
+            if (modoEdicao) {
+                navigate("/recommendations");
+            } else {
+                navigate("/login");
+            }
+
             return;
         }
 
@@ -402,7 +469,10 @@ export default function Onboarding() {
 
                 {enviando && (
                     <p className="onboarding-message">
-                        Preparando suas recomendações...
+                        {modoEdicao
+                            ? "Atualizando suas preferências..."
+                            : "Preparando suas recomendações..."
+                        }
                     </p>
                 )}
 

@@ -10,5 +10,6 @@ public record RecommendationFeedbackResponseDTO (
     String descricao,
     String categoria,
     RecommendationFeedbackType tipo,
-    NivelExperiencia nivelAtual
+    NivelExperiencia nivelAtual,
+    Double score
 ) {}

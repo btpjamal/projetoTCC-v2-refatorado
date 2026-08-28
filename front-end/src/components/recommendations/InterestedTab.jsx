@@ -159,6 +159,8 @@ export default function InterestedTab() {
 
                         <p>{hobby.descricao}</p>
 
+                        <p>{hobby.score} pts</p>
+
                         <p>
                             <strong>Categoria:</strong>{" "}
                             {hobby.categoria}

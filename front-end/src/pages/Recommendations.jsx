@@ -35,6 +35,14 @@ export default function Recommendations() {
                         >
                             Sair
                         </button>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                navigate("/onboarding?editar=true")
+                            }
+                        >
+                            Atualizar preferências
+                        </button>
                     </div>
             </header>
 

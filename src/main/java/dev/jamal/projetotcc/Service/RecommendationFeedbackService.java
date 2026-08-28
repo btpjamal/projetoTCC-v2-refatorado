@@ -1,5 +1,6 @@
 package dev.jamal.projetotcc.Service;
 
+import dev.jamal.projetotcc.DTO.Recommendation.HobbyRecommendationDTO;
 import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackResponseDTO;
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
@@ -22,6 +23,7 @@ public class RecommendationFeedbackService {
     private final UserRecommendationFeedbackRepository feedbackRepository;
     private final UserHobbyRepository userHobbyRepository;
     private final RecommendationProfileRepository recommendationProfileRepository;
+    private final RecommendationService recommendationService;
 
     @Transactional
     public void registrar(
@@ -114,13 +116,20 @@ public class RecommendationFeedbackService {
                                     .map(UserHobby::getNivelAtual)
                                     .orElse(null);
 
+                    HobbyRecommendationDTO recomendacao =
+                            recommendationService.calcularRecomendacao(
+                                    userId,
+                                    feedback.getHobby().getId()
+                            );
+
                     return new RecommendationFeedbackResponseDTO(
                             hobby.getId(),
                             hobby.getNome(),
                             hobby.getDescricao(),
                             hobby.getCategory().getNome(),
                             feedback.getTipo(),
-                            nivelAtual
+                            nivelAtual,
+                            recomendacao.getScore()
                     );
                 })
                 .toList();

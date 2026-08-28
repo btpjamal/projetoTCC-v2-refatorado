@@ -3,6 +3,7 @@ package dev.jamal.projetotcc.Service;
 import dev.jamal.projetotcc.DTO.Recommendation.HobbyRecommendationDTO;
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.*;
+import dev.jamal.projetotcc.Exception.BusinessException;
 import dev.jamal.projetotcc.Exception.ResourceNotFoundException;
 import dev.jamal.projetotcc.Mapper.RecommendationMapper;
 import dev.jamal.projetotcc.Repository.*;
@@ -45,52 +46,18 @@ public class RecommendationService {
                 .map(feedback -> feedback.getHobby().getId())
                 .collect(Collectors.toSet());
 
-//        //
-//        System.out.println("USER ID: " + userId);
-//        System.out.println("FEEDBACKS DE RECOMENDACAO: " + feedbacksRecomendacao.size());
-//        System.out.println("HOBBIES DECIDIDOS: " + hobbiesDecididos);
-//        //
         return hobbyRepository.findAllWithCategory()
                 .stream()
                 .filter(h -> !avaliados.contains(h.getId()))
                 .filter(h -> !hobbiesDecididos.contains(h.getId()))
-                .map(h -> {
-
-            List<CriterionResult> rs = criterios.stream()
-                    .map(c ->
-                            c.avaliar(
-                                    h,
-                                    p,
-                                    interesses,
-                                    feedbacks
-                            )
-                    )
-                    .toList();
-
-
-
-            double score = rs.stream()
-                    .mapToDouble(CriterionResult::pontos)
-                    .sum();
-
-            List<String> motivos = rs.stream()
-                    .flatMap(r -> r.motivos().stream())
-                    .distinct()
-                    .toList();
-
-            List<String> alertas = rs.stream()
-                    .flatMap(r -> r.alertas().stream())
-                    .distinct()
-                    .toList();
-
-
-            return mapper.toDTO(
-                    h,
-                    score,
-                    motivos,
-                    alertas
-            );
-                })
+                .map(h ->
+                        avaliarHobby(
+                                h,
+                                p,
+                                interesses,
+                                feedbacks
+                        )
+                )
                 .sorted(
                         Comparator
                                 .comparing(HobbyRecommendationDTO::getScore)
@@ -98,5 +65,92 @@ public class RecommendationService {
                 )
                 .limit(20)
                 .toList();
+
+    }
+
+    public HobbyRecommendationDTO calcularRecomendacao(
+            Long userId,
+            Long hobbyId
+    ) {
+        RecommendationProfile perfil =
+                recommendationProfileRepository
+                        .findByUserId(userId)
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Perfil de recomendação não encontrado."
+                                )
+                        );
+
+        Hobby hobby =
+                hobbyRepository
+                        .findById(hobbyId)
+                        .orElseThrow(() ->
+                                new BusinessException(
+                                        "Hobby não encontrado."
+                                )
+                        );
+
+        List<UserInterest> interesses =
+                userInterestRepository
+                        .findByUserIdWithInterest(userId);
+
+        List<UserHobbyFeedback> feedbacks =
+                feedbackRepository
+                        .buscarComHobbyEUsuario(userId);
+
+        return avaliarHobby(
+                hobby,
+                perfil,
+                interesses,
+                feedbacks
+        );
+    }
+
+    private HobbyRecommendationDTO avaliarHobby(
+            Hobby hobby,
+            RecommendationProfile perfil,
+            List<UserInterest> interesses,
+            List<UserHobbyFeedback> feedbacks
+    ) {
+
+        List<CriterionResult> resultados =
+                criterios.stream()
+                        .map(criterio ->
+                                criterio.avaliar(
+                                        hobby,
+                                        perfil,
+                                        interesses,
+                                        feedbacks
+                                )
+                        )
+                        .toList();
+
+        double score =
+                resultados.stream()
+                        .mapToDouble(CriterionResult::pontos)
+                        .sum();
+
+        List<String> motivos =
+                resultados.stream()
+                        .flatMap(resultado ->
+                                resultado.motivos().stream()
+                        )
+                        .distinct()
+                        .toList();
+
+        List<String> alertas =
+                resultados.stream()
+                        .flatMap(resultado ->
+                                resultado.alertas().stream()
+                        )
+                        .distinct()
+                        .toList();
+
+        return mapper.toDTO(
+                hobby,
+                score,
+                motivos,
+                alertas
+        );
     }
 }
