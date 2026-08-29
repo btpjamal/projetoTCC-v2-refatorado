@@ -22,6 +22,8 @@ public class RecommendationProfileResponseDTO {
     private Boolean questionarioConcluido;
     private List<Long> interestIds;
     private List<Long> objectiveIds;
+    private String cidade;
+    private String estado;
 
     public RecommendationProfileResponseDTO(
             Long id,
@@ -35,7 +37,9 @@ public class RecommendationProfileResponseDTO {
             FormatoPreferido formatoPreferido,
             Boolean questionarioConcluido,
             List interestIds,
-            List objectiveIds
+            List objectiveIds,
+            String cidade,
+            String estado
     ) {
         this.id = id;
         this.userId = userId;
@@ -49,6 +53,8 @@ public class RecommendationProfileResponseDTO {
         this.questionarioConcluido = questionarioConcluido;
         this.interestIds = interestIds;
         this.objectiveIds = objectiveIds;
+        this.cidade = cidade;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -105,5 +111,25 @@ public class RecommendationProfileResponseDTO {
 
     public void setObjectiveIds(List<Long> objectiveIds) {
         this.objectiveIds = objectiveIds;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

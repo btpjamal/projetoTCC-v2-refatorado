@@ -43,6 +43,14 @@ public class RecommendationProfileMapper {
                 dto.getFormatoPreferido()
         );
 
+        profile.setCidade(
+                dto.getCidade().trim()
+        );
+
+        profile.setEstado(
+                dto.getEstado().trim().toUpperCase()
+        );
+
         return profile;
     }
 
@@ -77,6 +85,14 @@ public class RecommendationProfileMapper {
         profile.setFormatoPreferido(
                 dto.getFormatoPreferido()
         );
+
+        profile.setCidade(
+                dto.getCidade().trim()
+        );
+
+        profile.setEstado(
+                dto.getEstado().trim().toUpperCase()
+        );
     }
 
     public RecommendationProfileResponseDTO toResponseDTO(
@@ -96,7 +112,9 @@ public class RecommendationProfileMapper {
                 profile.getFormatoPreferido(),
                 profile.getQuestionarioConcluido(),
                 interestIds,
-                objectiveIds
+                objectiveIds,
+                profile.getCidade(),
+                profile.getEstado()
         );
     }
 }

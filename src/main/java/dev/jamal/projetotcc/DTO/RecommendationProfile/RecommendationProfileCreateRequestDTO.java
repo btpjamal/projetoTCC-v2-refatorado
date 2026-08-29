@@ -5,9 +5,7 @@ import dev.jamal.projetotcc.Enum.FormatoPreferido;
 import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.NivelSocial;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -39,6 +37,13 @@ public class RecommendationProfileCreateRequestDTO {
     private List<Long> interestIds;
 
     private List<Long> objectiveIds;
+
+    @NotBlank(message = "A cidade é obrigatória.")
+    private String cidade;
+
+    @NotBlank(message = "O estado é obrigatório.")
+    @Size(min = 2, max = 2, message = "Informe a sigla do estado.")
+    private String estado;
 
     public Double getTempoDisponivelSemanal() {
         return tempoDisponivelSemanal;
@@ -121,5 +126,21 @@ public class RecommendationProfileCreateRequestDTO {
 
     public void setObjectiveIds(List<Long> objectiveIds) {
         this.objectiveIds = objectiveIds;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
