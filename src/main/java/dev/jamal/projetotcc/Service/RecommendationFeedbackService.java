@@ -89,7 +89,7 @@ public class RecommendationFeedbackService {
         userHobby.setUser(user);
         userHobby.setHobby(hobby);
         userHobby.setNivelAtual(
-                profile.getNivelExperiencia()
+                NivelExperiencia.INICIANTE
         );
         userHobby.setStatusAtual(
                 UserHobbyStatus.INTERESSADO
