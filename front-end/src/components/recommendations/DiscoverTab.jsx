@@ -131,13 +131,14 @@ export default function DiscoverTab() {
                                          onClick={() => navigate()}
                                 >
                                     <div className="recommendation-card-header">
-                    <span className="recommendation-category">
-                      {item.categoria}
-                    </span>
 
-                                        <span className="recommendation-score">
-                      {item.score} pts
-                    </span>
+                                    <span className="recommendation-category">
+                                        {item.categoria}
+                                    </span>
+
+                                    <span className="recommendation-score">
+                                        {item.score} pts
+                                    </span>
                                     </div>
 
                                     <h2 className="recommendation-name">{item.nome}</h2>

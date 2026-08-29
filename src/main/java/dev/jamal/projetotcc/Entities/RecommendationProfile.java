@@ -36,6 +36,12 @@ public class RecommendationProfile {
     @Enumerated(EnumType.STRING) @Column(nullable = false)
     private NivelExperiencia nivelExperiencia;
 
+    @Column(length = 100)
+    private String cidade;
+
+    @Column(length = 2)
+    private String estado;
+
     @Column(nullable = false)
     private boolean questionarioConcluido = false;
 

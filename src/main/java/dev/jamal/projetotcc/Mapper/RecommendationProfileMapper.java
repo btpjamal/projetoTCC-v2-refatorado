@@ -5,6 +5,8 @@ import dev.jamal.projetotcc.DTO.RecommendationProfile.RecommendationProfileRespo
 import dev.jamal.projetotcc.Entities.RecommendationProfile;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RecommendationProfileMapper {
 
@@ -41,6 +43,14 @@ public class RecommendationProfileMapper {
                 dto.getFormatoPreferido()
         );
 
+        profile.setCidade(
+                dto.getCidade().trim()
+        );
+
+        profile.setEstado(
+                dto.getEstado().trim().toUpperCase()
+        );
+
         return profile;
     }
 
@@ -75,10 +85,20 @@ public class RecommendationProfileMapper {
         profile.setFormatoPreferido(
                 dto.getFormatoPreferido()
         );
+
+        profile.setCidade(
+                dto.getCidade().trim()
+        );
+
+        profile.setEstado(
+                dto.getEstado().trim().toUpperCase()
+        );
     }
 
     public RecommendationProfileResponseDTO toResponseDTO(
-            RecommendationProfile profile
+            RecommendationProfile profile,
+            List<Long> interestIds,
+            List<Long> objectiveIds
     ) {
         return new RecommendationProfileResponseDTO(
                 profile.getId(),
@@ -90,7 +110,11 @@ public class RecommendationProfileMapper {
                 profile.getNivelAtividadeFisicaDesejada(),
                 profile.getAmbientePreferido(),
                 profile.getFormatoPreferido(),
-                profile.getQuestionarioConcluido()
+                profile.getQuestionarioConcluido(),
+                interestIds,
+                objectiveIds,
+                profile.getCidade(),
+                profile.getEstado()
         );
     }
 }

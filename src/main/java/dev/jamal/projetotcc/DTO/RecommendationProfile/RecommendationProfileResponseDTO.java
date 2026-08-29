@@ -6,6 +6,8 @@ import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
 import dev.jamal.projetotcc.Enum.NivelExperiencia;
 import dev.jamal.projetotcc.Enum.NivelSocial;
 
+import java.util.List;
+
 public class RecommendationProfileResponseDTO {
 
     private Long id;
@@ -18,6 +20,10 @@ public class RecommendationProfileResponseDTO {
     private AmbientePreferido ambientePreferido;
     private FormatoPreferido formatoPreferido;
     private Boolean questionarioConcluido;
+    private List<Long> interestIds;
+    private List<Long> objectiveIds;
+    private String cidade;
+    private String estado;
 
     public RecommendationProfileResponseDTO(
             Long id,
@@ -29,7 +35,11 @@ public class RecommendationProfileResponseDTO {
             NivelAtividadeFisica nivelAtividadeFisicaDesejada,
             AmbientePreferido ambientePreferido,
             FormatoPreferido formatoPreferido,
-            Boolean questionarioConcluido
+            Boolean questionarioConcluido,
+            List interestIds,
+            List objectiveIds,
+            String cidade,
+            String estado
     ) {
         this.id = id;
         this.userId = userId;
@@ -41,6 +51,10 @@ public class RecommendationProfileResponseDTO {
         this.ambientePreferido = ambientePreferido;
         this.formatoPreferido = formatoPreferido;
         this.questionarioConcluido = questionarioConcluido;
+        this.interestIds = interestIds;
+        this.objectiveIds = objectiveIds;
+        this.cidade = cidade;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -81,5 +95,41 @@ public class RecommendationProfileResponseDTO {
 
     public Boolean getQuestionarioConcluido() {
         return questionarioConcluido;
+    }
+
+    public List<Long> getInterestIds() {
+        return interestIds;
+    }
+
+    public void setInterestIds(List<Long> interestIds) {
+        this.interestIds = interestIds;
+    }
+
+    public List<Long> getObjectiveIds() {
+        return objectiveIds;
+    }
+
+    public void setObjectiveIds(List<Long> objectiveIds) {
+        this.objectiveIds = objectiveIds;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

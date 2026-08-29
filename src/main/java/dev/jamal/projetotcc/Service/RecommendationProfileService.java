@@ -67,7 +67,25 @@ public class RecommendationProfileService {
         salvarInteresses(user, dto.getInterestIds());
         salvarObjetivos(user, dto.getObjectiveIds());
 
-        return recommendationProfileMapper.toResponseDTO(salvo);
+        List<Long> interestIds =
+                userInterestRepository
+                        .findByUserIdWithInterest(userId)
+                        .stream()
+                        .map(userInterest ->
+                                userInterest.getInterest().getId()
+                        )
+                        .toList();
+
+        List<Long> objectiveIds =
+                userObjectiveRepository
+                        .findByUserId(userId)
+                        .stream()
+                        .map(userObjective ->
+                                userObjective.getObjective().getId()
+                        )
+                        .toList();
+
+        return recommendationProfileMapper.toResponseDTO(salvo, interestIds, objectiveIds);
     }
 
     private void salvarObjetivos(
@@ -117,7 +135,21 @@ public class RecommendationProfileService {
                                 )
                         );
 
-        return recommendationProfileMapper.toResponseDTO(profile);
+        List<Long> interestIds =
+                userInterestRepository
+                        .findByUserIdWithInterest(userId)
+                        .stream()
+                        .map(ui -> ui.getInterest().getId())
+                        .toList();
+
+        List<Long> objectiveIds =
+                userObjectiveRepository
+                        .findByUserId(userId)
+                        .stream()
+                        .map(uo -> uo.getObjective().getId())
+                        .toList();
+
+        return recommendationProfileMapper.toResponseDTO(profile, interestIds, objectiveIds);
     }
 
     @Transactional(readOnly = true)
