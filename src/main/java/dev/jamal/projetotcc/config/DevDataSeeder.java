@@ -187,6 +187,8 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(ciclismo, reduzirEstresseObjective, 2);
             adicionarObjetivoAoHobby(ciclismo, diversaoObjective, 2);
             adicionarObjetivoAoHobby(ciclismo, disciplinaObjective, 1);
+            adicionarInteresseAoHobby(ciclismo, esportesInterest, 3);
+            adicionarInteresseAoHobby(ciclismo, naturezaInterest, 2);
 
 
             Hobby natacao = criarOuAtualizarHobby(
@@ -205,6 +207,8 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(natacao, condicionamentoObjective, 3);
             adicionarObjetivoAoHobby(natacao, disciplinaObjective, 2);
             adicionarObjetivoAoHobby(natacao, reduzirEstresseObjective, 2);
+            adicionarInteresseAoHobby(natacao, esportesInterest, 3);
+            adicionarInteresseAoHobby(natacao, relaxarInterest, 1);
 
 
 // =====================================================
@@ -343,6 +347,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(leitura, relaxarObjective, 2);
             adicionarObjetivoAoHobby(leitura, reduzirEstresseObjective, 1);
             adicionarObjetivoAoHobby(leitura, disciplinaObjective, 1);
+            adicionarInteresseAoHobby(leitura, literaturaInterest, 3);
+            adicionarInteresseAoHobby(leitura, aprendizadoInterest, 2);
+            adicionarInteresseAoHobby(leitura, relaxarInterest, 2);
 
 
             Hobby escrita = criarOuAtualizarHobby(
@@ -362,6 +369,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(escrita, produzirObjective, 3);
             adicionarObjetivoAoHobby(escrita, aprenderObjective, 2);
             adicionarObjetivoAoHobby(escrita, relaxarObjective, 1);
+            adicionarInteresseAoHobby(escrita, literaturaInterest, 3);
+            adicionarInteresseAoHobby(escrita, criacaoInterest, 3);
+            adicionarInteresseAoHobby(escrita, culturaInterest, 1);
 
 
             Hobby idiomas = criarOuAtualizarHobby(
@@ -381,6 +391,8 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(idiomas, disciplinaObjective, 2);
             adicionarObjetivoAoHobby(idiomas, conhecerPessoasObjective, 1);
             adicionarObjetivoAoHobby(idiomas, produzirObjective, 1);
+            adicionarInteresseAoHobby(idiomas, aprendizadoInterest, 3);
+            adicionarInteresseAoHobby(idiomas, culturaInterest, 2);
 
 
 // =====================================================
@@ -404,6 +416,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(teatro, criatividadeObjective, 3);
             adicionarObjetivoAoHobby(teatro, produzirObjective, 2);
             adicionarObjetivoAoHobby(teatro, aprenderObjective, 2);
+            adicionarInteresseAoHobby(teatro, culturaInterest, 3);
+            adicionarInteresseAoHobby(teatro, criacaoInterest, 2);
+            adicionarInteresseAoHobby(teatro, socializacaoInterest, 3);
 
 
             Hobby danca = criarOuAtualizarHobby(
@@ -423,6 +438,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(danca, conhecerPessoasObjective, 3);
             adicionarObjetivoAoHobby(danca, condicionamentoObjective, 2);
             adicionarObjetivoAoHobby(danca, criatividadeObjective, 2);
+            adicionarInteresseAoHobby(danca, musicaInterest, 2);
+            adicionarInteresseAoHobby(danca, culturaInterest, 2);
+            adicionarInteresseAoHobby(danca, socializacaoInterest, 3);
 
 
             Hobby voluntariado = criarOuAtualizarHobby(
@@ -441,6 +459,8 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(voluntariado, conhecerPessoasObjective, 3);
             adicionarObjetivoAoHobby(voluntariado, aprenderObjective, 2);
             adicionarObjetivoAoHobby(voluntariado, disciplinaObjective, 1);
+            adicionarInteresseAoHobby(voluntariado, socializacaoInterest, 3);
+            adicionarInteresseAoHobby(voluntariado, aprendizadoInterest, 1);
 
 
             Hobby clubeJogos = criarOuAtualizarHobby(
@@ -459,6 +479,8 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(clubeJogos, conhecerPessoasObjective, 3);
             adicionarObjetivoAoHobby(clubeJogos, diversaoObjective, 3);
             adicionarObjetivoAoHobby(clubeJogos, competirObjective, 2);
+            adicionarInteresseAoHobby(clubeJogos, jogosInterest, 3);
+            adicionarInteresseAoHobby(clubeJogos, socializacaoInterest, 3);
 
 
 // =====================================================
@@ -503,6 +525,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(edicaoVideo, criatividadeObjective, 3);
             adicionarObjetivoAoHobby(edicaoVideo, produzirObjective, 3);
             adicionarObjetivoAoHobby(edicaoVideo, aprenderObjective, 2);
+            adicionarInteresseAoHobby(edicaoVideo, tecnologiaInterest, 2);
+            adicionarInteresseAoHobby(edicaoVideo, artesVisuaisInterest, 3);
+            adicionarInteresseAoHobby(edicaoVideo, criacaoInterest, 3);
 
 
             Hobby robotica = criarOuAtualizarHobby(
@@ -522,6 +547,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(robotica, produzirObjective, 3);
             adicionarObjetivoAoHobby(robotica, criatividadeObjective, 2);
             adicionarObjetivoAoHobby(robotica, disciplinaObjective, 2);
+            adicionarInteresseAoHobby(robotica, tecnologiaInterest, 3);
+            adicionarInteresseAoHobby(robotica, aprendizadoInterest, 3);
+            adicionarInteresseAoHobby(robotica, criacaoInterest, 2);
 
 
             Hobby criacaoJogos = criarOuAtualizarHobby(
@@ -541,6 +569,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(criacaoJogos, produzirObjective, 3);
             adicionarObjetivoAoHobby(criacaoJogos, aprenderObjective, 3);
             adicionarObjetivoAoHobby(criacaoJogos, diversaoObjective, 2);
+            adicionarInteresseAoHobby(criacaoJogos, tecnologiaInterest, 3);
+            adicionarInteresseAoHobby(criacaoJogos, jogosInterest, 3);
+            adicionarInteresseAoHobby(criacaoJogos, criacaoInterest, 3);
 
 
 // =====================================================
@@ -563,6 +594,7 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(meditacao, relaxarObjective, 3);
             adicionarObjetivoAoHobby(meditacao, reduzirEstresseObjective, 3);
             adicionarObjetivoAoHobby(meditacao, disciplinaObjective, 1);
+            adicionarInteresseAoHobby(meditacao, relaxarInterest, 3);
 
 
             Hobby jardinagem = criarOuAtualizarHobby(
@@ -582,6 +614,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(jardinagem, produzirObjective, 2);
             adicionarObjetivoAoHobby(jardinagem, reduzirEstresseObjective, 2);
             adicionarObjetivoAoHobby(jardinagem, aprenderObjective, 1);
+            adicionarInteresseAoHobby(jardinagem, naturezaInterest, 3);
+            adicionarInteresseAoHobby(jardinagem, relaxarInterest, 2);
+            adicionarInteresseAoHobby(jardinagem, criacaoInterest, 1);
 
 
             Hobby culinaria = criarOuAtualizarHobby(
@@ -602,6 +637,9 @@ public class DevDataSeeder {
             adicionarObjetivoAoHobby(culinaria, aprenderObjective, 2);
             adicionarObjetivoAoHobby(culinaria, diversaoObjective, 2);
             adicionarObjetivoAoHobby(culinaria, relaxarObjective, 1);
+            adicionarInteresseAoHobby(culinaria, culinariaInterest, 3);
+            adicionarInteresseAoHobby(culinaria, criacaoInterest, 2);
+            adicionarInteresseAoHobby(culinaria, aprendizadoInterest, 1);
 
 
             Hobby caminhada = criarOuAtualizarHobby(
