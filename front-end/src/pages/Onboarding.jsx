@@ -73,6 +73,11 @@ const perguntas = [
         ],
     },
     {
+        campo: "localizacao",
+        titulo: "Onde você mora atualmente?",
+        localizacao: true
+    },
+    {
         campo: "interestIds",
         titulo: "Quais assuntos despertam mais seu interesse?",
         multiplaEscolha: true
@@ -154,6 +159,12 @@ export default function Onboarding() {
                                     formatoPreferido:
                                         dados.formatoPreferido,
 
+                                    cidade:
+                                        dados.cidade ?? "",
+
+                                    estado:
+                                        dados.estado ?? "",
+
                                     interestIds:
                                         dados.interestIds ?? [],
 
@@ -225,6 +236,8 @@ export default function Onboarding() {
         nivelAtividadeFisicaDesejada: null,
         ambientePreferido: null,
         formatoPreferido: null,
+        cidade: "",
+        estado: "",
         interestIds: [],
         objectiveIds: []
     });
@@ -389,7 +402,8 @@ export default function Onboarding() {
                     </>
                 )}
 
-                {!perguntaAtual.multiplaEscolha && (
+                {!perguntaAtual.multiplaEscolha &&
+                    !perguntaAtual.localizacao && (
                     <div className="onboarding-options">
                         {perguntaAtual.opcoes.map((opcao) => {
                             const selecionada =
@@ -459,6 +473,69 @@ export default function Onboarding() {
 
                                 finalizarOnboarding(atualizado);
 
+                            }}
+                        >
+                            Continuar
+                        </button>
+                    </>
+                )}
+
+                {perguntaAtual.localizacao && (
+                    <>
+                        <div className="onboarding-location">
+                            <label>
+                                Cidade
+
+                                <input
+                                    type="text"
+                                    value={profile.cidade}
+                                    onChange={(e) =>
+                                        setProfile((atual) => ({
+                                            ...atual,
+                                            cidade: e.target.value
+                                        }))
+                                    }
+                                    placeholder="Ex.: Franca"
+                                    disabled={enviando}
+                                />
+                            </label>
+
+                            <label>
+                                Estado
+
+                                <input
+                                    type="text"
+                                    maxLength={2}
+                                    value={profile.estado}
+                                    onChange={(e) =>
+                                        setProfile((atual) => ({
+                                            ...atual,
+                                            estado:
+                                                e.target.value.toUpperCase()
+                                        }))
+                                    }
+                                    placeholder="SP"
+                                    disabled={enviando}
+                                />
+                            </label>
+                        </div>
+
+                        <button
+                            type="button"
+                            disabled={enviando}
+                            onClick={() => {
+                                if (
+                                    !profile.cidade.trim() ||
+                                    profile.estado.trim().length !== 2
+                                ) {
+                                    setErro(
+                                        "Informe sua cidade e a sigla do estado."
+                                    );
+                                    return;
+                                }
+
+                                setErro("");
+                                setEtapa((atual) => atual + 1);
                             }}
                         >
                             Continuar
