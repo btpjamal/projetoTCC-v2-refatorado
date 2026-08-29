@@ -48,7 +48,7 @@ public class PromptBuilderService {
                         user.getNome(),
                         profile.getTempoDisponivel(),
                         profile.getOrcamento(),
-                        profile.getNivelSocial(),
+                        profile.getTipoSocializacao(),
                         hobby.getNome(),
                         hobby.getDescricao(),
                         hobby.getCustoEstimado(),

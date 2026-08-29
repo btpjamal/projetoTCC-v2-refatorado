@@ -25,21 +25,21 @@ const perguntas = [
         ],
     },
     {
-        campo: "nivelSocial",
+        campo: "tipoSocializacao",
         titulo: "Como você prefere praticar um hobby?",
         opcoes: [
-            { label: "Sozinho", valor: "INTROVERTIDO" },
-            { label: "Com outras pessoas", valor: "EXTROVERTIDO" },
-            { label: "Tanto faz", valor: "AMBIVERTIDO" },
-        ],
-    },
-    {
-        campo: "nivelExperiencia",
-        titulo: "Qual é sua experiência com hobbies?",
-        opcoes: [
-            { label: "Estou começando agora", valor: "INICIANTE" },
-            { label: "Já pratiquei alguns", valor: "INTERMEDIARIO" },
-            { label: "Tenho bastante experiência", valor: "AVANCADO" },
+            {
+                label: "Prefiro atividades individuais",
+                valor: "INDIVIDUAL"
+            },
+            {
+                label: "Prefiro atividades com outras pessoas",
+                valor: "SOCIAL"
+            },
+            {
+                label: "Não tenho preferência",
+                valor: "INDIFERENTE"
+            },
         ],
     },
     {
@@ -59,16 +59,6 @@ const perguntas = [
             { label: "Em casa", valor: "CASA" },
             { label: "Ao ar livre", valor: "AO_AR_LIVRE" },
             { label: "Em ambiente fechado", valor: "AMBIENTE_FECHADO" },
-            { label: "Tanto faz", valor: "INDIFERENTE" },
-        ],
-    },
-    {
-        campo: "formatoPreferido",
-        titulo: "Qual formato combina mais com você?",
-        opcoes: [
-            { label: "Presencial", valor: "PRESENCIAL" },
-            { label: "Remoto", valor: "REMOTO" },
-            { label: "Os dois", valor: "HIBRIDO" },
             { label: "Tanto faz", valor: "INDIFERENTE" },
         ],
     },
@@ -144,20 +134,14 @@ export default function Onboarding() {
                                     orcamentoInicial:
                                         dados.orcamentoInicial,
 
-                                    nivelSocial:
-                                        dados.nivelSocial,
-
-                                    nivelExperiencia:
-                                        dados.nivelExperiencia,
+                                    tipoSocializacao:
+                                    dados.tipoSocializacao,
 
                                     nivelAtividadeFisicaDesejada:
                                         dados.nivelAtividadeFisicaDesejada,
 
                                     ambientePreferido:
                                         dados.ambientePreferido,
-
-                                    formatoPreferido:
-                                        dados.formatoPreferido,
 
                                     cidade:
                                         dados.cidade ?? "",
@@ -231,11 +215,9 @@ export default function Onboarding() {
     const [profile, setProfile] = useState({
         tempoDisponivelSemanal: null,
         orcamentoInicial: null,
-        nivelSocial: null,
-        nivelExperiencia: null,
+        tipoSocializacao: null,
         nivelAtividadeFisicaDesejada: null,
         ambientePreferido: null,
-        formatoPreferido: null,
         cidade: "",
         estado: "",
         interestIds: [],

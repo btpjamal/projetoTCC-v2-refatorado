@@ -52,18 +52,6 @@ public class PreferenceCriterion implements RecommendationCriterion {
             }
         }
 
-        if (p.getFormatoPreferido() != null && h.getFormato() != null) {
-            if (p.getFormatoPreferido() == FormatoPreferido.INDIFERENTE
-                    || p.getFormatoPreferido() == h.getFormato()
-                    || h.getFormato() == FormatoPreferido.HIBRIDO) {
-
-                score += 4;
-                motivos.add(
-                        "Possui formato compatível com sua preferência"
-                );
-            }
-        }
-
         if (p.getNivelAtividadeFisicaDesejada() != null && h.getNivelAtividadeFisica() != null) {
             if (p.getNivelAtividadeFisicaDesejada() == NivelAtividadeFisica.INDIFERENTE
                 || p.getNivelAtividadeFisicaDesejada() == h.getNivelAtividadeFisica()) {
