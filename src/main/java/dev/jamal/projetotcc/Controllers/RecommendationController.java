@@ -2,7 +2,7 @@ package dev.jamal.projetotcc.Controllers;
 
 import dev.jamal.projetotcc.DTO.Recommendation.HobbyRecommendationDTO;
 import dev.jamal.projetotcc.DTO.Response.InitialPlanResponseDTO;
-import dev.jamal.projetotcc.Service.InitialPlanService;
+//import dev.jamal.projetotcc.Service.InitialPlanService;
 import dev.jamal.projetotcc.Service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,7 +20,7 @@ import java.util.List;
 public class RecommendationController {
 
     private final RecommendationService recommendationService;
-    private final InitialPlanService initialPlanService;
+    //private final InitialPlanService initialPlanService;
 
 
     @Operation(summary = "Gerar recomendações para um usuário", description = "Retorna uma lista de hobbies recomendados com base no perfil, interesses e feedback do usuário.")
@@ -35,8 +35,8 @@ public class RecommendationController {
         );
     }
 
-    @PostMapping("/{userId}/{hobbyId}/initial-plan")
-    public InitialPlanResponseDTO gerarPlanoInicial(@PathVariable Long userId ,@PathVariable Long hobbyId) {
-        return initialPlanService.gerarPlanoInicial(userId, hobbyId);
-    }
+//    @PostMapping("/{userId}/{hobbyId}/initial-plan")
+//    public InitialPlanResponseDTO gerarPlanoInicial(@PathVariable Long userId ,@PathVariable Long hobbyId) {
+//        return initialPlanService.gerarPlanoInicial(userId, hobbyId);
+//    }
 }
