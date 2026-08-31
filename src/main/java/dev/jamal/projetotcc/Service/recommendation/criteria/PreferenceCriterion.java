@@ -47,7 +47,7 @@ public class PreferenceCriterion implements RecommendationCriterion {
                 );
             } else {
                 alertas.add(
-                        "O ambiente mais comun deste hobby difere da sua preferência"
+                        "O ambiente mais comum deste hobby difere da sua preferência"
                 );
             }
         }
