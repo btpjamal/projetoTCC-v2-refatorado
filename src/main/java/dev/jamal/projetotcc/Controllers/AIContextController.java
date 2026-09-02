@@ -51,6 +51,7 @@ public class AIContextController {
         return ResponseEntity.ok(prompt);
     }
 
+    @PostMapping("/plan/{userId}/{hobbyId}")
     public ResponseEntity<String> gerarPlano(
         @PathVariable Long userId,
         @PathVariable Long hobbyId

@@ -82,9 +82,35 @@ const perguntas = [
 export default function Onboarding() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const modoEdicao = searchParams.get("editar") === "true";
+
+    const modoEdicao =
+     searchParams.get("editar") === "true";
+
+     //Dados carregados do backend
     const [objetivos, setObjetivos] = useState([]);
+    const [interesses, setInteresses] = useState([]);
+
+    //Seleções múltiplas
     const [objetivosSelecionados, setObjetivosSelecionados] = useState([]);
+    const [interessesSelecionados,setInteressesSelecionados] = useState([]);
+
+    // Estado da interface
+        const [etapa, setEtapa] = useState(0);
+        const [enviando, setEnviando] = useState(false);
+        const [erro, setErro] = useState("");
+
+        // Perfil
+        const [profile, setProfile] = useState({
+            tempoDisponivelSemanal: null,
+            orcamentoInicial: null,
+            tipoSocializacao: null,
+            nivelAtividadeFisicaDesejada: null,
+            ambientePreferido: null,
+            cidade: "",
+            estado: "",
+            interestIds: [],
+            objectiveIds: []
+        });
 
     useEffect(() => {
         async function carregarDados() {
@@ -105,12 +131,28 @@ export default function Onboarding() {
                                         },
                                     }),
 
+
+
                                     api.get("/interests", {
                                         headers: {
                                             Authorization: `Bearer ${token}`,
                                         },
                                     }),
                                 ]);
+
+                            console.log(
+                                "RESPOSTA /objectives:",
+                                JSON.stringify(objetivosResponse.data, null, 2)
+                            );
+
+                            console.log("RESPOSTA COMPLETA /interests:", interessesResponse);
+                            console.log("DATA:", interessesResponse.data);
+                            console.log("TIPO:", typeof interessesResponse.data);
+                            console.log(
+                                "JSON:",
+                                JSON.stringify(interessesResponse.data, null, 2)
+                            );
+
 
                             setObjetivos(objetivosResponse.data);
                             setInteresses(interessesResponse.data);
@@ -205,24 +247,6 @@ export default function Onboarding() {
         });
     }
 
-    const [interesses, setInteresses] = useState([]);
-    const [interessesSelecionados, setInteressesSelecionados] = useState([]);
-
-    const [etapa, setEtapa] = useState(0);
-    const [enviando, setEnviando] = useState(false);
-    const [erro, setErro] = useState("");
-
-    const [profile, setProfile] = useState({
-        tempoDisponivelSemanal: null,
-        orcamentoInicial: null,
-        tipoSocializacao: null,
-        nivelAtividadeFisicaDesejada: null,
-        ambientePreferido: null,
-        cidade: "",
-        estado: "",
-        interestIds: [],
-        objectiveIds: []
-    });
 
     const perguntaAtual = perguntas[etapa];
     const progresso = ((etapa + 1) / perguntas.length) * 100;
