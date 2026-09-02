@@ -1,15 +1,19 @@
 package dev.jamal.projetotcc.Service.AI.provider;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientResponseException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.util.Map;
 
 @Service
+@ConditionalOnProperty(
+        name = "ai.provider",
+        havingValue = "openai"
+)
 public class OpenAIProvider implements AIProvider {
 
     private final RestClient restClient;

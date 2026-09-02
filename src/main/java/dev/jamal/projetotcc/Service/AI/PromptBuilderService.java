@@ -17,6 +17,9 @@ public class PromptBuilderService {
                 - Considere somente as informações fornecidas no contexto.
                 - Respeite o orçamento inicial do usuário.
                 - Respeite o tempo semanal disponível.
+                - O tempo disponível semanal representa um limite de disponibilidade, não uma quantidade que precisa ser totalmente utilizada.
+                - Não preencha artificialmente o tempo restante com outras atividades.
+                - Use apenas o tempo necessário para um plano realista do hobby.
                 - Adapte o plano ao nível atual do usuário nesse hobby.
                 - Considere os objetivos e interesses do usuário.
                 - Considere as preferências de ambiente, socialização e atividade física.
