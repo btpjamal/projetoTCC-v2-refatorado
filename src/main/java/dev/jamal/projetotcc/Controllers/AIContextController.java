@@ -1,6 +1,7 @@
 package dev.jamal.projetotcc.Controllers;
 
 import dev.jamal.projetotcc.DTO.AI.AIUserContext;
+import dev.jamal.projetotcc.DTO.AI.PersonalizedPlanResponseDTO;
 import dev.jamal.projetotcc.Service.AI.AIContextService;
 import dev.jamal.projetotcc.Service.AI.PersonalizedPlanService;
 import dev.jamal.projetotcc.Service.AI.PromptBuilderService;
@@ -67,5 +68,28 @@ public class AIContextController {
                         );
 
         return ResponseEntity.ok(plano);
+    }
+
+    @GetMapping("/plan/{userId}/{hobbyId}")
+    public ResponseEntity<PersonalizedPlanResponseDTO> buscarPlano(
+            @PathVariable Long userId,
+            @PathVariable Long hobbyId
+    ) {
+        return ResponseEntity.ok(
+                personalizedPlanService.buscarPlano(userId, hobbyId)
+        );
+    }
+
+    @PostMapping("/plan/{userId}/{hobbyId}/regenerate")
+    public ResponseEntity<String> regenerarPlano(
+            @PathVariable Long userId,
+            @PathVariable Long hobbyId
+    ) {
+        return ResponseEntity.ok(
+                personalizedPlanService.regenerarPlano(
+                        userId,
+                        hobbyId
+                )
+        );
     }
 }
