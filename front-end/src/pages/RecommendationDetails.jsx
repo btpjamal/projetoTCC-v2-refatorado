@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {api} from "../api/api.js";
+import ReactMarkdown from "react-markdown";
 
 function RecommendationDetails() {
     const { hobbyId } = useParams();
@@ -188,8 +189,10 @@ function RecommendationDetails() {
                         </div>
                     )}
 
-                    <div>
+                    <div className="personalized-plan-content">
+                        <ReactMarkdown>
                         {detalhes.plano.conteudo}
+                        </ReactMarkdown>
                     </div>
                 </>
             )}
