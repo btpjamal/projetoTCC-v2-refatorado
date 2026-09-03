@@ -8,6 +8,8 @@ import dev.jamal.projetotcc.Service.AI.PromptBuilderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import dev.jamal.projetotcc.Entities.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @RestController
 @RequestMapping("/api/v1/ai")
@@ -52,9 +54,9 @@ public class AIContextController {
         return ResponseEntity.ok(prompt);
     }
 
-    @PostMapping("/plan/{userId}/{hobbyId}")
+    @PostMapping("/plan/{hobbyId}")
     public ResponseEntity<String> gerarPlano(
-        @PathVariable Long userId,
+        @AuthenticationPrincipal User user,
         @PathVariable Long hobbyId
     ) {
 
@@ -63,31 +65,31 @@ public class AIContextController {
         String plano =
                 personalizedPlanService
                         .gerarPlano(
-                                userId,
+                                user.getId(),
                                 hobbyId
                         );
 
         return ResponseEntity.ok(plano);
     }
 
-    @GetMapping("/plan/{userId}/{hobbyId}")
+    @GetMapping("/plan/{hobbyId}")
     public ResponseEntity<PersonalizedPlanResponseDTO> buscarPlano(
-            @PathVariable Long userId,
+            @AuthenticationPrincipal User user,
             @PathVariable Long hobbyId
     ) {
         return ResponseEntity.ok(
-                personalizedPlanService.buscarPlano(userId, hobbyId)
+                personalizedPlanService.buscarPlano(user.getId(), hobbyId)
         );
     }
 
-    @PostMapping("/plan/{userId}/{hobbyId}/regenerate")
+    @PostMapping("/plan/{hobbyId}/regenerate")
     public ResponseEntity<String> regenerarPlano(
-            @PathVariable Long userId,
+            @AuthenticationPrincipal User user,
             @PathVariable Long hobbyId
     ) {
         return ResponseEntity.ok(
                 personalizedPlanService.regenerarPlano(
-                        userId,
+                        user.getId(),
                         hobbyId
                 )
         );
