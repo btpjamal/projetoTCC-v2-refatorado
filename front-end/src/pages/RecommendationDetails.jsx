@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {api} from "../api/api.js";
 import ReactMarkdown from "react-markdown";
+import "../pages/css/RecommendationsDetails.css";
 
 function RecommendationDetails() {
     const { hobbyId } = useParams();
@@ -100,31 +101,40 @@ function RecommendationDetails() {
 
 
     return (
-        <div>
-            <h1>{detalhes.nome}</h1>
+        <div className="recommendation-details-page">
 
-            <p>{detalhes.descricao}</p>
+            <header className="recommendation-details-header">
+                <h1>{detalhes.nome}</h1>
 
-            <p>
-                <strong>Categoria:</strong>{" "}
-                {detalhes.categoria}
-            </p>
+                <p className="recommendation-details-description">
+                    {detalhes.descricao}
+                </p>
 
-            <p>
-                <strong>Compatibilidade:</strong>{" "}
-                {detalhes.score}
-            </p>
+                <div className="recommendation-details-meta">
+                <span className="recommendation-details-badge">
+                    <strong>Categoria:</strong>{" "}
+                    {detalhes.categoria}
+                </span>
 
-            <h2>Por que recomendamos</h2>
+                    <span className="recommendation-details-badge">
+                    <strong>Compatibilidade:</strong>{" "}
+                        {detalhes.score}
+                </span>
+                </div>
+            </header>
 
-            <ul>
-                {detalhes.motivos.map((motivo, index) => (
-                    <li key={index}>{motivo}</li>
-                ))}
-            </ul>
+            <section className="recommendation-details-section">
+                <h2>Por que recomendamos</h2>
+
+                <ul>
+                    {detalhes.motivos.map((motivo, index) => (
+                        <li key={index}>{motivo}</li>
+                    ))}
+                </ul>
+            </section>
 
             {detalhes.alertas.length > 0 && (
-                <>
+                <section className="recommendation-details-section">
                     <h2>Pontos de atenção</h2>
 
                     <ul>
@@ -132,73 +142,80 @@ function RecommendationDetails() {
                             <li key={index}>{alerta}</li>
                         ))}
                     </ul>
-                </>
+                </section>
             )}
 
-            <h2>Sua relação com este hobby</h2>
+            <section className="recommendation-details-section">
+                <h2>Sua relação com este hobby</h2>
 
-            <p>
-                <strong>Nível:</strong>{" "}
-                {detalhes.nivelAtual}
-            </p>
-
-            <p>
-                <strong>Status:</strong>{" "}
-                {detalhes.statusAtual ?? "Ainda não definido"}
-            </p>
-
-            <h2>Plano personalizado</h2>
-
-            {erroPlano && (
-                <p>{erroPlano}</p>
-            )}
-
-            {!detalhes.plano.existe ? (
-                <>
+                <div className="recommendation-relation">
                     <p>
-                        Você ainda não possui um plano personalizado
-                        para este hobby.
+                        <strong>Nível:</strong>{" "}
+                        {detalhes.nivelAtual}
                     </p>
 
-                    <button
-                        onClick={gerarPlano}
-                        disabled={gerandoPlano}
-                    >
-                        {gerandoPlano
-                            ? "Gerando plano..."
-                            : "Gerar meu plano"}
-                    </button>
-                </>
-            ) : (
-                <>
-                    {detalhes.plano.stale && (
-                        <div>
-                            <p>
-                                Seu perfil mudou desde que este plano
-                                foi criado.
-                            </p>
+                    <p>
+                        <strong>Status:</strong>{" "}
+                        {detalhes.statusAtual ?? "Ainda não definido"}
+                    </p>
+                </div>
+            </section>
 
-                            <button
-                                onClick={regenerarPlano}
-                                disabled={gerandoPlano}
-                            >
-                                {gerandoPlano
-                                    ? "Atualizando plano..."
-                                    : "Atualizar plano"}
-                            </button>
+            <section className="recommendation-details-section">
+                <h2>Plano personalizado</h2>
+
+                {erroPlano && (
+                    <p>{erroPlano}</p>
+                )}
+
+                {!detalhes.plano.existe ? (
+                    <>
+                        <p>
+                            Você ainda não possui um plano personalizado
+                            para este hobby.
+                        </p>
+
+                        <button
+                            className="plan-action-button"
+                            onClick={gerarPlano}
+                            disabled={gerandoPlano}
+                        >
+                            {gerandoPlano
+                                ? "Gerando plano..."
+                                : "Gerar meu plano"}
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        {detalhes.plano.stale && (
+                            <div className="plan-stale-warning">
+                                <p>
+                                    Seu perfil mudou desde que este plano
+                                    foi criado.
+                                </p>
+
+                                <button
+                                    className="plan-action-button"
+                                    onClick={regenerarPlano}
+                                    disabled={gerandoPlano}
+                                >
+                                    {gerandoPlano
+                                        ? "Atualizando plano..."
+                                        : "Atualizar plano"}
+                                </button>
+                            </div>
+                        )}
+
+                        <div className="personalized-plan-content">
+                            <ReactMarkdown>
+                                {detalhes.plano.conteudo}
+                            </ReactMarkdown>
                         </div>
-                    )}
+                    </>
+                )}
+            </section>
 
-                    <div className="personalized-plan-content">
-                        <ReactMarkdown>
-                        {detalhes.plano.conteudo}
-                        </ReactMarkdown>
-                    </div>
-                </>
-            )}
-
-                    </div>
-                );
-            }
-
-            export default RecommendationDetails;
+        </div>
+    );
+    }
+    export default RecommendationDetails;
