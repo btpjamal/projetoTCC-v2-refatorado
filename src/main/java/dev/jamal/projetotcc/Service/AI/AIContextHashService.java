@@ -7,6 +7,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HexFormat;
+import java.util.Map;
 
 @Service
 public class AIContextHashService {
@@ -20,8 +21,27 @@ public class AIContextHashService {
     public String calcular(AIUserContext context) {
 
         try {
+
+            Map<String, Object> contextoRelevante = Map.of(
+                    "usuario", context.usuario(),
+                    "perfil", context.perfil(),
+                    "hobby", Map.of(
+                            "id", context.hobby().id(),
+                            "nome", context.hobby().nome(),
+                            "descricao", context.hobby().descricao(),
+                            "custoEstimado", context.hobby().custoEstimado(),
+                            "tempoNecessario", context.hobby().tempoNecessario(),
+                            "nivelDificuldade", context.hobby().nivelDificuldade(),
+                            "categoria", context.hobby().categoria(),
+                            "tipoSocializacao", context.hobby().tipoSocializacao(),
+                            "nivelAtividadeFisica", context.hobby().nivelAtividadeFisica(),
+                            "ambiente", context.hobby().ambiente()
+                    ),
+                    "relacaoComHobby", context.relacaoComHobby()
+            );
+
             String json =
-                    objectMapper.writeValueAsString(context);
+                    objectMapper.writeValueAsString(contextoRelevante);
 
             MessageDigest digest =
                     MessageDigest.getInstance("SHA-256");
