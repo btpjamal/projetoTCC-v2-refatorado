@@ -9,75 +9,93 @@ public class PromptBuilderService {
     public String construirPromptPlanoInicial(AIUserContext context) {
 
         return """
-                Você é um assistente especializado em ajudar pessoas a iniciar e desenvolver hobbies.
-
-                Sua tarefa é criar um plano inicial personalizado para o hobby informado.
-
+                Você é um assistente especializado em criar planos personalizados para hobbies.
+                
+                Crie um plano inicial para o hobby abaixo usando somente o contexto fornecido.
+                
                 REGRAS:
-                - Considere somente as informações fornecidas no contexto.
-                - Respeite o orçamento inicial do usuário.
-                - Respeite o tempo semanal disponível.
-                - O tempo disponível semanal representa um limite de disponibilidade, não uma quantidade que precisa ser totalmente utilizada.
-                - Não preencha artificialmente o tempo restante com outras atividades.
-                - Use apenas o tempo necessário para um plano realista do hobby.
-                - Adapte o plano ao nível atual do usuário nesse hobby.
-                - Considere os objetivos e interesses do usuário.
-                - Considere as preferências de ambiente, socialização e atividade física.
-                - Considere os alertas de compatibilidade apresentados pelo sistema.
-                - Não trate o score como porcentagem. Ele é apenas um valor interno de ranking.
-                - Não invente estabelecimentos, eventos, preços atuais ou locais específicos.
-                - Quando a localização for relevante, utilize apenas cidade e estado como contexto geral.
-                - Evite compras ou equipamentos desnecessários para um iniciante.
-                - O plano deve ser prático, realista e possível de iniciar.
-                - Quando houver incompatibilidades entre o perfil do usuário e o hobby, adapte o plano quando isso for razoável, mas não descaracterize o hobby.
-
+                - Respeite orçamento e tempo semanal disponível.
+                - O tempo semanal é um limite máximo, não uma meta a preencher.
+                - Adapte ao nível atual do usuário no hobby.
+                - Considere objetivos, interesses, ambiente, socialização, atividade física e alertas.
+                - O score é apenas um ranking interno, não uma porcentagem.
+                - Não invente locais específicos, eventos, preços atuais ou estabelecimentos.
+                - Use cidade/estado apenas como contexto geral.
+                - Evite compras desnecessárias.
+                - Adapte incompatibilidades quando possível sem descaracterizar o hobby.
+                - Seja prático e realista.
+                
                 USUÁRIO:
                 Idade: %s
-                Cidade: %s
-                Estado: %s
-
+                Localização: %s - %s
+                
                 PERFIL:
-                Tempo disponível por semana: %s horas
+                Tempo semanal máximo: %s h
                 Orçamento inicial: R$ %s
-                Preferência de socialização: %s
-                Atividade física desejada: %s
-                Ambiente preferido: %s
+                Socialização: %s
+                Atividade física: %s
+                Ambiente: %s
                 Interesses: %s
                 Objetivos: %s
-
+                
                 HOBBY:
                 Nome: %s
                 Descrição: %s
                 Categoria: %s
                 Custo estimado: R$ %s
-                Tempo estimado: %s horas
-                Nível de dificuldade: %s
-                Tipo de socialização: %s
-                Nível de atividade física: %s
+                Tempo estimado: %s h
+                Dificuldade: %s
+                Socialização: %s
+                Atividade física: %s
                 Ambiente: %s
-
-                COMPATIBILIDADE CALCULADA PELO SISTEMA:
+                
+                COMPATIBILIDADE:
                 Score interno: %s
                 Motivos: %s
                 Alertas: %s
-
-                RELAÇÃO ATUAL DO USUÁRIO COM O HOBBY:
-                Nível atual: %s
-                Status atual: %s
-
-                Crie um plano inicial contendo:
-                1. Uma breve introdução personalizada.
-                2. Uma meta inicial realista.
-                3. Um plano para as primeiras 4 semanas.
-                4. Uma sugestão de distribuição do tempo semanal.
-                5. Materiais ou recursos necessários para começar.
-                6. Uma estimativa de custo inicial respeitando o orçamento informado.
-                7. Dicas relacionadas aos objetivos do usuário.
-                8. Cuidados ou dificuldades relevantes.
-                9. Um próximo passo concreto que o usuário possa executar imediatamente.
-
-                Não explique o processo de raciocínio utilizado para criar o plano.
-                Retorne apenas o plano personalizado.
+                
+                RELAÇÃO COM O HOBBY:
+                Nível: %s
+                Status: %s
+                
+                Retorne somente o plano em Markdown nesta estrutura:
+                
+                ## Introdução
+                
+                ## Meta inicial
+                
+                ## Plano para as primeiras 4 semanas
+                
+                ### Semana 1
+                - ...
+                
+                ### Semana 2
+                - ...
+                
+                ### Semana 3
+                - ...
+                
+                ### Semana 4
+                - ...
+                
+                ## Distribuição do tempo semanal
+                - ...
+                
+                ## Materiais e recursos necessários
+                - ...
+                
+                ## Estimativa de custo inicial
+                - ...
+                
+                ## Dicas para seus objetivos
+                - ...
+                
+                ## Cuidados e dificuldades
+                - ...
+                
+                ## Próximo passo concreto
+                
+                Use parágrafos curtos e listas. Separe as seções com linhas em branco.
                 """
                 .formatted(
                         context.usuario().idade(),
