@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import dev.jamal.projetotcc.Exception.AIProviderException;
 
 import java.util.List;
 import java.util.Map;
@@ -39,49 +40,62 @@ public class GeminiProvider implements AIProvider {
     @Override
     public String generate(String prompt) {
 
-        Map<String, Object> part = Map.of(
-                "text", prompt
-        );
+        int maxTentativas = 3;
 
-        Map<String, Object> content = Map.of(
-                "parts", List.of(part)
-        );
+        for (int tentativa = 1;
+             tentativa <= maxTentativas;
+             tentativa++) {
 
-        Map<String, Object> body = Map.of(
-                "contents", List.of(content)
-        );
+            try {
 
-        try {
+                JsonNode response =
+                        chamarGemini(prompt);
 
-            JsonNode response = restClient.post()
-                    .uri(
-                            "/models/{model}:generateContent?key={apiKey}",
-                            model,
-                            apiKey
-                    )
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(body)
-                    .retrieve()
-                    .body(JsonNode.class);
+                return extrairTexto(response);
 
-            return extrairTexto(response);
+            } catch (RestClientResponseException e) {
 
-        } catch (RestClientResponseException e) {
+                int status =
+                        e.getStatusCode().value();
 
-            System.out.println(
-                    "STATUS GEMINI: " + e.getStatusCode()
-            );
+                if (status == 503) {
 
-            System.out.println(
-                    "RESPOSTA GEMINI:"
-            );
+                    if (tentativa == maxTentativas) {
+                        throw new AIProviderException(
+                                "O serviço de IA está temporariamente indisponível. Tente novamente em alguns instantes.",
+                                503
+                        );
+                    }
 
-            System.out.println(
-                    e.getResponseBodyAsString()
-            );
+                    esperarAntesDeTentarNovamente(tentativa);
+                    continue;
+                }
 
-            throw e;
+                if (status == 429) {
+                    throw new AIProviderException(
+                            "Limite de solicitações da IA atingido. Tente novamente mais tarde.",
+                            429
+                    );
+                }
+
+                if (status == 401 || status == 403) {
+                    throw new AIProviderException(
+                            "Não foi possível autenticar com o serviço de IA.",
+                            503
+                    );
+                }
+
+                throw new AIProviderException(
+                        "Não foi possível gerar o plano personalizado.",
+                        502
+                );
+            }
         }
+
+        throw new AIProviderException(
+                "Não foi possível gerar o plano personalizado.",
+                503
+        );
     }
 
     private String extrairTexto(JsonNode response) {
@@ -117,5 +131,48 @@ public class GeminiProvider implements AIProvider {
         throw new RuntimeException(
                 "Não foi possível extrair o texto da resposta do Gemini."
         );
+    }
+
+    private JsonNode chamarGemini(String prompt) {
+
+        Map<String, Object> part =
+                Map.of("text", prompt);
+
+        Map<String, Object> content =
+                Map.of("parts", List.of(part));
+
+        Map<String, Object> body =
+                Map.of("contents", List.of(content));
+
+        return restClient.post()
+                .uri(
+                        "/models/{model}:generateContent?key={apiKey}",
+                        model,
+                        apiKey
+                )
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(body)
+                .retrieve()
+                .body(JsonNode.class);
+    }
+
+    private void esperarAntesDeTentarNovamente(
+            int tentativa
+    ) {
+
+        long esperaMillis =
+                tentativa == 1 ? 1000L : 2000L;
+
+        try {
+            Thread.sleep(esperaMillis);
+        } catch (InterruptedException e) {
+
+            Thread.currentThread().interrupt();
+
+            throw new AIProviderException(
+                    "A geração do plano foi interrompida.",
+                    503
+            );
+        }
     }
 }
