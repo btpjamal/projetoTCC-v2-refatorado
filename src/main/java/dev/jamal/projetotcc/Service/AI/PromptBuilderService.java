@@ -1,7 +1,10 @@
 package dev.jamal.projetotcc.Service.AI;
 
+import dev.jamal.projetotcc.DTO.AI.AIGeneralPlanContext;
 import dev.jamal.projetotcc.DTO.AI.AIUserContext;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class PromptBuilderService {
@@ -127,5 +130,112 @@ public class PromptBuilderService {
                         context.relacaoComHobby().nivelAtual(),
                         context.relacaoComHobby().statusAtual()
                 );
+    }
+
+    public String construirPromptPlanoGeral(
+            AIGeneralPlanContext context
+    ) {
+
+        String hobbies = context.hobbies()
+                .stream()
+                .map(hobby -> """
+                    - %s
+                      categoria: %s
+                      tempo estimado: %s h
+                      atividade física: %s
+                      ambiente: %s
+                      score: %s
+                      nível: %s
+                      status: %s
+                    """.formatted(
+                        hobby.nome(),
+                        hobby.categoria(),
+                        hobby.tempoNecessario(),
+                        hobby.nivelAtividadeFisica(),
+                        hobby.ambiente(),
+                        hobby.score(),
+                        hobby.nivelAtual(),
+                        hobby.statusAtual()
+                ))
+                .collect(Collectors.joining("\n"));
+
+        return """
+            Você é um assistente especializado em organizar hobbies na rotina.
+
+            Crie um plano geral personalizado usando somente o contexto fornecido.
+
+            REGRAS:
+            - O tempo semanal é um limite máximo, não uma meta a preencher.
+            - Considere o orçamento como limite global.
+            - O orçamento global não precisa ser totalmente utilizado e deve considerar apenas gastos adicionais necessários para a rotina proposta.
+            - Não é necessário incluir todos os hobbies na rotina.
+            - Não crie um plano individual detalhado para cada hobby; o objetivo é organizar os hobbies em conjunto dentro da rotina.
+            - Priorize uma rotina sustentável e realista.
+            - Considere nível, status e compatibilidade de cada hobby.
+            - Hobbies PRATICANDO têm prioridade de continuidade.
+            - Hobbies INTERESSADO podem ser introduzidos quando houver espaço.
+            - Hobbies PAUSADO não devem ser retomados automaticamente; sugira retorno apenas quando fizer sentido.
+            - O tempo estimado de cada hobby é apenas referência, não uma quantidade obrigatória.
+            - O score é um ranking interno, não uma porcentagem.
+            - Não altere nível ou status do usuário.
+            - Não invente locais, eventos ou preços atuais.
+            - Evite uma rotina excessivamente fragmentada.
+            - Não estime preços ou custos específicos quando eles não estiverem presentes no contexto.
+            - Não presuma que o usuário possui ou não possui equipamentos.
+            - O orçamento deve ser usado apenas como restrição geral da rotina.
+            - Quando algum hobby puder exigir gasto, mencione apenas que pode haver custo adicional, sem inventar valores.
+
+            USUÁRIO:
+            Idade: %s
+            Localização: %s - %s
+
+            PERFIL:
+            Tempo semanal máximo: %s h
+            Orçamento inicial: R$ %s
+            Socialização: %s
+            Atividade física: %s
+            Ambiente: %s
+            Interesses: %s
+            Objetivos: %s
+
+            HOBBIES CANDIDATOS:
+            %s
+
+            Retorne somente o plano em Markdown nesta estrutura:
+
+            ## Visão geral
+
+            ## Hobbies priorizados
+            - ...
+
+            ## Rotina semanal sugerida
+            - ...
+
+            ## Distribuição do tempo
+            - Informe o tempo semanal total sugerido.
+            - Indique apenas considerações gerais de orçamento, sem inventar preços.
+
+            ## Hobbies em pausa ou baixa prioridade
+            - ...
+
+            ## Orientações para manter a rotina
+            - ...
+
+            ## Próximo passo
+            """.formatted(
+                context.usuario().idade(),
+                context.usuario().cidade(),
+                context.usuario().estado(),
+
+                context.perfil().tempoDisponivelSemanal(),
+                context.perfil().orcamentoInicial(),
+                context.perfil().tipoSocializacao(),
+                context.perfil().nivelAtividadeFisicaDesejada(),
+                context.perfil().ambientePreferido(),
+                context.perfil().interesses(),
+                context.perfil().objetivos(),
+
+                hobbies
+        );
     }
 }

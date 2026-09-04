@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {api} from "../api/api.js";
 import ReactMarkdown from "react-markdown";
 import "../pages/css/RecommendationsDetails.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 function RecommendationDetails() {
     const { hobbyId } = useParams();
@@ -12,6 +12,7 @@ function RecommendationDetails() {
     const [erro, setErro] = useState("");
     const [gerandoPlano, setGerandoPlano] = useState(false);
     const [erroPlano, setErroPlano] = useState("");
+    const navigate = useNavigate();
 
 
     const carregarDetalhes = async () => {
@@ -103,6 +104,13 @@ function RecommendationDetails() {
     return (
         <div className="recommendation-details-page">
 
+            <button
+                className="back-button"
+                onClick={() => navigate(-1)}
+            >
+                ← Voltar
+            </button>
+
             <header className="recommendation-details-header">
                 <h1>{detalhes.nome}</h1>
 
@@ -116,7 +124,7 @@ function RecommendationDetails() {
                     {detalhes.categoria}
                 </span>
 
-                    <span className="recommendation-details-badge">
+                    <span className="recommendation-details-badge score-badge">
                     <strong>Compatibilidade:</strong>{" "}
                         {detalhes.score}
                 </span>
@@ -149,15 +157,15 @@ function RecommendationDetails() {
                 <h2>Sua relação com este hobby</h2>
 
                 <div className="recommendation-relation">
-                    <p>
+                    <span className="relation-badge">
                         <strong>Nível:</strong>{" "}
                         {detalhes.nivelAtual}
-                    </p>
+                    </span>
 
-                    <p>
+                    <span className="relation-badge">
                         <strong>Status:</strong>{" "}
                         {detalhes.statusAtual ?? "Ainda não definido"}
-                    </p>
+                    </span>
                 </div>
             </section>
 

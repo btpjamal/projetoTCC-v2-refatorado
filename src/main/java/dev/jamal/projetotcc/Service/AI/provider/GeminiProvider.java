@@ -50,6 +50,10 @@ public class GeminiProvider implements AIProvider {
 
                 JsonNode response =
                         chamarGemini(prompt);
+                System.out.println(
+                        response.path("usageMetadata").toPrettyString()
+                );
+
 
                 return extrairTexto(response);
 

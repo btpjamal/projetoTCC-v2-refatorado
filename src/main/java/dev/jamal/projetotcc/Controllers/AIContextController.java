@@ -1,10 +1,12 @@
 package dev.jamal.projetotcc.Controllers;
 
+import dev.jamal.projetotcc.DTO.AI.AIGeneralPlanContext;
 import dev.jamal.projetotcc.DTO.AI.AIUserContext;
+import dev.jamal.projetotcc.DTO.AI.GeneralPersonalizedPlanResponseDTO;
 import dev.jamal.projetotcc.DTO.AI.PersonalizedPlanResponseDTO;
-import dev.jamal.projetotcc.Service.AI.AIContextService;
-import dev.jamal.projetotcc.Service.AI.PersonalizedPlanService;
-import dev.jamal.projetotcc.Service.AI.PromptBuilderService;
+import dev.jamal.projetotcc.Entities.GeneralPersonalizedPlan;
+import dev.jamal.projetotcc.Service.AI.*;
+import dev.jamal.projetotcc.Service.AI.provider.AIProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,9 @@ public class AIContextController {
     private final AIContextService aiContextService;
     private final PromptBuilderService promptBuilderService;
     private final PersonalizedPlanService personalizedPlanService;
+    private final AIGeneralPlanContextService aiGeneralPlanContextService;
+    private final AIProvider aiProvider;
+    private final GeneralPersonalizedPlanService generalPersonalizedPlanService;
 
     @GetMapping("/context/{userId}/{hobbyId}")
     public ResponseEntity<AIUserContext> obterContexto(
@@ -92,6 +97,77 @@ public class AIContextController {
                         user.getId(),
                         hobbyId
                 )
+        );
+    }
+
+//    @GetMapping("/general/context")
+//    public ResponseEntity<AIGeneralPlanContext> buscarContextoPlanoGeral(
+//            @AuthenticationPrincipal User user
+//    ) {
+//        return ResponseEntity.ok(
+//                aiGeneralPlanContextService.construir(user.getId())
+//        );
+//    }
+//
+//    @GetMapping("/general/prompt")
+//    public ResponseEntity<String> buscarPromptPlanoGeral(
+//            @AuthenticationPrincipal User user
+//    ) {
+//
+//        AIGeneralPlanContext context =
+//                aiGeneralPlanContextService.construir(
+//                        user.getId()
+//                );
+//
+//        return ResponseEntity.ok(
+//                promptBuilderService
+//                        .construirPromptPlanoGeral(context)
+//        );
+//    }
+//
+//    @PostMapping("/general/test")
+//    public ResponseEntity<String> testarPlanoGeral(
+//            @AuthenticationPrincipal User user
+//    ) {
+//
+//        AIGeneralPlanContext context =
+//                aiGeneralPlanContextService.construir(
+//                        user.getId()
+//                );
+//
+//        String prompt =
+//                promptBuilderService
+//                        .construirPromptPlanoGeral(context);
+//
+//        return ResponseEntity.ok(
+//                aiProvider.generate(prompt)
+//        );
+//    }
+
+    @GetMapping("/general-plan")
+    public ResponseEntity<GeneralPersonalizedPlanResponseDTO> buscarPlanoGeral(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(
+                generalPersonalizedPlanService.buscarPlano(user.getId())
+        );
+    }
+
+    @PostMapping("/general-plan")
+    public ResponseEntity<GeneralPersonalizedPlanResponseDTO> gerarPlanoGeral(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(
+                generalPersonalizedPlanService.gerarPlano(user.getId())
+        );
+    }
+
+    @PostMapping("/general-plan/regenerate")
+    public ResponseEntity<GeneralPersonalizedPlanResponseDTO> regenerarPlanoGeral(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(
+                generalPersonalizedPlanService.regenerarPlano(user.getId())
         );
     }
 }
