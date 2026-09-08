@@ -25,21 +25,21 @@ const perguntas = [
         ],
     },
     {
-        campo: "nivelSocial",
+        campo: "tipoSocializacao",
         titulo: "Como você prefere praticar um hobby?",
         opcoes: [
-            { label: "Sozinho", valor: "INTROVERTIDO" },
-            { label: "Com outras pessoas", valor: "EXTROVERTIDO" },
-            { label: "Tanto faz", valor: "AMBIVERTIDO" },
-        ],
-    },
-    {
-        campo: "nivelExperiencia",
-        titulo: "Qual é sua experiência com hobbies?",
-        opcoes: [
-            { label: "Estou começando agora", valor: "INICIANTE" },
-            { label: "Já pratiquei alguns", valor: "INTERMEDIARIO" },
-            { label: "Tenho bastante experiência", valor: "AVANCADO" },
+            {
+                label: "Prefiro atividades individuais",
+                valor: "INDIVIDUAL"
+            },
+            {
+                label: "Prefiro atividades com outras pessoas",
+                valor: "SOCIAL"
+            },
+            {
+                label: "Não tenho preferência",
+                valor: "INDIFERENTE"
+            },
         ],
     },
     {
@@ -63,16 +63,6 @@ const perguntas = [
         ],
     },
     {
-        campo: "formatoPreferido",
-        titulo: "Qual formato combina mais com você?",
-        opcoes: [
-            { label: "Presencial", valor: "PRESENCIAL" },
-            { label: "Remoto", valor: "REMOTO" },
-            { label: "Os dois", valor: "HIBRIDO" },
-            { label: "Tanto faz", valor: "INDIFERENTE" },
-        ],
-    },
-    {
         campo: "localizacao",
         titulo: "Onde você mora atualmente?",
         localizacao: true
@@ -92,9 +82,35 @@ const perguntas = [
 export default function Onboarding() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const modoEdicao = searchParams.get("editar") === "true";
+
+    const modoEdicao =
+     searchParams.get("editar") === "true";
+
+     //Dados carregados do backend
     const [objetivos, setObjetivos] = useState([]);
+    const [interesses, setInteresses] = useState([]);
+
+    //Seleções múltiplas
     const [objetivosSelecionados, setObjetivosSelecionados] = useState([]);
+    const [interessesSelecionados,setInteressesSelecionados] = useState([]);
+
+    // Estado da interface
+        const [etapa, setEtapa] = useState(0);
+        const [enviando, setEnviando] = useState(false);
+        const [erro, setErro] = useState("");
+
+        // Perfil
+        const [profile, setProfile] = useState({
+            tempoDisponivelSemanal: null,
+            orcamentoInicial: null,
+            tipoSocializacao: null,
+            nivelAtividadeFisicaDesejada: null,
+            ambientePreferido: null,
+            cidade: "",
+            estado: "",
+            interestIds: [],
+            objectiveIds: []
+        });
 
     useEffect(() => {
         async function carregarDados() {
@@ -115,12 +131,28 @@ export default function Onboarding() {
                                         },
                                     }),
 
+
+
                                     api.get("/interests", {
                                         headers: {
                                             Authorization: `Bearer ${token}`,
                                         },
                                     }),
                                 ]);
+
+                            console.log(
+                                "RESPOSTA /objectives:",
+                                JSON.stringify(objetivosResponse.data, null, 2)
+                            );
+
+                            console.log("RESPOSTA COMPLETA /interests:", interessesResponse);
+                            console.log("DATA:", interessesResponse.data);
+                            console.log("TIPO:", typeof interessesResponse.data);
+                            console.log(
+                                "JSON:",
+                                JSON.stringify(interessesResponse.data, null, 2)
+                            );
+
 
                             setObjetivos(objetivosResponse.data);
                             setInteresses(interessesResponse.data);
@@ -144,20 +176,14 @@ export default function Onboarding() {
                                     orcamentoInicial:
                                         dados.orcamentoInicial,
 
-                                    nivelSocial:
-                                        dados.nivelSocial,
-
-                                    nivelExperiencia:
-                                        dados.nivelExperiencia,
+                                    tipoSocializacao:
+                                    dados.tipoSocializacao,
 
                                     nivelAtividadeFisicaDesejada:
                                         dados.nivelAtividadeFisicaDesejada,
 
                                     ambientePreferido:
                                         dados.ambientePreferido,
-
-                                    formatoPreferido:
-                                        dados.formatoPreferido,
 
                                     cidade:
                                         dados.cidade ?? "",
@@ -221,26 +247,6 @@ export default function Onboarding() {
         });
     }
 
-    const [interesses, setInteresses] = useState([]);
-    const [interessesSelecionados, setInteressesSelecionados] = useState([]);
-
-    const [etapa, setEtapa] = useState(0);
-    const [enviando, setEnviando] = useState(false);
-    const [erro, setErro] = useState("");
-
-    const [profile, setProfile] = useState({
-        tempoDisponivelSemanal: null,
-        orcamentoInicial: null,
-        nivelSocial: null,
-        nivelExperiencia: null,
-        nivelAtividadeFisicaDesejada: null,
-        ambientePreferido: null,
-        formatoPreferido: null,
-        cidade: "",
-        estado: "",
-        interestIds: [],
-        objectiveIds: []
-    });
 
     const perguntaAtual = perguntas[etapa];
     const progresso = ((etapa + 1) / perguntas.length) * 100;

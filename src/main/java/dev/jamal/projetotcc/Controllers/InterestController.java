@@ -21,8 +21,20 @@ public class InterestController {
 
     @GetMapping
     public ResponseEntity<List<InterestResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(
-                interestService.listarTodos()
+
+        System.out.println(">>> ENTROU NO GET /interests");
+
+        List<InterestResponseDTO> interesses =
+                interestService.listarTodos();
+
+        System.out.println(
+                ">>> QUANTIDADE DE INTERESSES: " + interesses.size()
         );
+
+        System.out.println(
+                ">>> INTERESSES: " + interesses
+        );
+
+        return ResponseEntity.ok(interesses);
     }
 }

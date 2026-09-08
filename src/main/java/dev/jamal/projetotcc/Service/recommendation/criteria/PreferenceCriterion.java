@@ -47,19 +47,7 @@ public class PreferenceCriterion implements RecommendationCriterion {
                 );
             } else {
                 alertas.add(
-                        "O ambiente mais comun deste hobby difere da sua preferência"
-                );
-            }
-        }
-
-        if (p.getFormatoPreferido() != null && h.getFormato() != null) {
-            if (p.getFormatoPreferido() == FormatoPreferido.INDIFERENTE
-                    || p.getFormatoPreferido() == h.getFormato()
-                    || h.getFormato() == FormatoPreferido.HIBRIDO) {
-
-                score += 4;
-                motivos.add(
-                        "Possui formato compatível com sua preferência"
+                        "O ambiente mais comum deste hobby difere da sua preferência"
                 );
             }
         }

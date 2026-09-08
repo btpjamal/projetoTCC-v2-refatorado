@@ -24,14 +24,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
+        System.out.println(">>> REQUEST: " + request.getMethod() + " " + request.getRequestURI());
+
+        System.out.println(">>> AUTH HEADER PRESENTE: " + (authHeader != null));
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println(
+                    ">>> ANTES FILTER CHAIN: "
+                            + request.getMethod()
+                            + " "
+                            + request.getRequestURI()
+                            + " | STATUS: "
+                            + response.getStatus()
+                            + " | COMMITTED: "
+                            + response.isCommitted()
+            );
             filterChain.doFilter(request, response);
+            System.out.println(
+                    ">>> DEPOIS FILTER CHAIN: "
+                            + request.getMethod()
+                            + " "
+                            + request.getRequestURI()
+                            + " | STATUS: "
+                            + response.getStatus()
+                            + " | COMMITTED: "
+                            + response.isCommitted()
+            );
             return;
         }
 
@@ -41,6 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             String email = jwtService.extrairEmail(token);
 
+            System.out.println(">>> EMAIL EXTRAÍDO: " + email);
+
             if (email != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -48,29 +71,50 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .findByEmail(email)
                         .orElse(null);
 
-                if (user != null &&
-                        jwtService.tokenValido(token, user)) {
+                System.out.println(">>> USUÁRIO ENCONTRADO: " + (user != null));
 
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(
-                                    user,
-                                    null,
-                                    user.getAuthorities()
-                            );
+                if (user != null) {
 
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource()
-                                    .buildDetails(request)
-                    );
+                    boolean tokenValido =
+                            jwtService.tokenValido(token, user);
 
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(authToken);
+                    System.out.println(">>> TOKEN VÁLIDO: " + tokenValido);
+
+                    if (tokenValido) {
+
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        user,
+                                        null,
+                                        user.getAuthorities()
+                                );
+
+                        authToken.setDetails(
+                                new WebAuthenticationDetailsSource()
+                                        .buildDetails(request)
+                        );
+
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(authToken);
+
+                        System.out.println(
+                                ">>> AUTENTICAÇÃO DEFINIDA: "
+                                        + SecurityContextHolder
+                                        .getContext()
+                                        .getAuthentication()
+                                        .isAuthenticated()
+                        );
+                    }
                 }
             }
-
         } catch (Exception e) {
+            System.out.println(">>> ERRO NO JWT FILTER:");
+            e.printStackTrace();
             SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(request, response);
     }
 }
+
+
+

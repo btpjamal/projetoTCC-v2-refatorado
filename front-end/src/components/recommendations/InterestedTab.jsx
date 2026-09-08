@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import "../../pages/css/Recommendations.css";
 
@@ -10,9 +10,14 @@ export default function InterestedTab() {
     const [hobbies, setHobbies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState("");
+    const [possuiPlanoGeral, setPossuiPlanoGeral] = useState(false);
 
     useEffect(() => {
         carregarInteressados();
+    }, []);
+
+    useEffect(() => {
+        verificarPlanoGeral();
     }, []);
 
     async function carregarInteressados() {
@@ -47,6 +52,24 @@ export default function InterestedTab() {
             setLoading(false);
         }
     }
+
+    async function verificarPlanoGeral() {
+        try {
+            await api.get("/ai/general-plan");
+            setPossuiPlanoGeral(true);
+        } catch (error) {
+            if (error.response?.status === 404) {
+                setPossuiPlanoGeral(false);
+                return;
+            }
+
+            console.error(
+                "Erro ao verificar plano geral:",
+                error
+            );
+        }
+    }
+
     async function devolverParaDescobrir(hobbyId) {
                 try {
                     const userId = localStorage.getItem("userId");
@@ -198,6 +221,16 @@ export default function InterestedTab() {
                         hobby neste momento.
                     </p>
                 </div>
+
+            <button
+                type="button"
+                className="general-plan-button"
+                onClick={() => navigate("/general-plan")}
+            >
+                {possuiPlanoGeral
+                    ? "📋 Ver plano geral"
+                    : "✨ Criar plano geral"}
+            </button>
 
             <div className="recommendations-grid">
                 {hobbies.map((hobby) => (

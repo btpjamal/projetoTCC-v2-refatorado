@@ -7,6 +7,6 @@ import lombok.*;
 public class UserProfileResponseDTO {
  private Long id; private Double tempoDisponivelSemanal; private Double orcamentoInicial;
  private TipoSocializacao tipoSocializacao; private NivelAtividadeFisica nivelAtividadeFisicaDesejada;
- private AmbientePreferido ambientePreferido; private FormatoPreferido formatoPreferido;
- private NivelExperiencia nivelExperiencia; private boolean questionarioConcluido; private UserSummaryDTO user;
+ private AmbientePreferido ambientePreferido;
+ private boolean questionarioConcluido; private UserSummaryDTO user;
 }

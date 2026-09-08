@@ -23,12 +23,8 @@ public class RecommendationProfileMapper {
                 dto.getOrcamentoInicial()
         );
 
-        profile.setNivelSocial(
-                dto.getNivelSocial()
-        );
-
-        profile.setNivelExperiencia(
-                dto.getNivelExperiencia()
+        profile.setTipoSocializacao(
+                dto.getTipoSocializacao()
         );
 
         profile.setNivelAtividadeFisicaDesejada(
@@ -39,9 +35,6 @@ public class RecommendationProfileMapper {
                 dto.getAmbientePreferido()
         );
 
-        profile.setFormatoPreferido(
-                dto.getFormatoPreferido()
-        );
 
         profile.setCidade(
                 dto.getCidade().trim()
@@ -66,13 +59,10 @@ public class RecommendationProfileMapper {
                 dto.getOrcamentoInicial()
         );
 
-        profile.setNivelSocial(
-                dto.getNivelSocial()
+        profile.setTipoSocializacao(
+                dto.getTipoSocializacao()
         );
 
-        profile.setNivelExperiencia(
-                dto.getNivelExperiencia()
-        );
 
         profile.setNivelAtividadeFisicaDesejada(
                 dto.getNivelAtividadeFisicaDesejada()
@@ -82,9 +72,6 @@ public class RecommendationProfileMapper {
                 dto.getAmbientePreferido()
         );
 
-        profile.setFormatoPreferido(
-                dto.getFormatoPreferido()
-        );
 
         profile.setCidade(
                 dto.getCidade().trim()
@@ -105,11 +92,9 @@ public class RecommendationProfileMapper {
                 profile.getUser().getId(),
                 profile.getTempoDisponivelSemanal(),
                 profile.getOrcamentoInicial(),
-                profile.getNivelSocial(),
-                profile.getNivelExperiencia(),
+                profile.getTipoSocializacao(),
                 profile.getNivelAtividadeFisicaDesejada(),
                 profile.getAmbientePreferido(),
-                profile.getFormatoPreferido(),
                 profile.getQuestionarioConcluido(),
                 interestIds,
                 objectiveIds,

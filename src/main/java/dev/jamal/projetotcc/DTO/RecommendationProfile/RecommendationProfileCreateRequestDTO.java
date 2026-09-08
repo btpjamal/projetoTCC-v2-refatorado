@@ -1,10 +1,8 @@
 package dev.jamal.projetotcc.DTO.RecommendationProfile;
 
 import dev.jamal.projetotcc.Enum.AmbientePreferido;
-import dev.jamal.projetotcc.Enum.FormatoPreferido;
 import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
-import dev.jamal.projetotcc.Enum.NivelExperiencia;
-import dev.jamal.projetotcc.Enum.NivelSocial;
+import dev.jamal.projetotcc.Enum.TipoSocializacao;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
@@ -20,19 +18,13 @@ public class RecommendationProfileCreateRequestDTO {
     private Double orcamentoInicial;
 
     @NotNull
-    private NivelSocial nivelSocial;
-
-    @NotNull
-    private NivelExperiencia nivelExperiencia;
+    private TipoSocializacao tipoSocializacao;
 
     @NotNull
     private NivelAtividadeFisica nivelAtividadeFisicaDesejada;
 
     @NotNull
     private AmbientePreferido ambientePreferido;
-
-    @NotNull
-    private FormatoPreferido formatoPreferido;
 
     private List<Long> interestIds;
 
@@ -63,23 +55,16 @@ public class RecommendationProfileCreateRequestDTO {
         this.orcamentoInicial = orcamentoInicial;
     }
 
-    public NivelSocial getNivelSocial() {
-        return nivelSocial;
+    public TipoSocializacao getTipoSocializacao() {
+        return tipoSocializacao;
     }
 
-    public void setNivelSocial(NivelSocial nivelSocial) {
-        this.nivelSocial = nivelSocial;
-    }
-
-    public NivelExperiencia getNivelExperiencia() {
-        return nivelExperiencia;
-    }
-
-    public void setNivelExperiencia(
-            NivelExperiencia nivelExperiencia
+    public void setTipoSocializacao(
+            TipoSocializacao tipoSocializacao
     ) {
-        this.nivelExperiencia = nivelExperiencia;
+        this.tipoSocializacao = tipoSocializacao;
     }
+
 
     public NivelAtividadeFisica getNivelAtividadeFisicaDesejada() {
         return nivelAtividadeFisicaDesejada;
@@ -100,16 +85,6 @@ public class RecommendationProfileCreateRequestDTO {
             AmbientePreferido ambientePreferido
     ) {
         this.ambientePreferido = ambientePreferido;
-    }
-
-    public FormatoPreferido getFormatoPreferido() {
-        return formatoPreferido;
-    }
-
-    public void setFormatoPreferido(
-            FormatoPreferido formatoPreferido
-    ) {
-        this.formatoPreferido = formatoPreferido;
     }
 
     public List<Long> getInterestIds() {

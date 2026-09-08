@@ -1,10 +1,6 @@
 package dev.jamal.projetotcc.DTO.RecommendationProfile;
 
-import dev.jamal.projetotcc.Enum.AmbientePreferido;
-import dev.jamal.projetotcc.Enum.FormatoPreferido;
-import dev.jamal.projetotcc.Enum.NivelAtividadeFisica;
-import dev.jamal.projetotcc.Enum.NivelExperiencia;
-import dev.jamal.projetotcc.Enum.NivelSocial;
+import dev.jamal.projetotcc.Enum.*;
 
 import java.util.List;
 
@@ -14,11 +10,9 @@ public class RecommendationProfileResponseDTO {
     private Long userId;
     private Double tempoDisponivelSemanal;
     private Double orcamentoInicial;
-    private NivelSocial nivelSocial;
-    private NivelExperiencia nivelExperiencia;
+    private TipoSocializacao tipoSocializacao;
     private NivelAtividadeFisica nivelAtividadeFisicaDesejada;
     private AmbientePreferido ambientePreferido;
-    private FormatoPreferido formatoPreferido;
     private Boolean questionarioConcluido;
     private List<Long> interestIds;
     private List<Long> objectiveIds;
@@ -30,11 +24,9 @@ public class RecommendationProfileResponseDTO {
             Long userId,
             Double tempoDisponivelSemanal,
             Double orcamentoInicial,
-            NivelSocial nivelSocial,
-            NivelExperiencia nivelExperiencia,
+            TipoSocializacao tipoSocializacao,
             NivelAtividadeFisica nivelAtividadeFisicaDesejada,
             AmbientePreferido ambientePreferido,
-            FormatoPreferido formatoPreferido,
             Boolean questionarioConcluido,
             List interestIds,
             List objectiveIds,
@@ -45,11 +37,9 @@ public class RecommendationProfileResponseDTO {
         this.userId = userId;
         this.tempoDisponivelSemanal = tempoDisponivelSemanal;
         this.orcamentoInicial = orcamentoInicial;
-        this.nivelSocial = nivelSocial;
-        this.nivelExperiencia = nivelExperiencia;
+        this.tipoSocializacao = tipoSocializacao;
         this.nivelAtividadeFisicaDesejada = nivelAtividadeFisicaDesejada;
         this.ambientePreferido = ambientePreferido;
-        this.formatoPreferido = formatoPreferido;
         this.questionarioConcluido = questionarioConcluido;
         this.interestIds = interestIds;
         this.objectiveIds = objectiveIds;
@@ -73,12 +63,8 @@ public class RecommendationProfileResponseDTO {
         return orcamentoInicial;
     }
 
-    public NivelSocial getNivelSocial() {
-        return nivelSocial;
-    }
-
-    public NivelExperiencia getNivelExperiencia() {
-        return nivelExperiencia;
+    public TipoSocializacao getTipoSocializacao() {
+        return tipoSocializacao;
     }
 
     public NivelAtividadeFisica getNivelAtividadeFisicaDesejada() {
@@ -87,10 +73,6 @@ public class RecommendationProfileResponseDTO {
 
     public AmbientePreferido getAmbientePreferido() {
         return ambientePreferido;
-    }
-
-    public FormatoPreferido getFormatoPreferido() {
-        return formatoPreferido;
     }
 
     public Boolean getQuestionarioConcluido() {

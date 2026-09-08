@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Auth público
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/ai/**").authenticated()
+                        .requestMatchers("/api/v1/recommendations/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                         // Swagger público
                         .requestMatchers(
