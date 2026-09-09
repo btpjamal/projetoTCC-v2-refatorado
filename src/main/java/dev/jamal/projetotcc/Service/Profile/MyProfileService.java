@@ -72,13 +72,32 @@ public class MyProfileService {
                         );
         List<MyProfileHobbyDTO> interessados =
                 feedbacksInteressados.stream()
+                        .filter(feedback -> {
+
+                            Long hobbyId = feedback.getHobby().getId();
+
+                            return userHobbies.stream()
+                                    .filter(userHobby ->
+                                            userHobby.getHobby()
+                                                    .getId()
+                                                    .equals(hobbyId)
+                                    )
+                                    .findFirst()
+                                    .map(userHobby ->
+                                            userHobby.getStatusAtual()
+                                                    == UserHobbyStatus.INTERESSADO
+                                    )
+                                    .orElse(true);
+                        })
                         .map(feedback -> {
 
                             Hobby hobby = feedback.getHobby();
 
                             UserHobby userHobby = userHobbies.stream()
                                     .filter(uh ->
-                                            uh.getHobby().getId().equals(hobby.getId())
+                                            uh.getHobby()
+                                                    .getId()
+                                                    .equals(hobby.getId())
                                     )
                                     .findFirst()
                                     .orElse(null);
@@ -87,11 +106,13 @@ public class MyProfileService {
                                     hobby.getId(),
                                     hobby.getNome(),
 
-                                    userHobby != null && userHobby.getNivelAtual() != null
+                                    userHobby != null
+                                            && userHobby.getNivelAtual() != null
                                             ? userHobby.getNivelAtual().name()
                                             : null,
 
-                                    userHobby != null && userHobby.getStatusAtual() != null
+                                    userHobby != null
+                                            && userHobby.getStatusAtual() != null
                                             ? userHobby.getStatusAtual().name()
                                             : "INTERESSADO"
                             );
