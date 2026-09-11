@@ -8,6 +8,7 @@ import Feedbacks from "./pages/Feedbacks";
 import RecommendationDetails from "./pages/RecommendationDetails.jsx";
 import Onboarding from "./pages/Onboarding";
 import GeneralPlan from "./pages/GeneralPlan.jsx";
+import MyProfile from "./pages/MyProfile";
 
 export default function App() {
   return (
@@ -22,6 +23,8 @@ export default function App() {
         <Route path="/recommendations/:hobbyId" element={<RecommendationDetails />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/general-plan" element={<GeneralPlan />} />
+        <Route path="/myProfile" element={<MyProfile />}
+        />
       </Routes>
   );
 }

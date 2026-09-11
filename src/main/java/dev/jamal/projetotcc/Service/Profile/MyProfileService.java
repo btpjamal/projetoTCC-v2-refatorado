@@ -2,17 +2,19 @@ package dev.jamal.projetotcc.Service.Profile;
 
 import dev.jamal.projetotcc.DTO.Profile.MyProfileHobbyDTO;
 import dev.jamal.projetotcc.DTO.Profile.MyProfileResponseDTO;
+import dev.jamal.projetotcc.DTO.Recommendation.HobbyRecommendationDTO;
 import dev.jamal.projetotcc.DTO.Recommendation.RecommendationFeedbackRequestDTO;
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.RecommendationFeedbackType;
 import dev.jamal.projetotcc.Enum.UserHobbyStatus;
 import dev.jamal.projetotcc.Repository.*;
+import dev.jamal.projetotcc.Service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,8 @@ public class MyProfileService {
     private final UserObjectiveRepository userObjectiveRepository;
     private final UserHobbyRepository userHobbyRepository;
     private final UserRecommendationFeedbackRepository feedbackRepository;
+    private final RecommendationService recommendationService;
+    private final MyProfileResumeService profileResumeService;
 
     public MyProfileResponseDTO buscarPerfil(Long userId) {
 
@@ -57,7 +61,7 @@ public class MyProfileService {
         List<UserHobby> userHobbies =
                 userHobbyRepository.findByUser_Id(userId);
 
-        List<MyProfileHobbyDTO> praticando = userHobbies.stream()
+        List<MyProfileHobbyDTO> praticandoCompleto = userHobbies.stream()
                 .filter(userHobby ->
                         userHobby.getStatusAtual() == UserHobbyStatus.PRATICANDO
                 )
@@ -70,7 +74,7 @@ public class MyProfileService {
                                 userId,
                                 RecommendationFeedbackType.INTERESSADO
                         );
-        List<MyProfileHobbyDTO> interessados =
+        List<MyProfileHobbyDTO> interessadosCompleto =
                 feedbacksInteressados.stream()
                         .filter(feedback -> {
 
@@ -119,17 +123,79 @@ public class MyProfileService {
                         })
                         .toList();
 
+        var recomendacoes =
+                recommendationService.recomendar(userId);
+
+        Set<Long> hobbiesJaRelacionados = new HashSet<>();
+
+        praticandoCompleto.forEach(
+                hobby -> hobbiesJaRelacionados.add(hobby.hobbyId())
+        );
+
+        interessadosCompleto.forEach(
+                hobby -> hobbiesJaRelacionados.add(hobby.hobbyId())
+        );
+
+        List<MyProfileResponseDTO.RecommendedHobbyDTO> top5 =
+                recomendacoes.stream()
+
+                        .filter(recomendacao ->
+                                !hobbiesJaRelacionados.contains(
+                                        recomendacao.getHobbyId()
+                                )
+                        )
+
+                        .sorted(
+                                Comparator.comparingDouble(
+                                        HobbyRecommendationDTO::getScore
+                                ).reversed()
+                        )
+
+                        .limit(5)
+
+                        .map(recomendacao ->
+                                new MyProfileResponseDTO.RecommendedHobbyDTO(
+                                        recomendacao.getHobbyId(),
+                                        recomendacao.getNome(),
+                                        recomendacao.getScore()
+                                )
+                        )
+
+                        .toList();
+
+
+        List<MyProfileHobbyDTO> praticando =
+                selecionarAleatorios(praticandoCompleto, 3);
+
+        List<MyProfileHobbyDTO> interessados =
+                selecionarAleatorios(interessadosCompleto, 3);
+
+        List<MyProfileResponseDTO.RecommendedHobbyDTO> recomendados =
+                selecionarAleatorios(top5, 2);
+
+        String resumo = profileResumeService.construirResumo(
+                user,
+                idade,
+                profile,
+                interesses,
+                objetivos,
+                praticando,
+                interessados,
+                recomendados
+        );
+
+
         return new MyProfileResponseDTO(
                 user.getNome(),
                 idade,
                 profile.getCidade(),
                 profile.getEstado(),
 
-                null,           // resumo
+                resumo,           // resumo
 
                 praticando,      // praticando
                 interessados,      // interessados
-                List.of(),      // recomendados
+                recomendados,      // recomendados
 
                 profile.getTempoDisponivelSemanal(),
                 profile.getOrcamentoInicial(),
@@ -178,4 +244,24 @@ public class MyProfileService {
                         : null
         );
     }
+
+    private <T> List<T> selecionarAleatorios(
+            List<T> itens,
+            int quantidade
+    ) {
+
+        if (itens.size() <= quantidade) {
+            return itens;
+        }
+
+        List<T> copia = new ArrayList<>(itens);
+
+        Collections.shuffle(copia);
+
+        return copia.stream()
+                .limit(quantidade)
+                .toList();
+    }
+
+
 }
