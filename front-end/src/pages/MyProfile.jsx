@@ -37,6 +37,7 @@ function HobbyGroup({
 
             {hobbies.length === 0 ? (
                 <p className="empty-hobbies">{vazio}</p>
+
             ) : (
                 <div className="hobby-profile-list">
 
