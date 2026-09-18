@@ -140,6 +140,14 @@ function MyProfile() {
                     <p>{perfil.resumo}</p>
                 </section>
 
+                <button
+                    type="button"
+                    className="recommendations-button"
+                    onClick={() => navigate("/Recommendations")}
+                >
+                    Descobrir
+                </button>
+
                 {/* Dados do onboarding */}
                 <section className="profile-section">
                     <div className="section-title">
