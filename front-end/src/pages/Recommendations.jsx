@@ -37,6 +37,11 @@ export default function Recommendations() {
                         </button>
                         <button
                             type="button"
+                            onClick={() => navigate("/MyProfile")}>
+                            Meu Perfil
+                        </button>
+                        <button
+                            type="button"
                             onClick={() =>
                                 navigate("/onboarding?editar=true")
                             }

@@ -296,7 +296,7 @@ export default function Onboarding() {
                 }
             );
 
-            navigate("/recommendations");
+            navigate("/MyProfile");
         } catch (error) {
             console.error("Erro completo: ", error);
             console.error("Status: ", error.response?.status);
@@ -315,7 +315,7 @@ export default function Onboarding() {
         if (etapa === 0) {
 
             if (modoEdicao) {
-                navigate("/recommendations");
+                navigate("/MyProfile");
             } else {
                 navigate("/login");
             }
