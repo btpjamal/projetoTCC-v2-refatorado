@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import "../../pages/css/Recommendations.css";
+import "./InterestedTab.css";
 
 export default function InterestedTab() {
 
@@ -206,182 +207,209 @@ export default function InterestedTab() {
     }
 
     return (
-        <section>
-            <h2>Tenho interesse</h2>
+        <section className="interested-section">
 
-
-                <div className="hobby-status-info">
-                    <p>
-                        <strong>ⓘ Meu nível</strong> representa quanta experiência você
-                        possui com aquele hobby, mesmo que não o pratique atualmente.
-                    </p>
+            <div className="interested-header">
+                <div>
+                    <h2>Tenho interesse</h2>
 
                     <p>
-                        <strong>ⓘ Situação atual</strong> representa sua relação com o
-                        hobby neste momento.
+                        Acompanhe seus hobbies salvos e organize
+                        sua evolução pessoal.
                     </p>
                 </div>
 
-            <button
-                type="button"
-                className="general-plan-button"
-                onClick={() => navigate("/general-plan")}
-            >
-                {possuiPlanoGeral
-                    ? "📋 Ver plano geral"
-                    : "✨ Criar plano geral"}
-            </button>
+                <button
+                    type="button"
+                    className="general-plan-button"
+                    onClick={() => navigate("/general-plan")}
+                >
+                    {possuiPlanoGeral
+                        ? "📋 Ver plano geral"
+                        : "✨ Criar plano geral"}
+                </button>
+            </div>
+
+            <div className="hobby-status-info">
+                <p>
+                    <strong>ⓘ Meu nível</strong> representa quanta
+                    experiência você possui com o hobby, mesmo
+                    que não o pratique atualmente.
+                </p>
+
+                <p>
+                    <strong>ⓘ Situação atual</strong> representa
+                    sua relação com o hobby neste momento.
+                </p>
+            </div>
 
             <div className="recommendations-grid">
                 {hobbies.map((hobby) => (
-                    <div
+                    <article
                         key={hobby.hobbyId}
-                        className="recommendation-card"
-                        onClick={() =>
-                            navigate(
-                                `/recommendations/${hobby.hobbyId}`
-                            )
-                        }
+                        className="recommendation-card interested-card"
                     >
-                        <h3>{hobby.nome}</h3>
 
-                        <p>{hobby.descricao}</p>
+                        <div className="recommendation-card-header">
+                            <span className="recommendation-category">
+                                {hobby.categoria}
+                            </span>
 
-                        <p>{hobby.score} pts</p>
-
-                        <p>
-                            <strong>Categoria:</strong>{" "}
-                            {hobby.categoria}
-                        </p>
-
-                        <div
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <label>
-                                <strong>Meu nível:</strong>{" "}
-
-                                <select
-                                    value={hobby.nivelAtual ?? "INICIANTE"}
-                                    onChange={(e) => {
-                                        e.stopPropagation();
-
-                                        atualizarNivel(
-                                            hobby.hobbyId,
-                                            e.target.value
-                                        );
-                                    }}
-                                >
-                                    <option value="INICIANTE">
-                                        Iniciante
-                                    </option>
-
-                                    <option value="INTERMEDIARIO">
-                                        Intermediário
-                                    </option>
-
-                                    <option value="AVANCADO">
-                                        Avançado
-                                    </option>
-                                </select>
-                            </label>
+                            <span className="recommendation-score">
+                                {hobby.score} pts
+                            </span>
                         </div>
 
-                        <div
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <label>
-                                <strong>Situação atual:</strong>{" "}
+                        <div className="recommendation-card-content">
+                            <h3 className="recommendation-name">
+                                {hobby.nome}
+                            </h3>
 
-                                <select
-                                    value={
-                                        hobby.statusAtual ?? "INTERESSADO"
-                                    }
-                                    onChange={(e) => {
-                                        e.stopPropagation();
+                            <p className="recommendation-description">
+                                {hobby.descricao}
+                            </p>
 
-                                        atualizarStatus(
-                                            hobby.hobbyId,
-                                            e.target.value
-                                        );
-                                    }}
-                                >
-                                    <option value="INTERESSADO">
-                                        Tenho interesse
-                                    </option>
+                            <div className="interested-fields">
 
-                                    <option value="PRATICANDO">
-                                        Estou praticando
-                                    </option>
+                                <label className="interested-field">
+                                    <span>Meu nível</span>
 
-                                    <option value="PAUSADO">
-                                        Está pausado
-                                    </option>
-                                </select>
-                            </label>
-                        </div>
+                                    <select
+                                        value={
+                                            hobby.nivelAtual ?? "INICIANTE"
+                                        }
+                                        onChange={(e) =>
+                                            atualizarNivel(
+                                                hobby.hobbyId,
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        <option value="INICIANTE">
+                                            Iniciante
+                                        </option>
 
-                        <details
-                            className="hobby-status-help"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <summary>Como funcionam essas opções?</summary>
+                                        <option value="INTERMEDIARIO">
+                                            Intermediário
+                                        </option>
 
-                            <div>
-                                <p>
-                                    <strong>Meu nível</strong> indica sua experiência
-                                    com este hobby:
-                                </p>
+                                        <option value="AVANCADO">
+                                            Avançado
+                                        </option>
+                                    </select>
+                                </label>
 
-                                <ul>
-                                    <li>
-                                        <strong>Iniciante:</strong> pouca ou nenhuma experiência.
-                                    </li>
-                                    <li>
-                                        <strong>Intermediário:</strong> já possui alguma experiência.
-                                    </li>
-                                    <li>
-                                        <strong>Avançado:</strong> possui bastante experiência.
-                                    </li>
-                                </ul>
+                                <label className="interested-field">
+                                    <span>Situação atual</span>
 
-                                <p>
-                                    <strong>Situação atual</strong> indica sua relação
-                                    com o hobby neste momento:
-                                </p>
+                                    <select
+                                        value={
+                                            hobby.statusAtual ?? "INTERESSADO"
+                                        }
+                                        onChange={(e) =>
+                                            atualizarStatus(
+                                                hobby.hobbyId,
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        <option value="INTERESSADO">
+                                            Tenho interesse
+                                        </option>
 
-                                <ul>
-                                    <li>
-                                        <strong>Tenho interesse:</strong> você tem interesse
-                                        em começar ou voltar ao hobby.
-                                    </li>
-                                    <li>
-                                        <strong>Estou praticando:</strong> você pratica
-                                        o hobby atualmente.
-                                    </li>
-                                    <li>
-                                        <strong>Está pausado:</strong> você já praticou,
-                                        mas não pratica atualmente.
-                                    </li>
-                                </ul>
+                                        <option value="PRATICANDO">
+                                            Estou praticando
+                                        </option>
+
+                                        <option value="PAUSADO">
+                                            Está pausado
+                                        </option>
+                                    </select>
+                                </label>
+
                             </div>
-                        </details>
 
+                            <details className="hobby-status-help">
+                                <summary>
+                                    Como funcionam essas opções?
+                                </summary>
+
+                                <div>
+                                    <p>
+                                        <strong>Meu nível</strong> indica
+                                        sua experiência com este hobby:
+                                    </p>
+
+                                    <ul>
+                                        <li>
+                                            <strong>Iniciante:</strong>{" "}
+                                            pouca ou nenhuma experiência.
+                                        </li>
+
+                                        <li>
+                                            <strong>Intermediário:</strong>{" "}
+                                            já possui alguma experiência.
+                                        </li>
+
+                                        <li>
+                                            <strong>Avançado:</strong>{" "}
+                                            possui bastante experiência.
+                                        </li>
+                                    </ul>
+
+                                    <p>
+                                        <strong>Situação atual</strong> indica
+                                        sua relação com o hobby:
+                                    </p>
+
+                                    <ul>
+                                        <li>
+                                            <strong>Tenho interesse:</strong>{" "}
+                                            deseja começar ou voltar.
+                                        </li>
+
+                                        <li>
+                                            <strong>Estou praticando:</strong>{" "}
+                                            pratica atualmente.
+                                        </li>
+
+                                        <li>
+                                            <strong>Está pausado:</strong>{" "}
+                                            não pratica no momento.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div className="interested-actions">
+                            <button
+                                type="button"
+                                className="interested-remove-button"
+                                onClick={() =>
+                                    devolverParaDescobrir(hobby.hobbyId)
+                                }
+                            >
+                                Mudei de ideia
+                            </button>
+                        </div>
 
                         <button
                             type="button"
-                            onClick={(e) => {
-                                 e.stopPropagation();
-
-                                 devolverParaDescobrir(
-                                      hobby.hobbyId
-                                 );
-                            }}
+                            className="recommendation-details-link"
+                            onClick={() =>
+                                navigate(
+                                    `/recommendations/${hobby.hobbyId}`
+                                )
+                            }
                         >
-                            Mudei de ideia
+                            Ver detalhes →
                         </button>
-                    </div>
+
+                    </article>
                 ))}
             </div>
+
         </section>
     );
 }

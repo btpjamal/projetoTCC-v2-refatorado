@@ -1,0 +1,301 @@
+/* ========================================
+   ABA TENHO INTERESSE
+======================================== */
+
+.interested-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+/* CABEÇALHO */
+
+.interested-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.interested-header h2 {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.6px;
+}
+
+.interested-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* PLANO GERAL */
+
+.general-plan-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    min-height: 44px;
+    padding: 12px 20px;
+
+    border: 1px solid #6366f1;
+    border-radius: 12px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.general-plan-button:hover {
+    background: #4f46e5;
+    border-color: #4f46e5;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.2);
+}
+
+/* EXPLICAÇÃO DOS CAMPOS */
+
+.hobby-status-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 28px;
+    padding: 18px 22px;
+
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 14px;
+}
+
+.hobby-status-info p {
+    margin: 0;
+
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.hobby-status-info strong {
+    color: #4338ca;
+}
+
+/* ========================================
+   CARDS DOS HOBBIES SALVOS
+======================================== */
+
+.interested-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* CAMPOS DE GERENCIAMENTO */
+
+.interested-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: 8px;
+    padding: 18px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.interested-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.interested-field > span {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.interested-field select {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 10px 12px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.interested-field select:hover {
+    border-color: #a5b4fc;
+}
+
+.interested-field select:focus {
+    outline: none;
+    border-color: #6366f1;
+
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* ========================================
+   AJUDA SOBRE NÍVEL E STATUS
+======================================== */
+
+.hobby-status-help {
+    margin-top: 4px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+.hobby-status-help summary {
+    padding: 12px 14px;
+
+    color: #6366f1;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: background 0.2s ease;
+}
+
+.hobby-status-help summary:hover {
+    background: #f8fafc;
+}
+
+.hobby-status-help[open] summary {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.hobby-status-help > div {
+    padding: 14px;
+
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.hobby-status-help p {
+    margin: 0 0 10px;
+}
+
+.hobby-status-help ul {
+    margin: 0 0 14px;
+    padding-left: 18px;
+}
+
+.hobby-status-help li {
+    margin-bottom: 6px;
+}
+
+.hobby-status-help strong {
+    color: #334155;
+}
+
+/* ========================================
+   AÇÕES DO CARD
+======================================== */
+
+.interested-actions {
+    margin-top: auto;
+}
+
+.interested-remove-button {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 10px 14px;
+
+    background: #ffffff;
+    color: #64748b;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.interested-remove-button:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 900px) {
+
+    .interested-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .general-plan-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .interested-section {
+        padding: 28px 14px 40px;
+    }
+
+    .interested-header h2 {
+        font-size: 24px;
+    }
+
+    .hobby-status-info {
+        padding: 16px;
+    }
+
+    .interested-fields {
+        padding: 14px;
+    }
+}

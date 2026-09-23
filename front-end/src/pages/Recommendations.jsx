@@ -5,6 +5,7 @@ import RecommendationTabs from "../components/recommendations/RecommendationTabs
 import DiscoverTab from "../components/recommendations/DiscoverTab";
 import InterestedTab from "../components/recommendations/InterestedTab";
 import NotInterestedTab from "../components/recommendations/NotInterestedTab";
+import "./css/RecommendationsLayout.css"
 
 
 export default function Recommendations() {
@@ -21,34 +22,57 @@ export default function Recommendations() {
     return (
         <main>
             {/*ESSA É A PARTE DO CABEÇALHO QUE É COMPARTILHADO ENTRE AS 3 ABAS*/}
-            <header>
-                    <h1>Recomendações</h1>
+            <header className="app-header">
 
-                    <div>
-                        <span>
-                            Olá, {nome}
+                <div className="app-header-content">
+
+                    <div className="app-brand">
+                        <span className="app-brand-icon">✦</span>
+
+                        <div>
+                            <span className="app-brand-name">
+                                Recommendi.a
+                            </span>
+
+                            <span className="app-brand-subtitle">
+                                Descubra seu próximo hobby
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="app-header-actions">
+
+                        <span className="app-user-greeting">
+                            Olá, {nome}!
                         </span>
 
                         <button
-                            type="button"
-                            onClick={logout}
+                            className="app-header-button"
+                            onClick={() => navigate("/myProfile")}
                         >
-                            Sair
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => navigate("/MyProfile")}>
                             Meu Perfil
                         </button>
+
                         <button
-                            type="button"
+                            className="app-header-button"
                             onClick={() =>
                                 navigate("/onboarding?editar=true")
                             }
                         >
                             Atualizar preferências
                         </button>
+
+                        <button
+                            className="app-logout-button"
+                            onClick={logout}
+                        >
+                            Sair
+                        </button>
+
                     </div>
+
+                </div>
+
             </header>
 
             <RecommendationTabs
