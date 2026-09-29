@@ -197,11 +197,20 @@ export default function InterestedTab() {
     if (hobbies.length === 0) {
         return (
             <section>
-                <h2>Tenho interesse</h2>
 
-                <p>
-                    Você ainda não marcou nenhum hobby como interessante.
-                </p>
+                <div className="interested-empty">
+                    <div className="interested-empty-icon">
+                        ♡
+                    </div>
+
+                    <h2>Nenhum hobby de interesse ainda</h2>
+
+                    <p>
+                        Você ainda não marcou nenhum hobby como interessante.
+                        Explore as recomendações e salve aqueles que mais
+                        combinam com você.
+                    </p>
+                </div>
             </section>
         );
     }

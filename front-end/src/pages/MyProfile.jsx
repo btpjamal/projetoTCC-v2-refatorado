@@ -132,21 +132,15 @@ function MyProfile() {
                             {perfil.estado && ` - ${perfil.estado}`}
                         </p>
                     </div>
-                </section>
 
-                {/* Resumo */}
-                <section className="profile-summary">
-                    <h2>Sobre mim</h2>
-                    <p>{perfil.resumo}</p>
+                    <button
+                                        type="button"
+                                        className="recommendations-button"
+                                        onClick={() => navigate("/Recommendations")}
+                                    >
+                                        Descobrir hobbies
+                                    </button>
                 </section>
-
-                <button
-                    type="button"
-                    className="recommendations-button"
-                    onClick={() => navigate("/Recommendations")}
-                >
-                    Descobrir
-                </button>
 
                 {/* Dados do onboarding */}
                 <section className="profile-section">
@@ -263,7 +257,7 @@ function MyProfile() {
                         />
 
                         <HobbyGroup
-                            titulo="Talvez eu também goste de..."
+                            titulo="Recomendados para mim"
                             hobbies={perfil.recomendados}
                             vazio="Nenhuma nova sugestão disponível."
                         />

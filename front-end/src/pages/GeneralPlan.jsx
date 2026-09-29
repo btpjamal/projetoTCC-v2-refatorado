@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
+import "./css/GeneralPlan.css";
+
 import { api } from "../api/api.js";
 
 function GeneralPlan() {
@@ -153,15 +155,28 @@ function GeneralPlan() {
                     {plano.stale && (
                         <div className="general-plan-stale-warning">
 
-                            <strong>
-                                Seu perfil ou seus hobbies mudaram.
-                            </strong>
+                            <div>
+                                <strong>
+                                    Seu perfil ou seus hobbies mudaram.
+                                </strong>
 
-                            <p>
-                                Este plano foi criado com informações
-                                anteriores. Atualize para receber uma
-                                rotina compatível com seu contexto atual.
-                            </p>
+                                <p>
+                                    Este plano foi criado com informações
+                                    anteriores. Atualize para receber uma
+                                    rotina compatível com seu contexto atual.
+                                </p>
+                            </div>
+
+                            <button
+                                type="button"
+                                className="general-plan-regenerate-button"
+                                onClick={regenerarPlano}
+                                disabled={gerando}
+                            >
+                                {gerando
+                                    ? "Atualizando..."
+                                    : "✨ Atualizar plano"}
+                            </button>
 
                         </div>
                     )}
@@ -173,21 +188,6 @@ function GeneralPlan() {
                         </ReactMarkdown>
 
                     </section>
-
-                    {plano.stale && (
-                        <div className="general-plan-actions">
-                            <button
-                                type="button"
-                                className="general-plan-regenerate-button"
-                                onClick={regenerarPlano}
-                                disabled={gerando}
-                            >
-                                {gerando
-                                    ? "Atualizando..."
-                                    : "✨ Atualizar plano"}
-                            </button>
-                        </div>
-                    )}
                 </>
             )}
 
