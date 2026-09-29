@@ -1,0 +1,104 @@
+package dev.jamal.projetotcc.Controllers;
+
+import dev.jamal.projetotcc.DTO.Social.SocialProfileStatusDTO;
+import dev.jamal.projetotcc.Entities.User;
+import dev.jamal.projetotcc.Repository.UserRepository;
+import dev.jamal.projetotcc.Service.Social.SocialProfileService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/social/me")
+@RequiredArgsConstructor
+public class SocialProfileController {
+
+    private final SocialProfileService socialProfileService;
+    private final UserRepository userRepository;
+
+
+    @GetMapping("/status")
+    public ResponseEntity<SocialProfileStatusDTO> status(
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        return ResponseEntity.ok(
+                new SocialProfileStatusDTO(
+                        socialProfileService.elegivel(userId),
+                        socialProfileService.participa(userId)
+                )
+        );
+    }
+
+
+    @PostMapping("/enable")
+    public ResponseEntity<SocialProfileStatusDTO> ativar(
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        socialProfileService.ativar(userId);
+
+        return ResponseEntity.ok(
+                new SocialProfileStatusDTO(
+                        true,
+                        true
+                )
+        );
+    }
+
+
+    @PostMapping("/disable")
+    public ResponseEntity<SocialProfileStatusDTO> desativar(
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        socialProfileService.desativar(userId);
+
+        return ResponseEntity.ok(
+                new SocialProfileStatusDTO(
+                        socialProfileService.elegivel(userId),
+                        false
+                )
+        );
+    }
+
+
+    private Long obterUserId(
+            Authentication authentication
+    ) {
+
+        String email = authentication.getName();
+
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Usuário autenticado não encontrado"
+                        )
+                );
+
+        return user.getId();
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<?> handleIllegalState(
+            IllegalStateException exception
+    ) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(
+                        java.util.Map.of(
+                                "error",
+                                exception.getMessage()
+                        )
+                );
+    }
+}
