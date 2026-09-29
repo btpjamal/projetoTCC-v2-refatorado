@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../../api/api";
+import "../../pages/css/Recommendations.css";
+import "./NotInterestedTab.css";
 
 export default function NotInterestedTab() {
 
@@ -88,50 +90,92 @@ export default function NotInterestedTab() {
 
         if (hobbies.length === 0) {
             return (
-                <section>
-                    <h2>Não me interessa</h2>
+                <section className="not-interested-section">
 
-                    <p>
-                        Você ainda não descartou nenhum hobby.
-                    </p>
+                    <div className="not-interested-empty">
+
+                        <span className="not-interested-empty-icon">
+                            ✨
+                        </span>
+
+                        <h2>Nenhum hobby descartado</h2>
+
+                        <p>
+                            Você ainda não marcou nenhum hobby como
+                            desinteressante. Continue explorando novas
+                            atividades na aba Descobrir.
+                        </p>
+
+                    </div>
+
                 </section>
             );
         }
 
         return (
-            <section>
-                <h2>Não me interessa</h2>
+            <section className="not-interested-section">
+
+                <div className="not-interested-header">
+                    <div>
+                        <h2>Não me interessa</h2>
+
+                        <p>
+                            Hobbies que você decidiu não acompanhar
+                            no momento. Você pode reconsiderar sua
+                            escolha quando quiser.
+                        </p>
+                    </div>
+                </div>
 
                 <div className="recommendations-grid">
+
                     {hobbies.map((hobby) => (
-                        <div
+
+                        <article
                             key={hobby.hobbyId}
-                            className="recommendation-card"
+                            className="recommendation-card not-interested-card"
                         >
-                            <h3>{hobby.nome}</h3>
 
-                            <p>{hobby.descricao}</p>
+                            <div className="recommendation-card-header">
 
-                            <p>
-                                <strong>Categoria:</strong>{" "}
-                                {hobby.categoria}
-                            </p>
+                                <span className="recommendation-category">
+                                    {hobby.categoria}
+                                </span>
+
+                                <span className="not-interested-badge">
+                                    Não me interessa
+                                </span>
+
+                            </div>
+
+                            <div className="recommendation-card-content">
+
+                                <h3 className="recommendation-name">
+                                    {hobby.nome}
+                                </h3>
+
+                                <p className="recommendation-description">
+                                    {hobby.descricao}
+                                </p>
+
+                            </div>
 
                             <button
                                 type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-
-                                    devolverParaDescobrir(
-                                        hobby.hobbyId
-                                    );
-                                }}
+                                className="not-interested-restore-button"
+                                onClick={() =>
+                                    devolverParaDescobrir(hobby.hobbyId)
+                                }
                             >
-                                Mudei de ideia
+                                ↩ Voltar a descobrir
                             </button>
-                        </div>
+
+                        </article>
+
                     ))}
+
                 </div>
+
             </section>
         );
 }

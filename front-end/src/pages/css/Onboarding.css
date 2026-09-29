@@ -1,120 +1,410 @@
+/* ========================================
+   ONBOARDING
+======================================== */
+
 .onboarding-page {
     min-height: 100vh;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    background: #f4f6f8;
+
+    padding: 40px 20px;
+
+    background: #f5f7fb;
 }
 
 .onboarding-card {
     width: 100%;
-    max-width: 620px;
-    padding: 36px;
+    max-width: 680px;
+
+    padding: 38px 40px;
+
     background: #ffffff;
+
+    border: 1px solid #e2e8f0;
     border-radius: 20px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
 }
+
+
+/* ========================================
+   PROGRESSO
+======================================== */
 
 .onboarding-progress {
     width: 100%;
-    height: 8px;
+    height: 7px;
+
     overflow: hidden;
+
     margin-bottom: 20px;
-    background: #e5e7eb;
+
+    background: #e2e8f0;
+
     border-radius: 999px;
 }
 
 .onboarding-progress-value {
     height: 100%;
-    background: #2563eb;
+
+    background: #6366f1;
+
     border-radius: 999px;
+
     transition: width 0.3s ease;
 }
 
 .onboarding-step {
-    display: block;
+    display: inline-flex;
+
     margin-bottom: 12px;
-    color: #6b7280;
-    font-size: 14px;
+    padding: 5px 9px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
 }
+
+
+/* ========================================
+   PERGUNTA
+======================================== */
 
 .onboarding-card h1 {
     margin: 0;
-    color: #111827;
-    font-size: 30px;
+
+    color: #0f172a;
+
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+
+    line-height: 1.25;
 }
 
 .onboarding-description {
-    margin: 12px 0 28px;
-    color: #6b7280;
+    margin: 10px 0 28px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.6;
 }
+
+
+/* ========================================
+   OPÇÕES
+======================================== */
 
 .onboarding-options {
     display: grid;
-    gap: 12px;
+
+    gap: 11px;
 }
 
 .onboarding-option {
+    position: relative;
+
     width: 100%;
-    padding: 16px 18px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
+
+    padding: 15px 17px;
+
     background: #ffffff;
-    color: #1f2937;
-    font-size: 16px;
+    color: #334155;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 11px;
+
+    font-size: 14px;
+    font-weight: 600;
+
     text-align: left;
+
     cursor: pointer;
-    transition: 0.2s ease;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.onboarding-option:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
+.onboarding-option:hover:not(:disabled) {
+    background: #f8faff;
+
+    border-color: #a5b4fc;
+
     transform: translateY(-1px);
+
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.07);
 }
 
 .onboarding-option.selected {
-    border-color: #2563eb;
-    background: #dbeafe;
+    background: #eef2ff;
+    color: #4338ca;
+
+    border-color: #6366f1;
+
+    box-shadow: inset 0 0 0 1px #6366f1;
+}
+
+.onboarding-option.selected::after {
+    content: "✓";
+
+    position: absolute;
+
+    top: 50%;
+    right: 16px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 21px;
+    height: 21px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 800;
 }
 
 .onboarding-option:disabled {
+    opacity: 0.55;
     cursor: not-allowed;
-    opacity: 0.6;
 }
 
-.onboarding-back {
-    margin-top: 24px;
-    padding: 10px 0;
-    border: none;
-    background: transparent;
-    color: #4b5563;
+
+/* ========================================
+   BOTÃO CONTINUAR
+======================================== */
+
+/*
+   Os botões "Continuar" não possuem uma classe
+   específica no JSX atual. Selecionamos apenas
+   os botões filhos diretos do card sem classe.
+*/
+
+.onboarding-continue {
+    width: 100%;
+    min-height: 46px;
+
+    margin-top: 22px;
+    padding: 11px 18px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    border: 1px solid #6366f1;
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 700;
+
     cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.onboarding-back:hover {
-    color: #2563eb;
+.onboarding-card > button:not(.onboarding-back):hover:not(:disabled) {
+    background: #4f46e5;
+    border-color: #4f46e5;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 16px rgba(99, 102, 241, 0.18);
 }
+
+.onboarding-card > button:not(.onboarding-back):disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   LOCALIZAÇÃO
+======================================== */
+
+.onboarding-location {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 110px;
+
+    gap: 14px;
+}
+
+.onboarding-location label {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    color: #334155;
+
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.onboarding-location input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.onboarding-location input::placeholder {
+    color: #94a3b8;
+}
+
+.onboarding-location input:hover {
+    border-color: #a5b4fc;
+}
+
+.onboarding-location input:focus {
+    border-color: #6366f1;
+
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+
+/* ========================================
+   MENSAGENS
+======================================== */
 
 .onboarding-message {
-    margin-top: 20px;
-    color: #2563eb;
+    margin: 18px 0 0;
+    padding: 11px 13px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    border: 1px solid #c7d2fe;
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 600;
+
     text-align: center;
 }
 
 .onboarding-error {
-    margin-top: 20px;
-    color: #dc2626;
+    margin: 18px 0 0;
+    padding: 11px 13px;
+
+    background: #fef2f2;
+    color: #b91c1c;
+
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+
+    font-size: 13px;
+    line-height: 1.5;
+
     text-align: center;
 }
 
+
+/* ========================================
+   VOLTAR
+======================================== */
+
+.onboarding-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    margin-top: 24px;
+    padding: 10px 14px;
+
+    background: #f8fafc;
+    color: #475569;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.onboarding-back::before {
+    content: "←";
+    font-size: 15px;
+}
+
+.onboarding-back:hover:not(:disabled) {
+    color: #4f46e5;
+    background: #eef2ff;
+    border-color: #c7d2fe;
+
+    transform: translateY(-1px);
+}
+
+.onboarding-back:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
 @media (max-width: 600px) {
+
+    .onboarding-page {
+        align-items: flex-start;
+
+        padding: 20px 14px;
+    }
+
     .onboarding-card {
-        padding: 24px;
+        padding: 28px 22px;
     }
 
     .onboarding-card h1 {
-        font-size: 24px;
+        font-size: 25px;
+    }
+
+    .onboarding-location {
+        grid-template-columns: 1fr;
     }
 }

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../api/api";
 
+import "./css/Auth.css";
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -54,46 +56,85 @@ export default function Login() {
   }
 
       return (
-          <main style={{maxWidth: 400, margin: "80px auto", fontFamily: "Arial"}}>
-            <h1>Entrar</h1>
+          <main className="auth-page">
 
-            <form onSubmit={handleLogin}>
-              <input
-                  style={{width: "100%", padding: 10, marginBottom: 10}}
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-              />
+              <section className="auth-card">
 
-              <input
-                  style={{width: "100%", padding: 10, marginBottom: 10}}
-                  type="password"
-                  placeholder="Senha"
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-              />
+                  <div className="auth-brand">
+                      <span className="auth-brand-icon">✦</span>
+                      <span className="auth-brand-name">Recommendi.a</span>
+                  </div>
 
-              {erro && <p style={{color: "red"}}>{erro}</p>}
+                  <header className="auth-header">
+                      <h1>Bem-vindo de volta</h1>
+                      <p>
+                          Entre na sua conta para continuar descobrindo
+                          hobbies que combinam com você.
+                      </p>
+                  </header>
 
-              <button style={{width: "100%", padding: 10}} type="submit">
-                Entrar
-              </button>
-              <button
-                  type="button"
-                  onClick={() => navigate("/register")}
-                  style={{
-                    width: "100%",
-                    padding: 10,
-                    marginTop: 10,
-                    background: "transparent",
-                    border: "1px solid #ccc",
-                    cursor: "pointer"
-                  }}
-              >
-                Criar conta
-              </button>
-            </form>
+                  <form className="auth-form" onSubmit={handleLogin}>
+
+                      <div className="auth-field">
+                          <label htmlFor="email">E-mail</label>
+
+                          <input
+                              id="email"
+                              type="email"
+                              placeholder="seuemail@exemplo.com"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
+                          />
+                      </div>
+
+                      <div className="auth-field">
+                          <label htmlFor="senha">Senha</label>
+
+                          <input
+                              id="senha"
+                              type="password"
+                              placeholder="Digite sua senha"
+                              value={senha}
+                              onChange={(e) => setSenha(e.target.value)}
+                              required
+                          />
+                      </div>
+
+                      {erro && (
+                          <p className="auth-error">
+                              {erro}
+                          </p>
+                      )}
+
+                      <button
+                          className="auth-primary-button"
+                          type="submit"
+                      >
+                          Entrar
+                      </button>
+
+                      <div className="auth-divider">
+                          <span>ou</span>
+                      </div>
+
+                      <button
+                          className="auth-secondary-button"
+                          type="button"
+                          onClick={() => navigate("/register")}
+                      >
+                          Criar uma conta
+                      </button>
+
+                  </form>
+
+                  <p className="auth-footer">
+                      Descubra novos hobbies e encontre atividades
+                      compatíveis com seu perfil.
+                  </p>
+
+              </section>
+
           </main>
       );
     }

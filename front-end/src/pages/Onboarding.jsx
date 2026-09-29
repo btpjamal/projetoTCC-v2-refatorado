@@ -381,6 +381,7 @@ export default function Onboarding() {
 
                         <button
                             type="button"
+                            className="onboarding-continue"
                             disabled={enviando}
                             onClick={() => {
 
@@ -458,6 +459,7 @@ export default function Onboarding() {
 
                         <button
                             type="button"
+                            className="onboarding-continue"
                             onClick={() => {
 
                                 if (objetivosSelecionados.length === 0) {
@@ -528,6 +530,7 @@ export default function Onboarding() {
 
                         <button
                             type="button"
+                            className="onboarding-continue"
                             disabled={enviando}
                             onClick={() => {
                                 if (

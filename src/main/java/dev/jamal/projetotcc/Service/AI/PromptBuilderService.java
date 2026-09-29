@@ -64,8 +64,10 @@ public class PromptBuilderService {
                 Retorne somente o plano em Markdown nesta estrutura:
                 
                 ## Introdução
+                - ...
                 
                 ## Meta inicial
+                - ...
                 
                 ## Plano para as primeiras 4 semanas
                 

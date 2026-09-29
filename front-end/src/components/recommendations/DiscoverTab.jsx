@@ -123,65 +123,112 @@ export default function DiscoverTab() {
                     ) : (
                         <section className="recommendations-grid">
                             {recommendations.map((item) => (
-                                <article className="recommendation-card"
-                                         key={item.hobbyId}
-                                         /* dá pra colocar algum redirecionamento aqui */
-                                         /* pra ter alguma interação na tela de descobrimentos */
-                                         /* alguma imagem gerada por i.a, talvez */
-                                         onClick={() => navigate()}
+                                <article
+                                    className="recommendation-card"
+                                    key={item.hobbyId}
                                 >
+
+                                    {/* Categoria e score */}
                                     <div className="recommendation-card-header">
 
-                                    <span className="recommendation-category">
-                                        {item.categoria}
-                                    </span>
+                                        <span className="recommendation-category">
+                                            {item.categoria}
+                                        </span>
 
-                                    <span className="recommendation-score">
-                                        {item.score} pts
-                                    </span>
+                                        <span className="recommendation-score">
+                                            {item.score} pts
+                                        </span>
+
                                     </div>
 
-                                    <h2 className="recommendation-name">{item.nome}</h2>
+                                    {/* Informações principais */}
+                                    <div className="recommendation-card-content">
 
-                                    <p className="recommendation-description">
-                                        {item.descricao}
-                                    </p>
+                                        <h2 className="recommendation-name">
+                                            {item.nome}
+                                        </h2>
 
-                                    <div className="recommendation-reason">
-                                        {(item.motivos || []).slice(0, 3).map((motivo) => <p key={motivo}>• {motivo}</p>)}
-                                        {(item.alertas || []).slice(0, 1).map((alerta) => <p key={alerta}>⚠ {alerta}</p>)}
+                                        <p className="recommendation-description">
+                                            {item.descricao}
+                                        </p>
+
+                                        {/* Motivos */}
+                                        <div className="recommendation-reasons">
+
+                                            {(item.motivos || []).slice(0, 3).map((motivo) => (
+                                                <div
+                                                    className="recommendation-reason-item"
+                                                    key={motivo}
+                                                >
+                                                    <span className="reason-icon">✓</span>
+
+                                                    <span>{motivo}</span>
+                                                </div>
+                                            ))}
+
+                                        </div>
+
+                                        {/* Alertas */}
+                                        {(item.alertas || []).length > 0 && (
+                                            <div className="recommendation-alerts">
+
+                                                {(item.alertas || []).slice(0, 1).map((alerta) => (
+                                                    <div
+                                                        className="recommendation-alert-item"
+                                                        key={alerta}
+                                                    >
+                                                        <span>⚠</span>
+                                                        <span>{alerta}</span>
+                                                    </div>
+                                                ))}
+
+                                            </div>
+                                        )}
+
                                     </div>
 
+                                    {/* Ações */}
+                                    <div className="recommendation-card-actions">
 
+                                        <button
+                                            type="button"
+                                            className="recommendation-button-secondary"
+                                            onClick={() =>
+                                                registrarFeedback(
+                                                    item.hobbyId,
+                                                    "NAO_INTERESSADO"
+                                                )
+                                            }
+                                        >
+                                            Não me interessa
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="recommendation-button-primary"
+                                            onClick={() =>
+                                                registrarFeedback(
+                                                    item.hobbyId,
+                                                    "INTERESSADO"
+                                                )
+                                            }
+                                        >
+                                            Tenho interesse
+                                        </button>
+
+                                    </div>
+
+                                    {/* Detalhes
                                     <button
                                         type="button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-
-                                            registrarFeedback(
-                                                item.hobbyId,
-                                                "NAO_INTERESSADO"
-                                            );
-                                        }}
+                                        className="recommendation-details-link"
+                                        onClick={() =>
+                                            navigate(`/recommendations/${item.hobbyId}`)
+                                        }
                                     >
-                                        Não me interessa
+                                        Ver detalhes →
                                     </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-
-                                            registrarFeedback(
-                                                item.hobbyId,
-                                                "INTERESSADO"
-                                            );
-                                        }}
-                                    >
-                                        Tenho interesse
-                                    </button>
-
-
+                                    */}
                                 </article>
                             ))}
                         </section>

@@ -1,90 +1,297 @@
+/* ========================================
+   PÁGINA DE DETALHES DO HOBBY
+======================================== */
+
 .recommendation-details-page {
-    max-width: 900px;
+    width: 100%;
+    max-width: 1000px;
+
     margin: 0 auto;
-    padding: 32px 20px 60px;
+    padding: 40px 20px 80px;
+
+    color: #1e293b;
 }
+
+/* VOLTAR */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 24px;
+    padding: 10px 16px;
+
+    background: #ffffff;
+    color: #475569;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    color: #4f46e5;
+    border-color: #c7d2fe;
+    background: #eef2ff;
+}
+
+/* CABEÇALHO */
 
 .recommendation-details-header {
-    margin-bottom: 24px;
-}
+    padding: 32px;
 
-.recommendation-details-header h1 {
-    margin-bottom: 8px;
-}
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
 
-.recommendation-details-description {
-    line-height: 1.6;
-    opacity: 0.85;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
 .recommendation-details-meta {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 16px;
+
+    margin-bottom: 22px;
 }
 
 .recommendation-details-badge {
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
+    display: inline-flex;
+    align-items: center;
+
+    padding: 7px 13px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
 }
 
-.recommendation-details-section {
-    margin-top: 24px;
-    padding: 24px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.05);
+.score-badge {
+    background: #f0fdf4;
+    color: #15803d;
 }
 
-.recommendation-details-section h2 {
-    margin-top: 0;
-    margin-bottom: 16px;
+.recommendation-details-header h1 {
+    margin: 0 0 12px;
+
+    color: #0f172a;
+
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
-.recommendation-details-section ul {
-    padding-left: 22px;
-}
+.recommendation-details-description {
+    max-width: 750px;
+    margin: 0;
 
-.recommendation-details-section li {
-    margin-bottom: 8px;
-    line-height: 1.5;
-}
+    color: #64748b;
 
-.recommendation-relation {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-}
-
-.plan-stale-warning {
-    padding: 16px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    background: rgba(255, 193, 7, 0.12);
-}
-
-.plan-action-button {
-    padding: 10px 18px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.plan-action-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.personalized-plan-content {
+    font-size: 15px;
     line-height: 1.7;
 }
 
+/* SEÇÕES */
+
+.recommendation-details-section {
+    margin-top: 24px;
+    padding: 28px 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.recommendation-details-section h2 {
+    margin: 0 0 22px;
+
+    color: #1e293b;
+
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -0.4px;
+}
+
+/* MOTIVOS */
+
+.recommendation-details-reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.recommendation-details-reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    color: #475569;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.details-reason-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 22px;
+    height: 22px;
+
+    background: #dcfce7;
+    color: #15803d;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* ALERTAS */
+
+.recommendation-details-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recommendation-details-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 16px;
+
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+
+    border-radius: 12px;
+
+    color: #92400e;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* RELAÇÃO COM O HOBBY */
+
+.recommendation-relation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.relation-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 18px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.relation-label {
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.relation-value {
+    color: #4338ca;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* PLANO PERSONALIZADO */
+
+.plan-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+    padding: 12px 20px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    border: 1px solid #6366f1;
+    border-radius: 11px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.plan-action-button:hover:not(:disabled) {
+    background: #4f46e5;
+    border-color: #4f46e5;
+}
+
+.plan-action-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* PLANO DESATUALIZADO */
+
+.plan-stale-warning {
+    margin-bottom: 24px;
+    padding: 20px;
+
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+}
+
+.plan-stale-warning p {
+    margin: 0 0 14px;
+
+    color: #92400e;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* MARKDOWN DO PLANO */
+
+.personalized-plan-content {
+    color: #334155;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
 .personalized-plan-content h2 {
-    margin-top: 32px;
-    margin-bottom: 12px;
+    margin: 32px 0 14px;
+
+    color: #1e293b;
+    font-size: 21px;
 }
 
 .personalized-plan-content h2:first-child {
@@ -92,63 +299,177 @@
 }
 
 .personalized-plan-content h3 {
-    margin-top: 22px;
-    margin-bottom: 10px;
+    margin: 24px 0 12px;
+
+    color: #4338ca;
+    font-size: 17px;
 }
 
 .personalized-plan-content p {
-    margin: 10px 0;
+    margin: 12px 0;
 }
 
-.personalized-plan-content ul {
+.personalized-plan-content ul,
+.personalized-plan-content ol {
     padding-left: 24px;
-    margin: 10px 0 18px;
+    margin: 12px 0 20px;
 }
 
 .personalized-plan-content li {
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 }
 
 .personalized-plan-content strong {
+    color: #1e293b;
     font-weight: 700;
 }
 
+/* RESPONSIVIDADE */
+
 @media (max-width: 600px) {
+
     .recommendation-details-page {
-        padding: 20px 14px 40px;
+        padding: 24px 14px 50px;
+    }
+
+    .recommendation-details-header {
+        padding: 24px 20px;
+    }
+
+    .recommendation-details-header h1 {
+        font-size: 28px;
     }
 
     .recommendation-details-section {
-        padding: 18px;
+        padding: 22px 20px;
     }
 
     .recommendation-relation {
-        flex-direction: column;
-        gap: 4px;
+        grid-template-columns: 1fr;
+    }
+
+    .recommendation-details-meta {
+        flex-wrap: wrap;
     }
 }
 
-.back-button {
-    margin-bottom: 20px;
-    padding: 8px 14px;
+/* ========================================
+   REFINAMENTO DO PLANO GERADO PELA IA
+======================================== */
+
+.personalized-plan-content {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+
+    color: #334155;
+
+    font-size: 15px;
+    line-height: 1.85;
+}
+
+/* Título principal */
+
+.personalized-plan-content h1 {
+    margin: 0 0 24px;
+
+    color: #1e293b;
+
+    font-size: 26px;
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+}
+
+/* Seções principais */
+
+.personalized-plan-content h2 {
+    margin: 36px 0 16px;
+    padding-bottom: 12px;
+
+    color: #1e293b;
+
+    font-size: 21px;
+    font-weight: 750;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.personalized-plan-content h2:first-child {
+    margin-top: 0;
+}
+
+/* Subseções */
+
+.personalized-plan-content h3 {
+    margin: 26px 0 12px;
+
+    color: #4f46e5;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* Parágrafos */
+
+.personalized-plan-content p {
+    margin: 14px 0;
+
+    line-height: 1.85;
+}
+
+/* Listas */
+
+.personalized-plan-content ul,
+.personalized-plan-content ol {
+    margin: 16px 0 24px;
+    padding-left: 26px;
+}
+
+.personalized-plan-content li {
+    margin-bottom: 12px;
+    padding-left: 4px;
+
+    line-height: 1.75;
+}
+
+.personalized-plan-content li::marker {
+    color: #6366f1;
+}
+
+/* Negrito */
+
+.personalized-plan-content strong {
+    color: #1e293b;
+    font-weight: 750;
+}
+
+/* Separadores Markdown */
+
+.personalized-plan-content hr {
+    margin: 32px 0;
+
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Citações */
+
+.personalized-plan-content blockquote {
+    margin: 20px 0;
+    padding: 14px 20px;
+
+    background: #eef2ff;
+    border-left: 4px solid #6366f1;
+    border-radius: 0 10px 10px 0;
+
+    color: #475569;
+}
+
+/* Links */
+
+.personalized-plan-content a {
+    color: #4f46e5;
     font-weight: 600;
-}
-
-.score-badge {
-    font-weight: 600;
-}
-
-.relation-badge {
-    padding: 10px 14px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.recommendation-relation {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }

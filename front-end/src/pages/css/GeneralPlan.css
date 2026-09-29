@@ -1,0 +1,419 @@
+/* ========================================
+   PLANO GERAL
+======================================== */
+
+.general-plan-page {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+
+    color: #1e293b;
+}
+
+/* VOLTAR */
+
+.general-plan-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 24px;
+    padding: 10px 16px;
+
+    background: #ffffff;
+    color: #475569;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.general-plan-back-button:hover {
+    color: #4f46e5;
+    border-color: #c7d2fe;
+    background: #eef2ff;
+}
+
+/* ========================================
+   CABEÇALHO
+======================================== */
+
+.general-plan-header {
+    position: relative;
+    overflow: hidden;
+
+    margin-bottom: 24px;
+    padding: 36px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+.general-plan-header::before {
+    content: "✦";
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 20px;
+
+    background: #eef2ff;
+    color: #6366f1;
+
+    border-radius: 14px;
+
+    font-size: 26px;
+}
+
+.general-plan-header h1 {
+    margin: 0 0 12px;
+
+    color: #0f172a;
+
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.general-plan-header p {
+    max-width: 650px;
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* ========================================
+   ERROS
+======================================== */
+
+.general-plan-error {
+    margin-bottom: 24px;
+    padding: 16px 18px;
+
+    background: #fef2f2;
+    color: #b91c1c;
+
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   SEM PLANO
+======================================== */
+
+.general-plan-empty {
+    padding: 48px 36px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.general-plan-empty h2 {
+    margin: 0 0 12px;
+
+    color: #1e293b;
+
+    font-size: 24px;
+    font-weight: 750;
+}
+
+.general-plan-empty p {
+    max-width: 570px;
+
+    margin: 0 auto 26px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* ========================================
+   BOTÕES PRINCIPAIS
+======================================== */
+
+.general-plan-generate-button,
+.general-plan-regenerate-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+    padding: 12px 22px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    border: 1px solid #6366f1;
+    border-radius: 11px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.general-plan-generate-button:hover:not(:disabled),
+.general-plan-regenerate-button:hover:not(:disabled) {
+    background: #4f46e5;
+    border-color: #4f46e5;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.2);
+}
+
+.general-plan-generate-button:disabled,
+.general-plan-regenerate-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   PLANO DESATUALIZADO
+======================================== */
+
+.general-plan-stale-warning {
+    margin-bottom: 24px;
+    padding: 20px 22px;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+    border-radius: 14px;
+}
+
+.general-plan-stale-warning strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #92400e;
+
+    font-size: 14px;
+}
+
+.general-plan-stale-warning p {
+    margin: 0;
+
+    color: #a16207;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   CONTEÚDO GERADO PELA IA
+======================================== */
+
+.general-plan-content {
+    padding: 34px 36px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+
+    color: #334155;
+
+    font-size: 15px;
+    line-height: 1.85;
+
+    overflow-wrap: anywhere;
+}
+
+/* TÍTULO PRINCIPAL */
+
+.general-plan-content h1 {
+    margin: 0 0 26px;
+
+    color: #1e293b;
+
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+}
+
+/* SEÇÕES DO PLANO */
+
+.general-plan-content h2 {
+    margin: 38px 0 16px;
+    padding-bottom: 12px;
+
+    color: #1e293b;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -0.3px;
+}
+
+.general-plan-content h2:first-child {
+    margin-top: 0;
+}
+
+.general-plan-content h3 {
+    margin: 28px 0 12px;
+
+    color: #4f46e5;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* TEXTO */
+
+.general-plan-content p {
+    margin: 14px 0;
+
+    color: #475569;
+
+    line-height: 1.85;
+}
+
+/* LISTAS */
+
+.general-plan-content ul,
+.general-plan-content ol {
+    margin: 16px 0 24px;
+    padding-left: 26px;
+}
+
+.general-plan-content li {
+    margin-bottom: 11px;
+    padding-left: 4px;
+
+    line-height: 1.75;
+}
+
+.general-plan-content li::marker {
+    color: #6366f1;
+}
+
+.general-plan-content strong {
+    color: #1e293b;
+    font-weight: 750;
+}
+
+/* SEPARADORES */
+
+.general-plan-content hr {
+    margin: 34px 0;
+
+    border: none;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* CITAÇÕES, CASO A IA UTILIZE */
+
+.general-plan-content blockquote {
+    margin: 20px 0;
+    padding: 14px 20px;
+
+    background: #eef2ff;
+
+    border-left: 4px solid #6366f1;
+    border-radius: 0 10px 10px 0;
+
+    color: #475569;
+}
+
+/* ========================================
+   AÇÕES
+======================================== */
+
+.general-plan-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 20px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .general-plan-page {
+        padding: 24px 14px 50px;
+    }
+
+    .general-plan-header {
+        padding: 26px 22px;
+    }
+
+    .general-plan-header h1 {
+        font-size: 28px;
+    }
+
+    .general-plan-empty {
+        padding: 36px 22px;
+    }
+
+    .general-plan-content {
+        padding: 26px 20px;
+    }
+
+    .general-plan-actions {
+        justify-content: stretch;
+    }
+
+    .general-plan-regenerate-button {
+        width: 100%;
+    }
+}
+
+.general-plan-stale-warning {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.general-plan-stale-warning > div {
+    flex: 1;
+}
+
+@media (max-width: 650px) {
+    .general-plan-stale-warning {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .general-plan-regenerate-button {
+        width: 100%;
+    }
+}

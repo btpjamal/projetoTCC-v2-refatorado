@@ -1,0 +1,187 @@
+.app-header {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.app-header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 28px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-brand-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+    background: #eef2ff;
+    color: #6366f1;
+
+    font-size: 28px;
+}
+
+.app-brand > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.app-brand-name {
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    color: #1e293b;
+}
+
+.app-brand-subtitle {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.app-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.app-user-greeting {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    margin-right: 8px;
+}
+
+.app-header-button {
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #334155;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.app-header-button:hover {
+    border-color: #6366f1;
+    color: #4f46e5;
+    background: #eef2ff;
+}
+
+.app-logout-button {
+    border: none;
+    background: #fef2f2;
+    color: #dc2626;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.app-logout-button:hover {
+    background: #fee2e2;
+}
+
+@media (max-width: 900px) {
+    .app-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .app-header-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .app-header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .app-user-greeting {
+        grid-column: 1 / -1;
+    }
+
+    .app-header-button,
+    .app-logout-button {
+        width: 100%;
+    }
+}
+
+.recommendation-tabs {
+    max-width: 1200px;
+    margin: 28px auto 0;
+    padding: 6px;
+
+    display: flex;
+    gap: 6px;
+
+    background: #e9edf5;
+    border-radius: 14px;
+
+    width: fit-content;
+}
+
+.recommendation-tabs button {
+    border: none;
+    background: transparent;
+
+    padding: 12px 22px;
+    border-radius: 10px;
+
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.recommendation-tabs button:hover {
+    color: #4f46e5;
+}
+
+.recommendation-tabs button.active {
+    background: white;
+    color: #4f46e5;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 600px) {
+    .recommendation-tabs {
+        width: calc(100% - 28px);
+        margin: 20px 14px 0;
+    }
+
+    .recommendation-tabs button {
+        flex: 1;
+        padding: 12px 8px;
+        font-size: 12px;
+    }
+}

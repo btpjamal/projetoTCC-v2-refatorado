@@ -112,61 +112,124 @@ function RecommendationDetails() {
             </button>
 
             <header className="recommendation-details-header">
+
+                <div className="recommendation-details-meta">
+
+                    <span className="recommendation-details-badge">
+                        {detalhes.categoria}
+                    </span>
+
+                    <span className="recommendation-details-badge score-badge">
+                        {detalhes.score} pts
+                    </span>
+
+                </div>
+
                 <h1>{detalhes.nome}</h1>
 
                 <p className="recommendation-details-description">
                     {detalhes.descricao}
                 </p>
 
-                <div className="recommendation-details-meta">
-                <span className="recommendation-details-badge">
-                    <strong>Categoria:</strong>{" "}
-                    {detalhes.categoria}
-                </span>
-
-                    <span className="recommendation-details-badge score-badge">
-                    <strong>Compatibilidade:</strong>{" "}
-                        {detalhes.score}
-                </span>
-                </div>
             </header>
 
             <section className="recommendation-details-section">
-                <h2>Por que recomendamos</h2>
 
-                <ul>
-                    {detalhes.motivos.map((motivo, index) => (
-                        <li key={index}>{motivo}</li>
+                <h2>Por que recomendamos este hobby?</h2>
+
+                <div className="recommendation-details-reasons">
+
+                    {(detalhes.motivos || []).map((motivo, index) => (
+
+                        <div
+                            className="recommendation-details-reason"
+                            key={index}
+                        >
+
+                            <span className="details-reason-icon">
+                                ✓
+                            </span>
+
+                            <span>{motivo}</span>
+
+                        </div>
+
                     ))}
-                </ul>
+
+                </div>
+
             </section>
 
-            {detalhes.alertas.length > 0 && (
+            {(detalhes.alertas || []).length > 0 && (
+
                 <section className="recommendation-details-section">
+
                     <h2>Pontos de atenção</h2>
 
-                    <ul>
+                    <div className="recommendation-details-alerts">
+
                         {detalhes.alertas.map((alerta, index) => (
-                            <li key={index}>{alerta}</li>
+
+                            <div
+                                className="recommendation-details-alert"
+                                key={index}
+                            >
+
+                                <span>⚠</span>
+
+                                <span>{alerta}</span>
+
+                            </div>
+
                         ))}
-                    </ul>
+
+                    </div>
+
                 </section>
+
             )}
 
             <section className="recommendation-details-section">
+
                 <h2>Sua relação com este hobby</h2>
 
                 <div className="recommendation-relation">
-                    <span className="relation-badge">
-                        <strong>Nível:</strong>{" "}
-                        {detalhes.nivelAtual}
-                    </span>
 
-                    <span className="relation-badge">
-                        <strong>Status:</strong>{" "}
-                        {detalhes.statusAtual ?? "Ainda não definido"}
-                    </span>
+                    <div className="relation-item">
+
+                        <span className="relation-label">
+                            Meu nível
+                        </span>
+
+                        <span className="relation-value">
+                            {detalhes.nivelAtual
+                                ? detalhes.nivelAtual.charAt(0) +
+                                  detalhes.nivelAtual.slice(1).toLowerCase()
+                                : "Ainda não definido"}
+                        </span>
+
+                    </div>
+
+                    <div className="relation-item">
+
+                        <span className="relation-label">
+                            Situação atual
+                        </span>
+
+                        <span className="relation-value">
+                            {detalhes.statusAtual === "PRATICANDO"
+                                ? "Estou praticando"
+                                : detalhes.statusAtual === "PAUSADO"
+                                    ? "Está pausado"
+                                    : detalhes.statusAtual === "INTERESSADO"
+                                        ? "Tenho interesse"
+                                        : "Ainda não definido"}
+                        </span>
+
+                    </div>
+
                 </div>
+
             </section>
 
             <section className="recommendation-details-section">
