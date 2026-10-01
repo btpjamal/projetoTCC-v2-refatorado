@@ -1,7 +1,6 @@
 package dev.jamal.projetotcc.Controllers;
 
 import dev.jamal.projetotcc.DTO.Social.SocialProfileDTO;
-import dev.jamal.projetotcc.DTO.Social.SocialProfileStatusDTO;
 import dev.jamal.projetotcc.Entities.User;
 import dev.jamal.projetotcc.Repository.UserRepository;
 import dev.jamal.projetotcc.Service.Social.SocialHubService;
@@ -11,65 +10,63 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/v1/social/me")
-@RequiredArgsConstructor
-public class SocialProfileController {
+import java.util.List;
 
+@RestController
+@RequestMapping("/api/v1/community")
+@RequiredArgsConstructor
+public class CommunityController {
+
+    private final SocialHubService socialHubService;
     private final SocialProfileService socialProfileService;
     private final UserRepository userRepository;
-    private final SocialHubService socialHubService;
 
 
-    @GetMapping("/status")
-    public ResponseEntity<SocialProfileStatusDTO> status(
+    @GetMapping("/users")
+    public ResponseEntity<List<SocialProfileDTO>> usuarios(
             Authentication authentication
     ) {
 
         Long userId = obterUserId(authentication);
 
+        validarAcessoSocial(userId);
+
         return ResponseEntity.ok(
-                new SocialProfileStatusDTO(
-                        socialProfileService.elegivel(userId),
-                        socialProfileService.participa(userId)
-                )
+                socialHubService.buscarUsuarios(userId)
         );
     }
 
 
-    @PostMapping("/enable")
-    public ResponseEntity<SocialProfileStatusDTO> ativar(
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<SocialProfileDTO> usuario(
+            @PathVariable Long userId,
             Authentication authentication
     ) {
 
-        Long userId = obterUserId(authentication);
+        Long requesterId =
+                obterUserId(authentication);
 
-        socialProfileService.ativar(userId);
+        validarAcessoSocial(requesterId);
 
         return ResponseEntity.ok(
-                new SocialProfileStatusDTO(
-                        true,
-                        true
-                )
+                socialHubService.buscarPerfilPublico(userId)
         );
     }
 
 
-    @PostMapping("/disable")
-    public ResponseEntity<SocialProfileStatusDTO> desativar(
-            Authentication authentication
-    ) {
+    private void validarAcessoSocial(Long userId) {
 
-        Long userId = obterUserId(authentication);
+        if (!socialProfileService.elegivel(userId)) {
+            throw new IllegalStateException(
+                    "A comunidade está disponível apenas para usuários maiores de 18 anos."
+            );
+        }
 
-        socialProfileService.desativar(userId);
-
-        return ResponseEntity.ok(
-                new SocialProfileStatusDTO(
-                        socialProfileService.elegivel(userId),
-                        false
-                )
-        );
+        if (!socialProfileService.participa(userId)) {
+            throw new IllegalStateException(
+                    "Ative sua participação na comunidade para acessar o Hub Social."
+            );
+        }
     }
 
 
@@ -90,13 +87,14 @@ public class SocialProfileController {
         return user.getId();
     }
 
+
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<?> handleIllegalState(
             IllegalStateException exception
     ) {
 
         return ResponseEntity
-                .badRequest()
+                .status(403)
                 .body(
                         java.util.Map.of(
                                 "error",
