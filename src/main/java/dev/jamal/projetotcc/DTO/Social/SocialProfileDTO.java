@@ -8,6 +8,7 @@ public record SocialProfileDTO(
         String resumo,
         List<String> interesses,
         List<SocialHobbyDTO> praticando,
-        List<SocialHobbyDTO> interessados
+        List<SocialHobbyDTO> interessados,
+        SocialAffinityDTO afinidade
 ) {
 }
