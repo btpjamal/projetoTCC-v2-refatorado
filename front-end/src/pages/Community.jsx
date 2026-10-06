@@ -15,6 +15,11 @@ export default function Community() {
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState("");
     const [ativando, setAtivando] = useState(false);
+    const [abaAtiva, setAbaAtiva] = useState("pessoas");
+    const [comunidades, setComunidades] = useState([]);
+    const [alterandoComunidade, setAlterandoComunidade] = useState(null);
+    const [comunidadesRegionais, setComunidadesRegionais] = useState([]);
+    const [tipoComunidade, setTipoComunidade] = useState("geral");
 
     const nome = localStorage.getItem("nome");
     const token = localStorage.getItem("token");
@@ -50,17 +55,40 @@ export default function Community() {
                 statusAtual.elegivel &&
                 statusAtual.participa
             ) {
+                const [usersResponse, communitiesResponse, regionalResponse] =
+                    await Promise.all([
 
-                const usersResponse = await axios.get(
-                    "http://localhost:8080/api/v1/community/users",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
+                        axios.get(
+                            "http://localhost:8080/api/v1/community/users",
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        ),
+
+                        axios.get(
+                            "http://localhost:8080/api/v1/community/communities",
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        ),
+
+                        axios.get(
+                            "http://localhost:8080/api/v1/community/communities/regional",
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        )
+                    ]);
 
                 setUsuarios(usersResponse.data);
+                setComunidades(communitiesResponse.data);
+                setComunidadesRegionais(regionalResponse.data);
             }
 
         } catch (error) {
@@ -158,6 +186,86 @@ export default function Community() {
         navigate("/login");
     }
 
+    async function entrarComunidade(communityId) {
+
+        try {
+            setAlterandoComunidade(communityId);
+
+            const response = await axios.post(
+                `http://localhost:8080/api/v1/community/communities/${communityId}/join`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            atualizarComunidade(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            setErro(
+                error.response?.data?.error ||
+                "Não foi possível entrar na comunidade."
+            );
+
+        } finally {
+            setAlterandoComunidade(null);
+        }
+    }
+
+
+    async function sairComunidade(communityId) {
+
+        try {
+            setAlterandoComunidade(communityId);
+
+            const response = await axios.delete(
+                `http://localhost:8080/api/v1/community/communities/${communityId}/leave`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            atualizarComunidade(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            setErro(
+                error.response?.data?.error ||
+                "Não foi possível sair da comunidade."
+            );
+
+        } finally {
+            setAlterandoComunidade(null);
+        }
+    }
+
+
+    function atualizarComunidade(comunidadeAtualizada) {
+
+        const atualizarLista = lista =>
+            lista.map(comunidade =>
+                comunidade.id === comunidadeAtualizada.id
+                    ? comunidadeAtualizada
+                    : comunidade
+            );
+
+        setComunidades(atualizarLista);
+        setComunidadesRegionais(atualizarLista);
+    }
+
+    const comunidadesExibidas =
+        tipoComunidade === "regional"
+            ? comunidadesRegionais
+            : comunidades;
 
     return (
         <main className="community-page">
@@ -343,7 +451,26 @@ export default function Community() {
 
                             </div>
 
+                            <div className="community-tabs">
 
+                                <button
+                                    className={abaAtiva === "pessoas" ? "active" : ""}
+                                    onClick={() => setAbaAtiva("pessoas")}
+                                >
+                                    Pessoas
+                                </button>
+
+                                <button
+                                    className={abaAtiva === "comunidades" ? "active" : ""}
+                                    onClick={() => setAbaAtiva("comunidades")}
+                                >
+                                    Comunidades
+                                </button>
+
+                            </div>
+
+                            {abaAtiva === "pessoas" && (
+                                <>
                             {usuarios.length === 0 ? (
 
                                 <div className="community-state">
@@ -373,8 +500,91 @@ export default function Community() {
                                             key={usuario.userId}
                                             usuario={usuario}
                                         />
-
                                     ))}
+                                </div>
+                            )}
+                        </>
+                    )}
+                            {abaAtiva === "comunidades" && (
+
+                                <div className="communities-section">
+
+                                    <div className="communities-intro">
+                                        <h2>Comunidades por hobby</h2>
+
+                                        <p>
+                                            Participe de espaços dedicados aos hobbies
+                                            que você pratica, já conhece ou deseja descobrir.
+                                        </p>
+                                    </div>
+
+                                    <div className="community-type-tabs">
+
+                                        <button
+                                            className={
+                                                tipoComunidade === "geral"
+                                                    ? "active"
+                                                    : ""
+                                            }
+                                            onClick={() =>
+                                                setTipoComunidade("geral")
+                                            }
+                                        >
+                                            Para todos
+                                        </button>
+
+                                        <button
+                                            className={
+                                                tipoComunidade === "regional"
+                                                    ? "active"
+                                                    : ""
+                                            }
+                                            onClick={() =>
+                                                setTipoComunidade("regional")
+                                            }
+                                        >
+                                            No seu estado
+                                        </button>
+
+                                    </div>
+
+
+                                    {comunidadesExibidas.length === 0 ? (
+
+                                        <div className="community-state">
+
+                                            <div className="community-state-icon">
+                                                ♡
+                                            </div>
+
+                                            <h2>Nenhuma comunidade disponível</h2>
+
+                                            <p>
+                                                As comunidades de hobbies aparecerão aqui.
+                                            </p>
+
+                                        </div>
+
+                                    ) : (
+
+                                        <div className="communities-grid">
+
+                                            {comunidadesExibidas.map(comunidade => (
+
+                                                <CommunityCard
+                                                    key={comunidade.id}
+                                                    comunidade={comunidade}
+                                                    alterando={
+                                                        alterandoComunidade === comunidade.id
+                                                    }
+                                                    onEntrar={entrarComunidade}
+                                                    onSair={sairComunidade}
+                                                />
+
+                                            ))}
+
+                                        </div>
+                                    )}
 
                                 </div>
                             )}
@@ -400,7 +610,6 @@ function SocialUserCard({ usuario }) {
             afinidade.hobbiesDeInteresseEmComum?.length > 0 ||
             afinidade.interessesEmComum?.length > 0
         );
-
 
     return (
         <article className="social-user-card">
@@ -488,5 +697,111 @@ function AffinityGroup({ titulo, itens }) {
             </div>
 
         </div>
+    );
+}
+
+function CommunityCard({
+                           comunidade,
+                           alterando,
+                           onEntrar,
+                           onSair
+                       }) {
+
+    return (
+        <article className="hobby-community-card">
+
+            <div className="hobby-community-icon">
+                ✦
+            </div>
+
+
+            <div className="hobby-community-content">
+
+                <div className="hobby-community-top">
+
+                    <div>
+                        <span className="hobby-community-type">
+                            {comunidade.tipo === "REGIONAL"
+                            ? "COMUNIDADE REGIONAL"
+                            : "COMUNIDADE GERAL"}
+                        </span>
+
+                        <h3>
+                            {comunidade.hobbyNome}
+                        </h3>
+                    </div>
+
+
+                    {comunidade.participando && (
+                        <span className="community-member-badge">
+                            Participando
+                        </span>
+                    )}
+
+                </div>
+
+
+                <p className="hobby-community-description">
+
+                    {comunidade.tipo === "REGIONAL" ? (
+                        <>
+                            Converse com pessoas da sua região
+                            interessadas em {comunidade.hobbyNome}.
+                        </>
+                    ) : (
+                        <>
+                            Converse com pessoas interessadas em{" "}
+                            {comunidade.hobbyNome} e compartilhe
+                            experiências sobre esse hobby.
+                        </>
+                    )}
+
+                </p>
+
+
+                <div className="hobby-community-footer">
+
+                    <span className="community-member-count">
+                        {comunidade.membros}{" "}
+                        {comunidade.membros === 1
+                            ? "membro"
+                            : "membros"}
+                    </span>
+
+
+                    {comunidade.participando ? (
+
+                        <button
+                            className="community-card-leave"
+                            disabled={alterando}
+                            onClick={() =>
+                                onSair(comunidade.id)
+                            }
+                        >
+                            {alterando
+                                ? "Saindo..."
+                                : "Sair"}
+                        </button>
+
+                    ) : (
+
+                        <button
+                            className="community-card-join"
+                            disabled={alterando}
+                            onClick={() =>
+                                onEntrar(comunidade.id)
+                            }
+                        >
+                            {alterando
+                                ? "Entrando..."
+                                : "Participar"}
+                        </button>
+                    )}
+
+                </div>
+
+            </div>
+
+        </article>
     );
 }
