@@ -1,0 +1,276 @@
+.community-details-page {
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+.community-details-container {
+    width: calc(100% - 40px);
+    max-width: 900px;
+
+    margin: 0 auto;
+    padding: 38px 0 64px;
+}
+
+.community-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 24px;
+    padding: 10px 16px;
+
+    background: #ffffff;
+    color: #64748b;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+
+    cursor: pointer;
+}
+
+.community-back-button:hover {
+    color: #4f46e5;
+}
+
+.community-chat {
+    overflow: hidden;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.community-chat-header {
+    padding: 25px 28px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.community-chat-header > span {
+    color: #6366f1;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.community-chat-header h1 {
+    margin: 6px 0;
+
+    color: #1e293b;
+
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.community-chat-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.community-chat-error {
+    margin: 18px 28px 0;
+    padding: 12px 14px;
+
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+
+    color: #b91c1c;
+
+    font-size: 13px;
+}
+
+.community-messages {
+    min-height: 380px;
+    max-height: 560px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 28px;
+}
+
+.community-message {
+    align-self: flex-start;
+
+    max-width: 72%;
+    padding: 12px 14px;
+
+    background: #f1f5f9;
+    border-radius: 4px 14px 14px 14px;
+}
+
+.community-message.own {
+    align-self: flex-end;
+
+    background: #eef2ff;
+    border-radius: 14px 4px 14px 14px;
+}
+
+.community-message-meta {
+    display: flex;
+    gap: 10px;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+}
+
+.community-message-meta strong {
+    color: #475569;
+}
+
+.community-message-meta span {
+    color: #94a3b8;
+}
+
+.community-message p {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 13px;
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.community-messages-empty {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    color: #94a3b8;
+
+    text-align: center;
+    font-size: 13px;
+}
+
+.community-messages-empty strong {
+    color: #475569;
+    font-size: 15px;
+}
+
+.community-message-form {
+    padding: 18px 28px 22px;
+
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.community-message-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    padding: 12px 14px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    font: inherit;
+    font-size: 13px;
+
+    outline: none;
+}
+
+.community-message-form textarea:focus {
+    border-color: #818cf8;
+}
+
+.community-message-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 10px;
+}
+
+.community-message-form-footer span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.community-message-form-footer button {
+    padding: 9px 17px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #6366f1;
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.community-message-form-footer button:hover:not(:disabled) {
+    background: #4f46e5;
+}
+
+.community-message-form-footer button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+
+    .community-details-container {
+        width: calc(100% - 28px);
+        padding-top: 28px;
+    }
+
+    .community-chat-header,
+    .community-messages,
+    .community-message-form {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .community-message {
+        max-width: 88%;
+    }
+}
+
+.community-chat-info {
+    margin-top: 12px;
+}
+
+.community-chat-info span {
+    display: inline-flex;
+
+    padding: 5px 9px;
+
+    background: #f1f5f9;
+    color: #64748b;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+}

@@ -9,6 +9,8 @@ import RecommendationDetails from "./pages/RecommendationDetails.jsx";
 import Onboarding from "./pages/Onboarding";
 import GeneralPlan from "./pages/GeneralPlan.jsx";
 import MyProfile from "./pages/MyProfile";
+import Community from "./pages/Community";
+import CommunityDetails from "./pages/CommunityDetails";
 
 export default function App() {
   return (
@@ -23,7 +25,9 @@ export default function App() {
         <Route path="/recommendations/:hobbyId" element={<RecommendationDetails />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/general-plan" element={<GeneralPlan />} />
-        <Route path="/myProfile" element={<MyProfile />}
+        <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community/communities/:communityId" element={<CommunityDetails />}
         />
       </Routes>
   );

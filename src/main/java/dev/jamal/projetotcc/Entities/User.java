@@ -55,6 +55,14 @@ public class User implements UserDetails {
     @JsonIgnore // para evitar loop de serialização
     private RecommendationProfile profile;
 
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private SocialProfile socialProfile;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
