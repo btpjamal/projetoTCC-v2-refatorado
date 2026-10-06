@@ -48,6 +48,13 @@ export default function Recommendations() {
 
                         <button
                             className="app-header-button"
+                            onClick={() => navigate("/community")}
+                        >
+                            Comunidade
+                        </button>
+
+                        <button
+                            className="app-header-button"
                             onClick={() => navigate("/myProfile")}
                         >
                             Meu Perfil
