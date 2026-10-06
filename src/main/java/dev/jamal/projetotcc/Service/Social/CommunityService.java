@@ -1,6 +1,7 @@
 package dev.jamal.projetotcc.Service.Social;
 
 import dev.jamal.projetotcc.DTO.Social.CommunityDTO;
+import dev.jamal.projetotcc.DTO.Social.CommunityDetailsDTO;
 import dev.jamal.projetotcc.Entities.*;
 import dev.jamal.projetotcc.Enum.CommunityType;
 import dev.jamal.projetotcc.Repository.*;
@@ -311,5 +312,53 @@ public class CommunityService {
                 )
 
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public CommunityDetailsDTO buscarDetalhes(
+            Long communityId,
+            Long userId
+    ) {
+
+        Community community =
+                communityRepository
+                        .findById(communityId)
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "Comunidade não encontrada."
+                                )
+                        );
+
+
+        boolean participando =
+                memberRepository
+                        .existsByCommunity_IdAndUser_Id(
+                                communityId,
+                                userId
+                        );
+
+
+        if (!participando) {
+            throw new IllegalStateException(
+                    "Você precisa participar da comunidade para acessá-la."
+            );
+        }
+
+
+        long membros =
+                memberRepository
+                        .countByCommunity_Id(
+                                communityId
+                        );
+
+
+        return new CommunityDetailsDTO(
+                community.getId(),
+                community.getHobby().getId(),
+                community.getHobby().getNome(),
+                community.getTipo().name(),
+                community.getEstado(),
+                membros
+        );
     }
 }
