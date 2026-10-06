@@ -579,6 +579,11 @@ export default function Community() {
                                                     }
                                                     onEntrar={entrarComunidade}
                                                     onSair={sairComunidade}
+                                                    onAbrir={(communityId) =>
+                                                        navigate(
+                                                            `/community/communities/${communityId}`
+                                                        )
+                                                    }
                                                 />
 
                                             ))}
@@ -704,7 +709,8 @@ function CommunityCard({
                            comunidade,
                            alterando,
                            onEntrar,
-                           onSair
+                           onSair,
+                           onAbrir
                        }) {
 
     return (
@@ -733,9 +739,14 @@ function CommunityCard({
 
 
                     {comunidade.participando && (
-                        <span className="community-member-badge">
-                            Participando
-                        </span>
+                        <button
+                            className="community-card-open"
+                            onClick={() =>
+                                onAbrir(comunidade.id)
+                            }
+                        >
+                            Abrir comunidade
+                        </button>
                     )}
 
                 </div>
