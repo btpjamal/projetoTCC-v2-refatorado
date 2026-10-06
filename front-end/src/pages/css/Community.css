@@ -325,3 +325,283 @@
         width: 100%;
     }
 }
+
+/* ABAS DO HUB */
+
+.community-tabs {
+    width: fit-content;
+    display: flex;
+    gap: 6px;
+
+    margin-bottom: 28px;
+    padding: 6px;
+
+    background: #e9edf5;
+    border-radius: 14px;
+}
+
+.community-tabs button {
+    padding: 11px 22px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.community-tabs button:hover {
+    color: #4f46e5;
+}
+
+.community-tabs button.active {
+    background: #ffffff;
+    color: #4f46e5;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+
+/* COMUNIDADES */
+
+.communities-intro {
+    margin-bottom: 22px;
+}
+
+.communities-intro h2 {
+    margin: 0 0 6px;
+
+    color: #1e293b;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.communities-intro p {
+    margin: 0;
+
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.communities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+
+/* CARD DE COMUNIDADE */
+
+.hobby-community-card {
+    display: flex;
+    gap: 16px;
+
+    padding: 22px;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+.hobby-community-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef2ff;
+    color: #6366f1;
+
+    border-radius: 13px;
+
+    font-size: 20px;
+}
+
+.hobby-community-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.hobby-community-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.hobby-community-type {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #6366f1;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+}
+
+.hobby-community-top h3 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.community-member-badge {
+    flex-shrink: 0;
+
+    padding: 5px 8px;
+
+    background: #ecfdf5;
+    color: #047857;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.hobby-community-description {
+    margin: 13px 0 20px;
+
+    color: #64748b;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.hobby-community-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.community-member-count {
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.community-card-join,
+.community-card-leave {
+    padding: 8px 13px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.community-card-join {
+    border: none;
+
+    background: #6366f1;
+    color: #ffffff;
+}
+
+.community-card-join:hover:not(:disabled) {
+    background: #4f46e5;
+}
+
+.community-card-leave {
+    border: 1px solid #e2e8f0;
+
+    background: #ffffff;
+    color: #64748b;
+}
+
+.community-card-leave:hover:not(:disabled) {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.community-card-join:disabled,
+.community-card-leave:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+@media (max-width: 800px) {
+
+    .communities-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .community-tabs {
+        width: 100%;
+    }
+
+    .community-tabs button {
+        flex: 1;
+    }
+
+    .hobby-community-card {
+        padding: 18px;
+    }
+
+    .hobby-community-top {
+        flex-direction: column;
+    }
+}
+
+.community-type-tabs {
+    display: flex;
+    gap: 8px;
+
+    margin: 18px 0 24px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.community-type-tabs button {
+    padding: 10px 4px;
+    margin-right: 16px;
+
+    border: none;
+    border-bottom: 2px solid transparent;
+
+    background: transparent;
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.community-type-tabs button:hover {
+    color: #4f46e5;
+}
+
+.community-type-tabs button.active {
+    color: #4f46e5;
+    border-bottom-color: #6366f1;
+}
