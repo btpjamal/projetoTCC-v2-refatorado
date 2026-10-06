@@ -605,3 +605,23 @@
     color: #4f46e5;
     border-bottom-color: #6366f1;
 }
+
+.community-card-open {
+    padding: 8px 13px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.community-card-open:hover {
+    background: #e0e7ff;
+}
