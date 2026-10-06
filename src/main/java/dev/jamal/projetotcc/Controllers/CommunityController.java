@@ -1,9 +1,9 @@
 package dev.jamal.projetotcc.Controllers;
 
-import dev.jamal.projetotcc.DTO.Social.CommunityDTO;
-import dev.jamal.projetotcc.DTO.Social.SocialProfileDTO;
+import dev.jamal.projetotcc.DTO.Social.*;
 import dev.jamal.projetotcc.Entities.User;
 import dev.jamal.projetotcc.Repository.UserRepository;
+import dev.jamal.projetotcc.Service.Social.CommunityMessageService;
 import dev.jamal.projetotcc.Service.Social.CommunityService;
 import dev.jamal.projetotcc.Service.Social.SocialHubService;
 import dev.jamal.projetotcc.Service.Social.SocialProfileService;
@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/community")
@@ -23,6 +24,7 @@ public class CommunityController {
     private final SocialProfileService socialProfileService;
     private final UserRepository userRepository;
     private final CommunityService communityService;
+    private final CommunityMessageService communityMessageService;
 
 
     @GetMapping("/users")
@@ -178,6 +180,83 @@ public class CommunityController {
         return ResponseEntity.ok(
                 communityService
                         .listarRegionais(userId)
+        );
+    }
+
+    @GetMapping("/communities/{communityId}/messages")
+    public ResponseEntity<List<CommunityMessageDTO>> listarMensagens(
+            @PathVariable Long communityId,
+            Authentication authentication
+    ) {
+
+        Long userId =
+                obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+
+        return ResponseEntity.ok(
+                communityMessageService.listar(
+                        communityId,
+                        userId
+                )
+        );
+    }
+
+    @PostMapping("/communities/{communityId}/messages")
+    public ResponseEntity<CommunityMessageDTO> enviarMensagem(
+            @PathVariable Long communityId,
+            @RequestBody CreateCommunityMessageDTO request,
+            Authentication authentication
+    ) {
+
+        Long userId =
+                obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+
+        return ResponseEntity.ok(
+                communityMessageService.enviar(
+                        communityId,
+                        userId,
+                        request
+                )
+        );
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(
+            IllegalArgumentException exception
+    ) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(
+                        Map.of(
+                                "error",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @GetMapping("/communities/{communityId}")
+    public ResponseEntity<CommunityDetailsDTO> detalhesComunidade(
+            @PathVariable Long communityId,
+            Authentication authentication
+    ) {
+
+        Long userId =
+                obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+
+        return ResponseEntity.ok(
+                communityService.buscarDetalhes(
+                        communityId,
+                        userId
+                )
         );
     }
 }
