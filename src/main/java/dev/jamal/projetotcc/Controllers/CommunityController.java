@@ -1,8 +1,10 @@
 package dev.jamal.projetotcc.Controllers;
 
+import dev.jamal.projetotcc.DTO.Social.CommunityDTO;
 import dev.jamal.projetotcc.DTO.Social.SocialProfileDTO;
 import dev.jamal.projetotcc.Entities.User;
 import dev.jamal.projetotcc.Repository.UserRepository;
+import dev.jamal.projetotcc.Service.Social.CommunityService;
 import dev.jamal.projetotcc.Service.Social.SocialHubService;
 import dev.jamal.projetotcc.Service.Social.SocialProfileService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class CommunityController {
     private final SocialHubService socialHubService;
     private final SocialProfileService socialProfileService;
     private final UserRepository userRepository;
+    private final CommunityService communityService;
 
 
     @GetMapping("/users")
@@ -50,6 +53,58 @@ public class CommunityController {
 
         return ResponseEntity.ok(
                 socialHubService.buscarPerfilPublico(userId)
+        );
+    }
+
+    @GetMapping("/communities")
+    public ResponseEntity<List<CommunityDTO>> comunidades(
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+        communityService.garantirComunidadesGerais();
+
+        return ResponseEntity.ok(
+                communityService.listarGerais(userId)
+        );
+    }
+
+    @PostMapping("/communities/{communityId}/join")
+    public ResponseEntity<CommunityDTO> entrarComunidade(
+            @PathVariable Long communityId,
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+        return ResponseEntity.ok(
+                communityService.entrar(
+                        communityId,
+                        userId
+                )
+        );
+    }
+
+    @DeleteMapping("/communities/{communityId}/leave")
+    public ResponseEntity<CommunityDTO> sairComunidade(
+            @PathVariable Long communityId,
+            Authentication authentication
+    ) {
+
+        Long userId = obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+        return ResponseEntity.ok(
+                communityService.sair(
+                        communityId,
+                        userId
+                )
         );
     }
 
@@ -101,5 +156,28 @@ public class CommunityController {
                                 exception.getMessage()
                         )
                 );
+    }
+
+    @GetMapping("/communities/regional")
+    public ResponseEntity<List<CommunityDTO>> comunidadesRegionais(
+            Authentication authentication
+    ) {
+
+        Long userId =
+                obterUserId(authentication);
+
+        validarAcessoSocial(userId);
+
+
+        communityService
+                .garantirComunidadesRegionais(
+                        userId
+                );
+
+
+        return ResponseEntity.ok(
+                communityService
+                        .listarRegionais(userId)
+        );
     }
 }
