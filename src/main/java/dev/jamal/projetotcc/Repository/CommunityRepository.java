@@ -16,6 +16,11 @@ public interface CommunityRepository
             CommunityType tipo
     );
 
+    List<Community> findByTipoAndEstado(
+            CommunityType tipo,
+            String estado
+    );
+
     Optional<Community> findByHobby_IdAndTipo(
             Long hobbyId,
             CommunityType tipo
@@ -24,5 +29,17 @@ public interface CommunityRepository
     boolean existsByHobby_IdAndTipo(
             Long hobbyId,
             CommunityType tipo
+    );
+
+    Optional<Community> findByHobby_IdAndTipoAndEstado(
+            Long hobbyId,
+            CommunityType tipo,
+            String estado
+    );
+
+    boolean existsByHobby_IdAndTipoAndEstado(
+            Long hobbyId,
+            CommunityType tipo,
+            String estado
     );
 }
