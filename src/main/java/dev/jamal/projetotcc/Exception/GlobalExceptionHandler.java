@@ -106,4 +106,13 @@ public class GlobalExceptionHandler {
                 .status(ex.getStatus())
                 .body(body);
     }
+
+    @ExceptionHandler(OverpassUnavailableException.class)
+    public ResponseEntity<Map<String, String>> handleOverpassUnavailable(
+            OverpassUnavailableException ex
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(Map.of("error", ex.getMessage()));
+    }
 }

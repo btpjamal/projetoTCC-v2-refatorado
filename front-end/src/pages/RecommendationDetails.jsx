@@ -3,6 +3,7 @@ import {api} from "../api/api.js";
 import ReactMarkdown from "react-markdown";
 import "../pages/css/RecommendationsDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
+import HobbyLocations from "../components/HobbyLocations";
 
 function RecommendationDetails() {
     const { hobbyId } = useParams();
@@ -284,6 +285,15 @@ function RecommendationDetails() {
                         </div>
                     </>
                 )}
+            </section>
+
+            <section className="recommendation-details-section">
+                <h2>Onde praticar este hobby?</h2>
+
+                <HobbyLocations
+                    hobbyId={hobbyId}
+                    hobbyNome={detalhes.nome}
+                />
             </section>
 
         </div>

@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 import org.springframework.http.HttpMethod;
+import jakarta.servlet.DispatcherType;
 
 @Configuration
 @RequiredArgsConstructor
@@ -36,11 +37,25 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> corsConfigurationSource())
                 .authorizeHttpRequests(auth -> auth
+
+                        // Permite despachos internos assíncronos
+                        .dispatcherTypeMatchers(
+                                DispatcherType.ASYNC,
+                                DispatcherType.ERROR
+                        ).permitAll()
+
                         // Auth público
                         .requestMatchers("/api/v1/auth/**").permitAll()
+
                         .requestMatchers("/api/v1/ai/**").authenticated()
+
                         .requestMatchers("/api/v1/recommendations/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1/users"
+                        ).permitAll()
+
                         // Swagger público
                         .requestMatchers(
                                 "/swagger-ui/**",
@@ -48,14 +63,13 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        // Para desenvolvimento, pode liberar tudo:
-                        // .anyRequest().permitAll()
-
-                        // Para JWT ativo:
+                        // Demais endpoints exigem autenticação
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(
