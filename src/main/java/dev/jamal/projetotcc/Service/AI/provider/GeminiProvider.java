@@ -20,14 +20,11 @@ import java.util.Map;
 public class GeminiProvider implements AIProvider {
 
     private final RestClient restClient;
-    private final String apiKey;
     private final String model;
 
     public GeminiProvider(
-            @Value("${gemini.api.key}") String apiKey,
             @Value("${gemini.model}") String model
     ) {
-        this.apiKey = apiKey;
         this.model = model;
 
         this.restClient = RestClient.builder()
@@ -38,7 +35,7 @@ public class GeminiProvider implements AIProvider {
     }
 
     @Override
-    public String generate(String prompt) {
+    public String generate(String prompt, String apiKey) {
 
         int maxTentativas = 3;
 
@@ -49,7 +46,7 @@ public class GeminiProvider implements AIProvider {
             try {
 
                 JsonNode response =
-                        chamarGemini(prompt);
+                        chamarGemini(prompt, apiKey);
                 System.out.println(
                         response.path("usageMetadata").toPrettyString()
                 );
@@ -82,10 +79,17 @@ public class GeminiProvider implements AIProvider {
                     );
                 }
 
+                if (status == 400) {
+                    throw new AIProviderException(
+                            "O Gemini não aceitou a solicitação. Verifique a chave, o modelo configurado e tente novamente.",
+                            400
+                    );
+                }
+
                 if (status == 401 || status == 403) {
                     throw new AIProviderException(
-                            "Não foi possível autenticar com o serviço de IA.",
-                            503
+                            "Não foi possível autenticar com o Gemini. Verifique sua chave de API e suas permissões.",
+                            400
                     );
                 }
 
@@ -137,7 +141,10 @@ public class GeminiProvider implements AIProvider {
         );
     }
 
-    private JsonNode chamarGemini(String prompt) {
+    private JsonNode chamarGemini(
+            String prompt,
+            String apiKey
+    ) {
 
         Map<String, Object> part =
                 Map.of("text", prompt);
@@ -149,11 +156,8 @@ public class GeminiProvider implements AIProvider {
                 Map.of("contents", List.of(content));
 
         return restClient.post()
-                .uri(
-                        "/models/{model}:generateContent?key={apiKey}",
-                        model,
-                        apiKey
-                )
+                .uri("/models/{model}:generateContent", model)
+                .header("x-goog-api-key", apiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(body)
                 .retrieve()

@@ -27,6 +27,8 @@ public class PersonalizedPlanService {
     private final HobbyRepository hobbyRepository;
     private final AIContextHashService aiContextHashService;
 
+    private final UserAIConfigurationService userAIConfigurationService;
+
     @Transactional
     public String gerarPlano(Long userId, Long hobbyId) {
 
@@ -61,8 +63,11 @@ public class PersonalizedPlanService {
                 promptBuilderService
                         .construirPromptPlanoInicial(contexto);
 
+        String apiKey =
+                userAIConfigurationService.obterApiKey(userId);
+
         String conteudo =
-                aiProvider.generate(prompt);
+                aiProvider.generate(prompt, apiKey);
 
         PersonalizedPlan plano =
                 personalizedPlanRepository
@@ -146,8 +151,11 @@ public class PersonalizedPlanService {
                 promptBuilderService
                         .construirPromptPlanoInicial(contexto);
 
+        String apiKey =
+                userAIConfigurationService.obterApiKey(userId);
+
         String conteudo =
-                aiProvider.generate(prompt);
+                aiProvider.generate(prompt, apiKey);
 
         String contextHash =
                 aiContextHashService.calcular(contexto);

@@ -236,6 +236,27 @@ function MyProfile() {
 
                 </section>
 
+                {/* Configurações de IA */}
+                <section className="profile-section">
+                    <div className="section-title">
+                        <div>
+                            <h2>Inteligência Artificial</h2>
+                            <p>
+                                Gerencie sua chave do Google Gemini para
+                                gerar planos personalizados.
+                            </p>
+                        </div>
+
+                        <button
+                            type="button"
+                            className="edit-profile-button"
+                            onClick={() => navigate("/ai-settings")}
+                        >
+                            Configurar IA
+                        </button>
+                    </div>
+                </section>
+
                 {/* Hobbies */}
                 <section className="profile-section">
 

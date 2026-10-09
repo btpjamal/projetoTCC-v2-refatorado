@@ -21,13 +21,15 @@ public class GeneralPersonalizedPlanService {
     private final PromptBuilderService promptBuilderService;
     private final AIProvider aiProvider;
 
+    private final UserAIConfigurationService userAIConfigurationService;
+
     public GeneralPersonalizedPlanService(
             GeneralPersonalizedPlanRepository repository,
             UserRepository userRepository,
             AIGeneralPlanContextService contextService,
             AIGeneralPlanContextHashService hashService,
             PromptBuilderService promptBuilderService,
-            AIProvider aiProvider
+            AIProvider aiProvider, UserAIConfigurationService userAIConfigurationService
     ) {
         this.repository = repository;
         this.userRepository = userRepository;
@@ -35,6 +37,7 @@ public class GeneralPersonalizedPlanService {
         this.hashService = hashService;
         this.promptBuilderService = promptBuilderService;
         this.aiProvider = aiProvider;
+        this.userAIConfigurationService = userAIConfigurationService;
     }
 
     @Transactional
@@ -57,8 +60,11 @@ public class GeneralPersonalizedPlanService {
         String prompt =
                 promptBuilderService.construirPromptPlanoGeral(context);
 
+        String apiKey =
+                userAIConfigurationService.obterApiKey(userId);
+
         String conteudo =
-                aiProvider.generate(prompt);
+                aiProvider.generate(prompt, apiKey);
 
         String contextHash =
                 hashService.calcular(context);
@@ -115,8 +121,11 @@ public class GeneralPersonalizedPlanService {
         String prompt =
                 promptBuilderService.construirPromptPlanoGeral(context);
 
+        String apiKey =
+                userAIConfigurationService.obterApiKey(userId);
+
         String conteudo =
-                aiProvider.generate(prompt);
+                aiProvider.generate(prompt, apiKey);
 
         String contextHash =
                 hashService.calcular(context);
