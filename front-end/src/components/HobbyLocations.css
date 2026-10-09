@@ -1,0 +1,107 @@
+.hobby-locations-description {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.hobby-locations-error {
+    color: #dc2626;
+    font-size: 14px;
+}
+
+.hobby-locations-count {
+    margin: 20px 0 14px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.hobby-locations-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.hobby-location-item {
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.hobby-location-item strong {
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.hobby-location-item p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.hobby-location-item a {
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hobby-location-item a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 650px) {
+    .hobby-locations-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hobby-locations-progress {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid #dce4ee;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.hobby-locations-progress p {
+    margin: 12px 0 6px;
+    font-weight: 500;
+}
+
+.hobby-locations-progress small {
+    color: #64748b;
+}
+
+.hobby-locations-spinner {
+    width: 26px;
+    height: 26px;
+    margin: 0 auto;
+    border: 3px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: hobby-locations-spin 0.8s linear infinite;
+}
+
+.hobby-locations-progress-track {
+    height: 6px;
+    margin-top: 14px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hobby-locations-progress-fill {
+    height: 100%;
+    background: #2563eb;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+@keyframes hobby-locations-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
