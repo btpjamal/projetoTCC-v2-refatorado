@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import dev.jamal.projetotcc.Enum.Role;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(dto);
+        user.setRole(Role.USER);
         user.setSenha(passwordEncoder.encode(dto.getSenha()));
         User salvo= userRepository.save(user);
         System.out.println("ID da entidade salva: " + salvo.getId());
@@ -80,7 +82,7 @@ public class UserService {
 
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
-        user.setSenha(dto.getSenha());
+        user.setSenha(passwordEncoder.encode(dto.getSenha()));
         user.setDataNascimento(dto.getDataNascimento());
 
         User atualizado = userRepository.save(user);

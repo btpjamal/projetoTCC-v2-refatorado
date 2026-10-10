@@ -6,6 +6,8 @@ import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import dev.jamal.projetotcc.Enum.Role;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -40,9 +42,19 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
     @PrePersist
-    public void prePersist(){
-        this.dataCadastro = LocalDate.now();
+    public void prePersist() {
+        if (this.dataCadastro == null) {
+            this.dataCadastro = LocalDate.now();
+        }
+
+        if (this.role == null) {
+            this.role = Role.USER;
+        }
     }
 
 
@@ -65,7 +77,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        );
     }
 
     @Override

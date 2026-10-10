@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import dev.jamal.projetotcc.Entities.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Tag(name = "Usuários", description = "Gerenciamento de usuários")
 @RestController
@@ -42,6 +45,7 @@ public class UserController {
     @Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico.")
     @ApiResponse(responseCode = "200", description = "Usuário encontrado")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @PreAuthorize("hasRole('ADMIN') or #p0 == authentication.principal.id")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> buscarPorId(
         @PathVariable Long id
@@ -57,6 +61,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso")
     @ApiResponse(responseCode = "400", description = "Dados inválidos ou email em uso")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @PreAuthorize("hasRole('ADMIN') or #p0 == authentication.principal.id")
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> atualizar(
         @PathVariable Long id,
@@ -71,6 +76,7 @@ public class UserController {
     @Operation(summary = "Deletar usuário", description = "Remove um usuário pelo ID.")
     @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @PreAuthorize("hasRole('ADMIN') or #p0 == authentication.principal.id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(
         @PathVariable Long id
