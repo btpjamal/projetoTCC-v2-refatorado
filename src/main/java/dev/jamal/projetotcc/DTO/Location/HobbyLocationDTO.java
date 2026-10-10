@@ -5,6 +5,8 @@ public record HobbyLocationDTO(
         String nome,
         Double latitude,
         Double longitude,
-        String endereco
+        String endereco,
+        String relevancia,
+        Double distanciaKm
 ) {
 }
