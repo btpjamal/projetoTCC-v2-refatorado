@@ -13,19 +13,18 @@ import org.springframework.cache.annotation.Cacheable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
 
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 
 import java.util.function.Consumer;
+
+import java.util.Comparator;
 
 
 
@@ -34,7 +33,10 @@ public class OverpassService {
 
     private final List<RestClient> servidores;
 
-    public OverpassService() {
+    private final HobbyLocationRankingService rankingService;
+
+    public OverpassService(HobbyLocationRankingService rankingService) {
+        this.rankingService = rankingService;
 
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -231,15 +233,47 @@ public class OverpassService {
 
             String endereco = construirEndereco(tags);
 
+            String relevancia = rankingService.classificar(
+                    hobbyNome,
+                    tags
+            );
+
+            double latitudeLocal =
+                    coordenadas.path("lat").asDouble();
+
+            double longitudeLocal =
+                    coordenadas.path("lon").asDouble();
+
+            double distanciaKm = rankingService.calcularDistanciaKm(
+                    latitude,
+                    longitude,
+                    latitudeLocal,
+                    longitudeLocal
+            );
+
             locais.add(new HobbyLocationDTO(
-                    elemento.path("type").asText() + "/" +
-                            elemento.path("id").asText(),
+                    elemento.path("type").asText()
+                            + "/" + elemento.path("id").asText(),
                     nome,
-                    coordenadas.path("lat").asDouble(),
-                    coordenadas.path("lon").asDouble(),
-                    endereco
+                    latitudeLocal,
+                    longitudeLocal,
+                    endereco,
+                    relevancia,
+                    distanciaKm
             ));
         }
+
+        locais.sort(
+                Comparator
+                        .comparingInt(
+                                (HobbyLocationDTO local) ->
+                                        "ALTA".equals(local.relevancia())
+                                                ? 0 : 1
+                        )
+                        .thenComparing(
+                                HobbyLocationDTO::distanciaKm
+                        )
+        );
 
         System.out.println(
                 "Locais válidos após filtragem: " + locais.size()

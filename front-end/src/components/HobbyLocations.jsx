@@ -271,29 +271,77 @@ export default function HobbyLocations({ hobbyId, hobbyNome }) {
                                 />
                             )}
 
+
                             <div className="hobby-locations-list">
-                                {locais.map((local) => (
-                                    <div
-                                        className="hobby-location-item"
-                                        key={local.id}
-                                    >
-                                        <strong>{local.nome}</strong>
+                                {locais.map((local) => {
+                                    const relevancia = local.relevancia;
 
-                                        <p>
-                                            {local.endereco ||
-                                                "Endereço não informado"}
-                                        </p>
+                                    const relevanciaTexto = {
+                                        ALTA: "Alta relevância",
+                                        MEDIA: "Relevância média",
+                                        COMPLEMENTAR: "Local complementar"
+                                    }[relevancia];
 
-                                        <a
-                                            href={`https://www.google.com/maps/search/?api=1&query=${local.latitude}%2C${local.longitude}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                    const distanciaValida =
+                                        local.distanciaKm !== null &&
+                                        local.distanciaKm !== undefined &&
+                                        Number.isFinite(Number(local.distanciaKm));
+
+                                    return (
+                                        <div
+                                            className="hobby-location-item"
+                                            key={local.id}
                                         >
-                                            Ver no Google Maps ↗
-                                        </a>
-                                    </div>
-                                ))}
+                                            <div className="hobby-location-header">
+                                                <strong>{local.nome}</strong>
+
+                                                {relevanciaTexto && (
+                                                    <span
+                                                        className={`hobby-location-badge ${
+                                                            relevancia === "ALTA"
+                                                                ? "hobby-location-badge-high"
+                                                                : relevancia === "MEDIA"
+                                                                    ? "hobby-location-badge-medium"
+                                                                    : "hobby-location-badge-complementary"
+                                                        }`}
+                                                    >
+                            {relevanciaTexto}
+                        </span>
+                                                )}
+                                            </div>
+
+                                            {distanciaValida && (
+                                                <div className="hobby-location-distance">
+                                                    <span aria-hidden="true">📍</span>
+                                                    <span>
+                            {Number(local.distanciaKm).toLocaleString(
+                                "pt-BR",
+                                {
+                                    minimumFractionDigits: 1,
+                                    maximumFractionDigits: 1
+                                }
+                            )} km do centro da cidade
+                        </span>
+                                                </div>
+                                            )}
+
+                                            <p className="hobby-location-address">
+                                                {local.endereco ||
+                                                    "Endereço não informado"}
+                                            </p>
+
+                                            <a
+                                                href={`https://www.google.com/maps/search/?api=1&query=${local.latitude}%2C${local.longitude}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Ver no Google Maps ↗
+                                            </a>
+                                        </div>
+                                    );
+                                })}
                             </div>
+
                         </>
                     ) : (
                         <p>
